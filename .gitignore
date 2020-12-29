@@ -1,0 +1,13 @@
+.DS_Store
+.env
+.idea
+*.sqlite3
+*pyc
+__pycache__
+media/
+.vscode/
+/static/
+staticfiles/
+.wnea/
+gunicorn_conf
+.magicindex.json

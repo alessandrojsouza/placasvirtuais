@@ -7,3 +7,19 @@ Toda parte de documentação do projeto se encontra na pasta docs no diretório 
 ## Protótipo
 
 [Figma](#)
+
+## Como desenvolver?
+
+Desenvolvimento se dá através do host http://localhost:8000/
+
+```console
+❯ git clone https://github.com/alessandrojsouza/placasvirtuais.git
+❯ cd placasvirtuais/
+❯ python3 -m venv .wnea
+❯ source .wnea/bin/activate ou .wnea\Scripts\activate (windows)
+❯ pip3 install -r requirements.txt
+❯ cp contrib/env-sample .env
+❯ python manage.py makemigrations
+❯ python manage.py migrate
+❯ python manage.py runserver
+```
