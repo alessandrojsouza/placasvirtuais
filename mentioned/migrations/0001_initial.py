@@ -12,12 +12,13 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Course',
+            name='Mentioned',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('siape', models.CharField(max_length=300, verbose_name='Siape')),
                 ('name', models.CharField(max_length=300, verbose_name='Nome')),
-                ('code', models.CharField(max_length=300, verbose_name='Código')),
+                ('mention', models.SmallIntegerField(choices=[(0, 'Reitor'), (1, 'Paraninfo'), (2, 'Patrono'), (3, 'DG'), (4, 'DE'), (5, 'Em memoria'), (6, 'Funcionário'), (7, 'Homenageado'), (8, 'Orador')], verbose_name='Tipo de menção')),
             ],
         ),
     ]

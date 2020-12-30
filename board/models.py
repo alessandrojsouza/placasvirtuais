@@ -2,6 +2,7 @@ from django.db import models
 
 from django.utils.translation import ugettext as _
 from course.models import Course
+from mentioned.models import Mentioned
 
 import datetime
 
@@ -18,7 +19,9 @@ class Board(models.Model):
     _('Mensagem'), null=True, blank=True)
   year_graduation = models.IntegerField(_('Ano do período'), default=current_year)
   graduation_date = models.DateTimeField(_('Data da formatura'), auto_now_add=False)
+  
   course = models.ForeignKey(Course, on_delete=models.CASCADE)
+  mentioned = models.ManyToManyField(Mentioned)
 
   class Meta:
     verbose_name = _(u'Board')
