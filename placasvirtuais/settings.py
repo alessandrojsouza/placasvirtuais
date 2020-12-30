@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'board',
     'course',
     'mentioned',
+    'campus',
+    'egress',
 ]
 
 MIDDLEWARE = [

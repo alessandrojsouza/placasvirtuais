@@ -24,3 +24,10 @@ class Mentioned(models.Model):
   mention = models.SmallIntegerField(
     _('Tipo de menção'),
     choices=MENTION_CHOICES)
+
+  class Meta:
+    verbose_name = _(u'Mencionado')
+    verbose_name_plural = _(u'Mencionados')
+
+  def __str__(self):
+    return '{0.name}'.format(self)

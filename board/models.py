@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext as _
 from course.models import Course
 from mentioned.models import Mentioned
+from campus.models import Campus
 
 import datetime
 
@@ -21,11 +22,12 @@ class Board(models.Model):
   graduation_date = models.DateTimeField(_('Data da formatura'), auto_now_add=False)
   
   course = models.ForeignKey(Course, on_delete=models.CASCADE)
+  campus = models.ForeignKey(Campus, on_delete=models.CASCADE)
   mentioned = models.ManyToManyField(Mentioned)
 
   class Meta:
-    verbose_name = _(u'Board')
-    verbose_name_plural = _(u'Boards')
+    verbose_name = _(u'PLaca')
+    verbose_name_plural = _(u'Placas')
 
   def __str__(self):
     return '{0.name}'.format(self)

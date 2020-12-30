@@ -19,7 +19,7 @@ Desenvolvimento se dá através do host http://localhost:8000/
 ❯ source .wnea/bin/activate ou .wnea\Scripts\activate (windows)
 ❯ pip3 install -r requirements.txt
 ❯ cp contrib/env-sample .env
-❯ python manage.py makemigrations
-❯ python manage.py migrate
-❯ python manage.py runserver
+❯ python3 manage.py makemigrations
+❯ python3 manage.py migrate
+❯ python3 manage.py runserver
 ```
