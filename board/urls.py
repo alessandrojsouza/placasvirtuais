@@ -5,9 +5,9 @@ from board import views
 
 app_name = 'board'
 urlpatterns = [
-  # path(
-  #   '',
-  #   views.FoodList.as_view(),
-  #   name='list'
-  # ),
+  path(
+    'api/',
+    views.BoardApiView.as_view(),
+    name='api_boards'
+  ),
 ]

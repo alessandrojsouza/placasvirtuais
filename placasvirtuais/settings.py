@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'mentioned',
     'campus',
     'egress',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
