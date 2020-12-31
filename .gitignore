@@ -11,3 +11,6 @@ staticfiles/
 .wnea/
 gunicorn_conf
 .magicindex.json
+
+board/images/
+egress/images/

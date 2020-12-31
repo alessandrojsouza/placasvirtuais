@@ -10,4 +10,9 @@ urlpatterns = [
     views.BoardApiView.as_view(),
     name='api_boards'
   ),
+  path(
+    'api/<int:pk>/',
+    views.BoardApiView.as_view(),
+    name='api_detail_boards'
+  ),
 ]
