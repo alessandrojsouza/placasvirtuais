@@ -1,0 +1,7 @@
+SECRET_KEY=
+ALLOWED_HOSTS=127.0.0.1, *, .localhost, .herokuapp.com
+DEBUG=True
+
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/database
+
+WEB_CONCURRENCY=3
