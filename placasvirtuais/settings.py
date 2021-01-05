@@ -129,9 +129,9 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
 
-# ACCOUNT_FORMS = {
-#     'signup': 'core.forms.CustomSignupForm',
-# }
+ACCOUNT_FORMS = {
+    'signup': 'core.forms.CustomSignupForm',
+}
 
 EMAIL_REQUIRED = True
 
