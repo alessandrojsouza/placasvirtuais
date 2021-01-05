@@ -52,6 +52,9 @@ INSTALLED_APPS = [
     'campus',
     'egress',
     'rest_framework',
+    # more packages
+    'django.contrib.humanize',
+    'django.contrib.postgres',
 ]
 
 MIDDLEWARE = [
