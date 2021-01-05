@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static humanize %}
+
+{% block extra_css %}
+  <style type="text/css">
+    label.btn {
+      border-radius: 5px !important;
+      margin-bottom: 5px !important;
+    }
+  </style>
+{% endblock extra_css %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-tile bg-primary bg-gradient text-center clickable" data-toggle="modal" data-target="#modalNewAppointment">
+        <div class="card-body p-4">
+          
+          <div class="tile-left">
+            <i class="batch-icon batch-icon-paragraph-alt-left batch-icon-xxl"></i>
+          </div>
+          <div class="tile-right">
+            <div class="tile-number">&nbsp;</div>
+            <div class="tile-description">Nova Consulta</div>
+          </div>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Modal Goals -->
+{% endblock content %}
+
+{% block extra_js %}
+  <script type="text/javascript">
+  </script>
+{% endblock extra_js %}
