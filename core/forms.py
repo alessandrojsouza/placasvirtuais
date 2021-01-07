@@ -13,7 +13,9 @@ from allauth.account.forms import SignupForm
 class AllauthCompatLoginForm(LoginForm):
 	def user_credentials(self):
 		credentials = super(AllauthCompatLoginForm, self).user_credentials()
-		credentials['login'] = credentials.get('email') or credentials.get('username')
+		print("credentials", credentials)
+		credentials['login'] = credentials.get('siape')
+		# credentials['login'] = credentials.get('email') or credentials.get('username')
 		return credentials
 
 
@@ -24,6 +26,10 @@ class ContactForm(forms.Form):
 class CustomSignupForm(SignupForm):
 	def __init__(self, *args, **kwargs):
 		super(CustomSignupForm, self).__init__(*args, **kwargs)
+		self.fields['siape'] = forms.CharField(required=True)
+		self.fields['siape'].widget.attrs.update({
+			'class': 'form-control'
+		})
 	
 	def clean(self):
 		super(CustomSignupForm, self).clean()
@@ -40,6 +46,9 @@ class CustomSignupForm(SignupForm):
 	def save(self, request):
 		adapter = get_adapter()
 		user = adapter.new_user(request)
+
+		siape = int(self.cleaned_data.pop('siape'))
+		user.siape = siape
 
 		adapter.save_user(request, user, self)
 		self.custom_signup(request, user)

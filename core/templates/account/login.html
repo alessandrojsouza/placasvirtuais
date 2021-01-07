@@ -1,12 +1,60 @@
-{% load static i18n account socialaccount widget_tweaks %}
-
 {% extends "base.html" %}
+
+{% load static i18n account socialaccount %}
+
 {% load static humanize %}
+
 
 {% block content %}
   <div class="row">
     <div class="col-md-12">
       <h1>Login</h1>
+
+      {% for error in form.non_field_errors %}
+        <div class="alert alert-danger" role="alert">
+          {{ error }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+      {% endfor %}
+      <form method="POST" action="{% url 'account_login' %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <label {% if form.login.errors %}class="text-danger"{% endif %} for="{{ form.login.id_for_label }}">Usuário</label>
+          <input type="text" class="form-control {% if form.login.errors %}border-danger{% endif %}" id="{{ form.login.auto_id }}" name="{{ form.login.html_name }}" aria-describedby="loginHelp" placeholder="Nome de usuário ou e-mail" autofocus="autofocus" tabindex="1">
+          {% for error in form.login.errors %}
+            <div class="form-control-feedback text-danger">{{ error }}</div>
+          {% endfor %}
+        </div>
+        <div class="form-group">
+          <label {% if form.password.errors %}class="text-danger"{% endif %} for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+          <a class="float-right" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+          <input type="password" class="form-control {% if form.login.errors %}border-danger{% endif %}" id="{{ form.password.auto_id }}" name="{{ form.password.html_name }}" placeholder="{{ form.password.label }}" tabindex="2">
+          {% for error in form.password.errors %}
+            <div class="form-control-feedback text-danger">{{ error }}</div>
+          {% endfor %}
+        </div>
+        <div class="custom-control custom-checkbox mb-3">
+          <input type="checkbox" class="custom-control-input" id="{{ form.remember.auto_id }}" name="{{ form.remember.html_name }}">
+          <label class="custom-control-label {% if form.remember.errors %}text-danger{% endif %}" for="{{ form.remember.id_for_label }}">{{ form.remember.label }}</label>
+          {% for error in form.remember.errors %}
+            <div class="form-control-feedback text-danger">{{ error }}</div>
+          {% endfor %}
+        </div>
+        {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+        {% endif %}
+        <button type="submit" class="btn btn-primary btn-gradient btn-block" tabindex="3">
+          <i class="batch-icon batch-icon-key"></i>
+          {% trans "Sign In" %}
+        </button>
+        <hr>
+        <p class="text-center">
+          Ainda não possui conta? <a href="{% url 'account_signup' %}">Cadastre-se.</a>
+        </p>
+      </form>
+
     </div>
   </div>
 {% endblock content %}
