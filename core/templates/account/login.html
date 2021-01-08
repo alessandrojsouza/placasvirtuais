@@ -6,6 +6,24 @@
 
 
 {% block content %}
+
+  <!-- FIXME: resolve login with django using SIAPE and PASSWORD -->
+  <div id="login">
+    <div>
+      <img src="{% static 'assets/login.png' %}">
+      <p>Login</p>
+    </div>            
+    <form method="GET" action="dashboard.html">             
+      <input type="name" name="nome" id="nome" placeholder="Nome">
+      <input type="password" name="password" id="password" placeholder="Senha">
+      <div>
+        <input type="voltar" value="voltar">
+        <input type="submit" value="confirmar">
+      </div>            
+    </form>
+  </div>
+
+
   <div class="row">
     <div class="col-md-12">
       <h1>Login</h1>
