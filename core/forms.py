@@ -13,9 +13,10 @@ from allauth.account.forms import SignupForm
 class AllauthCompatLoginForm(LoginForm):
 	def user_credentials(self):
 		credentials = super(AllauthCompatLoginForm, self).user_credentials()
-		# print("credentials", credentials)
+		print("credentials", credentials)
 		# credentials['login'] = credentials.get('siape')
-		credentials['login'] = credentials.get('email') or credentials.get('username')
+		# credentials['login'] = credentials.get('email') or credentials.get('username')
+		credentials['login'] = credentials.get('username')
 		return credentials
 
 

@@ -31,7 +31,7 @@
       {% endfor %}
 
       <input type="password" id="{{ form.password.auto_id }}" name="{{ form.password.html_name }}" placeholder="Senha" />
-      <a class="float-right" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+      <!-- <a class="float-right" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a> -->
       {% for error in form.password.errors %}
         <div class="form-control-feedback text-danger">{{ error }}</div>
       {% endfor %}
@@ -39,15 +39,17 @@
       {% if redirect_field_value %}
         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
       {% endif %}
+      
       <div>
-        <!-- <input type="voltar" value="voltar" />
-        <input type="submit" value="confirmar" /> -->
+        <!-- <input type="voltar" value="voltar" /> -->
+        <!-- <input type="submit" value="confirmar" /> -->
         <button type="submit" class="btn btn-primary btn-gradient btn-block" tabindex="3">
           <i class="batch-icon batch-icon-key"></i>
           {% trans "Sign In" %}
         </button>
       </div>
-      <hr>
+      
+      <hr> <br>
       <p class="text-center">
         Ainda não possui conta? <a href="{% url 'account_signup' %}"> <br> Cadastre-se.</a>
       </p>
