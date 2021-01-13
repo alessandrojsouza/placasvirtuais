@@ -25,7 +25,7 @@
     <form method="POST" action="{% url 'account_login' %}">
       {% csrf_token %}
 
-      <input type="text" id="{{ form.login.auto_id }}" name="{{ form.login.html_name }}" placeholder="Username ou email">
+      <input type="text" id="{{ form.login.auto_id }}" name="{{ form.login.html_name }}" placeholder="Siape">
       {% for error in form.login.errors %}
         <div class="form-control-feedback text-danger">{{ error }}</div>
       {% endfor %}
@@ -49,10 +49,10 @@
         </button>
       </div>
       
-      <hr> <br>
-      <p class="text-center">
+      <hr>
+      <!-- <br> <p class="text-center">
         Ainda não possui conta? <a href="{% url 'account_signup' %}"> <br> Cadastre-se.</a>
-      </p>
+      </p> -->
       
     </form>
   </div>

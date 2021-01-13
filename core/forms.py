@@ -13,8 +13,6 @@ from allauth.account.forms import SignupForm
 class AllauthCompatLoginForm(LoginForm):
 	def user_credentials(self):
 		credentials = super(AllauthCompatLoginForm, self).user_credentials()
-		print("credentials", credentials)
-		# credentials['login'] = credentials.get('siape')
 		# credentials['login'] = credentials.get('email') or credentials.get('username')
 		credentials['login'] = credentials.get('username')
 		return credentials
@@ -55,3 +53,11 @@ class CustomSignupForm(SignupForm):
 		self.custom_signup(request, user)
 		setup_user_email(request, user, [])
 		return user
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = (
+			'date_joined', 'email', 'first_name', 'groups', 'id', 'is_active', 'is_staff', 'is_superuser', 'last_login', 'last_name', 'password', 'user_permissions', 'username'
+        )

@@ -10,8 +10,10 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  /* background-image: url('../img/background.png'); */
+  height: 100vh;    
+}
+
+#bodylogin{
   background-image: url('../assets/background.png');
   background-size: contain;
   background-repeat: no-repeat;
@@ -33,7 +35,6 @@ textarea:focus, input:focus{
   box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
   height:40px;
   padding: 10px;
-  color: #292929;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -49,14 +50,33 @@ textarea:focus, input:focus{
 
 /* navegacao */
 #navegacao{
-  width: 10%;
+  width: 100%;
   display: flex;
   align-items: center;
-  margin: 10px 10px;
+  padding: 10px 10px;
+  justify-content: space-between;
+}
+#navegacao > div{
+  display: flex;
+  align-items: center;
 }
 
+/* logout */
+.item{
+  display: flex;
+  align-items: flex-end;    
+}
+.item img{
+  width: 20px;
+}
+a{
+  text-decoration: none;
+  color: #000000;
+  font-size: 15px;
+  margin-left: 5px;
+}
 
-/* login */
+/* tela login */
 #login{
   background-color: #f1f1f1;
   box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
@@ -118,4 +138,58 @@ input[type="voltar"]{
   cursor: pointer;
   border: solid #292929;
   margin-right: 15px;
+}
+
+/* tela dashboard*/
+#container{
+  display: flex;    
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#apresentacao{
+  width: 300px;
+  padding: 50px;
+  display: flex;
+  border-radius: 10px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#apresentacao img{
+  width: 50px;
+  float: left;   
+}
+#apresentacao p{
+  margin-top: 10px;
+  font-size: 20px;
+}
+#superior{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#inferior{
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.botao{
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  width: 130px;
+  height: 130px;
+  background-color: #f1f1f1;
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);   
+  margin: 0px 70px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.botao img{
+  width: 50%;
+  display: flex;
+  margin: 10px 10px;
 }
