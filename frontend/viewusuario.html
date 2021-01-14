@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <title>Usuário</title>
+    <title>Visualizar Usuário</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/usuario.css">
@@ -33,40 +33,19 @@
         </div>
         <div id="cabecalho">
             <div>
-                <p>EDITAR USUÁRIO</p>            
-                <a class="botaocrud" href="newusuario.html">NOVO</a>
+                <p>Jonathan Cardoso</p>            
             </div>  
         </div>  
-        <div id="search">    
+        <div id="newusuario">    
             <form >
+                <input id="siape" type="number" value="siape">
                 <input id="nomeusuario" type="text" value="nome usuário">
-                <button class="botaocrud">PESQUISAR</button>
+                <input id="email" type="text" value="email">
             </form> 
+        </div>        
+        <div id="botoes">  
+            <a class="botaocrud" href="usuario.html">VOLTAR</a>  
         </div>
-    </div> 
-    <div id="table">
-        <table>
-            <tr>
-                <th>Nome</th>
-                <th>SIAPE</th>
-                <th>Email</th>
-                <th>Ações</th>
-            </tr>
-            <tr>
-                <td>Luenne Gomes Mafra</td>
-                <td>202020</td>
-                <td>aaaaaaaaaaaaaaaaaaaaaaaa</td>
-                <td><a class="botaocrud2" href="editusuario.html">EDITAR</a>                                
-                <a class="botaocrud2" href="viewusuario.html">VISUALIZAR</a></td>                                
-            </tr>  
-            <tr>
-                <td>Luenne Gomes Mafra</td>
-                <td>202020</td>
-                <td>aaaaaaaaaaaaaaaaaaaaaaaa</td>
-                <td><a class="botaocrud2" href="editusuario.html">EDITAR</a>                                
-                <a class="botaocrud2" href="viewusuario.html">VISUALIZAR</a></td>                                
-            </tr>            
-        </table>
-    </div>    
+    </div>      
 </body>
 </html>

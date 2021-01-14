@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <title>Usuário</title>
+    <title>Editar Usuário</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/usuario.css">
@@ -34,39 +34,39 @@
         <div id="cabecalho">
             <div>
                 <p>EDITAR USUÁRIO</p>            
-                <a class="botaocrud" href="newusuario.html">NOVO</a>
+                <a class="botaocrud" onclick="modal()">EXCLUIR</a>
             </div>  
-        </div>  
-        <div id="search">    
+        </div>        
+        <div id="newusuario">    
             <form >
+                <input id="siape" type="number" value="siape">
                 <input id="nomeusuario" type="text" value="nome usuário">
-                <button class="botaocrud">PESQUISAR</button>
+                <input id="email" type="text" value="email">
             </form> 
+        </div>        
+        <div id="botoes">                    
+            <a class="botaocrud2" href="usuario.html">CANCELAR</a> 
+            <a class="botaocrud" href="usuario.html">ADICIONAR</a> 
         </div>
     </div> 
-    <div id="table">
-        <table>
-            <tr>
-                <th>Nome</th>
-                <th>SIAPE</th>
-                <th>Email</th>
-                <th>Ações</th>
-            </tr>
-            <tr>
-                <td>Luenne Gomes Mafra</td>
-                <td>202020</td>
-                <td>aaaaaaaaaaaaaaaaaaaaaaaa</td>
-                <td><a class="botaocrud2" href="editusuario.html">EDITAR</a>                                
-                <a class="botaocrud2" href="viewusuario.html">VISUALIZAR</a></td>                                
-            </tr>  
-            <tr>
-                <td>Luenne Gomes Mafra</td>
-                <td>202020</td>
-                <td>aaaaaaaaaaaaaaaaaaaaaaaa</td>
-                <td><a class="botaocrud2" href="editusuario.html">EDITAR</a>                                
-                <a class="botaocrud2" href="viewusuario.html">VISUALIZAR</a></td>                                
-            </tr>            
-        </table>
-    </div>    
+    <div class="modalcontainer">
+        <div class="modal">
+            <button class="fechar" onclick="modal()">X</button>
+            <h3>AVISO</h3>
+            <p>Deseja realmente excluir o usuário?</p>
+            <button class="botaocrud2">CANCELAR</button>
+            <button class="botaocrud">EXCLUIR</button>
+        </div>        
+    </div>  
+<script>
+function modal(){
+    if(document.querySelector('.modalcontainer').classList.contains('show')){
+        document.querySelector('.modalcontainer').classList.remove('show')
+    }
+    else{
+        document.querySelector('.modalcontainer').classList.add('show')
+    }
+}    
+</script>   
 </body>
 </html>
