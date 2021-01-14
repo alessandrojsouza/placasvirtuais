@@ -107,7 +107,6 @@ a{
 form > div{
     display: flex;
     margin-top: 20px;
-
 }
 
 input{
@@ -118,25 +117,26 @@ input{
     background-color: #ffffff;
 }
 
-input[type="submit"]{
-    text-transform: uppercase;
-    text-align: center;
-    border: none;
+#submit{
+    border-radius: 5px;    
+    font-size: 15px;
     width: 100%;
     height: 40px;
     color: #ffffff;
-    background-color: #292929;
+    background-color: #292929;    
+    box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
     cursor: pointer;
     margin-left: 15px;
 }
-input[type="voltar"]{
-    text-transform: uppercase;
-    text-align: center;
+#voltar{
     width: 100%;
-    color: #292929;
     cursor: pointer;
     border: solid #292929;
     margin-right: 15px;
+    background-color: #ffffff;
+    box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
+    border-radius: 5px;
+    font-size: 15px;
 }
 
 /* tela dashboard*/
@@ -192,3 +192,4 @@ input[type="voltar"]{
     display: flex;
     margin: 10px 10px;
 }
+

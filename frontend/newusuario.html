@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <title>Usuário</title>
+    <title>Novo Usuário</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/usuario.css">
@@ -32,14 +32,18 @@
             </div>                           
         </div>
         <div id="cabecalho">
-            <p>USUÁRIOS SISTEMA</p>
-            <a class="botaocrud" href="newusuario.html">NOVO</a>
+            <p>NOVO USUÁRIO</p>
         </div>  
-        <div id="search">    
+        <div id="newusuario">    
             <form >
+                <input id="siape" type="text" value="siape">
                 <input id="nomeusuario" type="text" value="nome usuário">
-                <button class="botaocrud">PESQUISAR</button>
+                <input id="email" type="text" value="email">
             </form> 
+        </div>        
+        <div id="botoes">                    
+            <button class="botaocrud2">CANCELAR</button>
+            <button class="botaocrud">ADICIONAR</button>
         </div>
     </div>      
 </body>
