@@ -6,6 +6,7 @@ from rest_framework import generics
 
 from vanilla import TemplateView
 from vanilla import model_views as views
+from django.utils.translation import ugettext as _
 
 from core.serializers import UserSerializer
 from core.models import User
@@ -63,3 +64,24 @@ class UserList(BaseUserView, views.ListView):
     queryset = queryset.all().order_by('id', 'username')
 
     return queryset
+
+
+class UserCreate(BaseUserView, views.CreateView):
+  template_name = 'form.html'
+  page_title = _(u'Add User')
+
+  def form_valid(self, form):
+    self.object = form.save(commit=False)
+    self.object.user = self.request.user
+    self.object.save()
+    return HttpResponseRedirect(
+        self.object.get_update_url()
+    )
+
+  def get_context_data(self, **kwargs):
+    context = super(UserCreate, self).get_context_data(**kwargs)
+    context.update(diet_food_form=DietFoodForm())
+    return context
+
+  def dispatch(self, *args, **kwargs):
+    return super(UserCreate, self).dispatch(*args, **kwargs)

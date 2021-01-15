@@ -33,8 +33,20 @@
         <th>Email</th>
         <th>Ações</th>
       </tr>
+
+      {% for user in object_list %}
+        <tr>
+          <td>{{ user.first_name }} {{ user.last_name }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <a class="botaocrud2" href="{% url 'core:list' %}">EDITAR</a>
+            <a class="botaocrud2" href="{% url 'core:list' %}">VISUALIZAR</a>
+          </td>
+        </tr>
+      {% endfor %}
       
-      <tr>
+      <!-- <tr>
         <td>Luenne Gomes Mafra</td>
         <td>202020039</td>
         <td>jj99pp@hotmail.com</td>
@@ -42,7 +54,7 @@
           <a class="botaocrud2" href="editusuario.html">EDITAR</a>
           <a class="botaocrud2" href="viewusuario.html">VISUALIZAR</a>
         </td>
-      </tr>
+      </tr> -->
 
     </table>
   </div>    
@@ -51,46 +63,46 @@
 
 {% block extra_js %}
   <script type="text/javascript">
-    fetch("/users/api/", {
-      method: "GET",
-      headers: {
-        'X-CSRFToken': '{{ csrf_token }}',
-      }
-    }).then(res => {
-      const table = document.querySelector('#table > table');
+    // fetch("/users/api/", {
+    //   method: "GET",
+    //   headers: {
+    //     'X-CSRFToken': '{{ csrf_token }}',
+    //   }
+    // }).then(res => {
+    //   const table = document.querySelector('#table > table');
 
-      res.json().then(item => {
-        item.forEach(element => {
-          console.log("element", element);
-          let pk = element.pk;
-          let name = element.first_name + " " + element.last_name;
-          let siape = element.username;
-          let email = element.email;
+    //   res.json().then(item => {
+    //     item.forEach(element => {
+    //       console.log("element", element);
+    //       let pk = element.pk;
+    //       let name = element.first_name + " " + element.last_name;
+    //       let siape = element.username;
+    //       let email = element.email;
           
-          let newRow = table.insertRow(-1);
-          let cellName = newRow.insertCell(0);
-          let infoName = document.createTextNode(`${name}`);
+    //       let newRow = table.insertRow(-1);
+    //       let cellName = newRow.insertCell(0);
+    //       let infoName = document.createTextNode(`${name}`);
 
-          let cellSiape = newRow.insertCell(1);
-          let infoSiape = document.createTextNode(`${siape}`);
+    //       let cellSiape = newRow.insertCell(1);
+    //       let infoSiape = document.createTextNode(`${siape}`);
 
-          let cellEmail = newRow.insertCell(2);
-          let infoEmail = document.createTextNode(`${email}`);
+    //       let cellEmail = newRow.insertCell(2);
+    //       let infoEmail = document.createTextNode(`${email}`);
 
-          // let cellOptions = newRow.insertCell(3);
-          // let infoOptions = document.createTextNode(`
-          //   <a class="botaocrud2" href="editusuario.html">EDITAR</a>
-          //   <a class="botaocrud2" href="viewusuario.html">VISUALIZAR</a>
-          // `);
+    //       // let cellOptions = newRow.insertCell(3);
+    //       // let infoOptions = document.createTextNode(`
+    //       //   <a class="botaocrud2" href="editusuario.html">EDITAR</a>
+    //       //   <a class="botaocrud2" href="viewusuario.html">VISUALIZAR</a>
+    //       // `);
 
-          cellName.appendChild(infoName);
-          cellSiape.appendChild(infoSiape);
-          cellEmail.appendChild(infoEmail);
-          // cellOptions.appendChild(infoOptions);
-        });
-      })
-    }).catch(err => {
-      console.log("ERROR: " + err);
-    });
+    //       cellName.appendChild(infoName);
+    //       cellSiape.appendChild(infoSiape);
+    //       cellEmail.appendChild(infoEmail);
+    //       // cellOptions.appendChild(infoOptions);
+    //     });
+    //   })
+    // }).catch(err => {
+    //   console.log("ERROR: " + err);
+    // });
   </script>
 {% endblock extra_js %}
