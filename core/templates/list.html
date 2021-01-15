@@ -40,8 +40,8 @@
           <td>{{ user.username }}</td>
           <td>{{ user.email }}</td>
           <td>
-            <a class="botaocrud2" href="{% url 'core:list' %}">EDITAR</a>
-            <a class="botaocrud2" href="{% url 'core:list' %}">VISUALIZAR</a>
+            <a class="botaocrud2" href="{{ user.get_update_url }}">EDITAR</a>
+            <a class="botaocrud2" href="modal()">VISUALIZAR</a>
           </td>
         </tr>
       {% endfor %}

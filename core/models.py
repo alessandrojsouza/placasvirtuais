@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.urls import reverse
+
 from django.contrib.auth.models import AbstractUser
 
 
@@ -8,3 +10,9 @@ class User(AbstractUser):
   
   class Meta(AbstractUser.Meta):
     swappable = 'AUTH_USER_MODEL'
+
+  def get_update_url(self):
+    return reverse('core:update', kwargs={'pk': self.pk})
+
+  def get_absolute_url(self):
+    return reverse('core:list')

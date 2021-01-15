@@ -61,3 +61,11 @@ class UserForm(forms.ModelForm):
         fields = (
 			'date_joined', 'email', 'first_name', 'groups', 'id', 'is_active', 'is_staff', 'is_superuser', 'last_login', 'last_name', 'password', 'user_permissions', 'username'
         )
+
+
+class UserFoodForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = (
+			'date_joined', 'email', 'first_name', 'groups', 'id', 'is_active', 'is_staff', 'is_superuser', 'last_login', 'last_name', 'password', 'user_permissions', 'username'
+        )

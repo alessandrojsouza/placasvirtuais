@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static humanize %}
+
+{% block extra_css %}
+  <style type="text/css">
+  </style>
+{% endblock extra_css %}
+
+
+{% block header %}
+  <div id="cabecalho">
+    <div>
+      <p>EDITAR USUÁRIO</p>            
+      <a class="botaocrud" href="newusuario.html">NOVO</a>
+      <a class="botaocrud" onclick="modal()">EXCLUIR</a>
+    </div>  
+  </div>
+  <div id="newusuario">    
+    <form method="GET" action="{% url 'core:create' %}">
+        {% csrf_token %}
+        <input id="siape" type="number" value="siape">
+        <input id="nomeusuario" type="text" value="nome usuário">
+        <input id="email" type="text" value="email">
+    </form> 
+  </div>        
+  <div id="botoes">                    
+    <a class="botaocrud2" href="usuario.html">CANCELAR</a> 
+    <a class="botaocrud" href="usuario.html">ADICIONAR</a> 
+  </div>
+{% endblock header %}
+
+
+{% block content %}
+    <div class="modalcontainer">
+        <div class="modal">
+            <button class="fechar" onclick="modal()">X</button>
+            <h3>AVISO</h3>
+            <p>Deseja realmente excluir o usuário?</p>
+            <button class="botaocrud2">CANCELAR</button>
+            <button class="botaocrud">EXCLUIR</button>
+        </div>        
+    </div>
+{% endblock content %}
+
+
+{% block extra_js %}
+  <script type="text/javascript">
+    function modal() {
+        if(document.querySelector('.modalcontainer').classList.contains('show')){
+            document.querySelector('.modalcontainer').classList.remove('show')
+        }
+        else{
+            document.querySelector('.modalcontainer').classList.add('show')
+        }
+    }    
+  </script>
+{% endblock extra_js %}

@@ -85,3 +85,13 @@ class UserCreate(BaseUserView, views.CreateView):
 
   def dispatch(self, *args, **kwargs):
     return super(UserCreate, self).dispatch(*args, **kwargs)
+
+
+class UserUpdate(BaseUserView, views.UpdateView):
+  template_name = 'form.html'
+
+  def get_context_data(self, **kwargs):
+    context = super(UserUpdate, self).get_context_data(**kwargs)
+    # context.update(diet_food_form=DietFoodForm())
+    context.update(user_food_form=UserForm())
+    return context

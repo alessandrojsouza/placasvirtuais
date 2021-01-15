@@ -4,7 +4,7 @@ from django.views.generic.base import RedirectView
 
 from core import views
 
-from core.views import DashboardView, UserApiView, UserList
+from core.views import DashboardView, UserApiView, UserList, UserCreate, UserUpdate
 
 
 app_name = 'core'
@@ -29,5 +29,15 @@ urlpatterns = [
     'users/',
     UserList.as_view(),
     name='list'
+  ),
+  path(
+    'users/create',
+    UserCreate.as_view(),
+    name='create'
+  ),
+  path(
+    '<int:pk>/update/',
+    UserUpdate.as_view(),
+    name='update'
   ),
 ]
