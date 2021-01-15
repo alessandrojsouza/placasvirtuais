@@ -61,7 +61,8 @@ class UserList(BaseUserView, views.ListView):
 
   def get_queryset(self):
     queryset = super(UserList, self).get_queryset()
-    queryset = queryset.all().order_by('id', 'username')
+    # queryset = queryset.all().order_by('id', 'username')
+    queryset = queryset.filter(is_staff=False).order_by('id', 'username')
 
     return queryset
 

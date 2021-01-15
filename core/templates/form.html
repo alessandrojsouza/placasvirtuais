@@ -15,18 +15,20 @@
       <a class="botaocrud" onclick="modal()">EXCLUIR</a>
     </div>  
   </div>
-  <div id="newusuario">    
-    <form method="GET" action="{% url 'core:create' %}">
-        {% csrf_token %}
-        <input id="siape" type="number" value="siape">
-        <input id="nomeusuario" type="text" value="nome usuário">
-        <input id="email" type="text" value="email">
-    </form> 
-  </div>        
-  <div id="botoes">                    
-    <a class="botaocrud2" href="usuario.html">CANCELAR</a> 
-    <a class="botaocrud" href="usuario.html">ADICIONAR</a> 
-  </div>
+  <form method="PUT" action="">
+    {% csrf_token %}
+    <div id="newusuario">    
+        <input id="siape" type="number" name="username" value="SIAPE">
+        <input id="nomeusuario" type="text" name="username" value="Nome usuário">
+        <input id="email" type="text" value="Email">
+    </div>        
+    <div id="botoes">
+        <a class="botaocrud2" href="usuario.html">CANCELAR</a>
+        <!-- <a class="botaocrud" type="submit">ADICIONAR</a> -->
+        <button type="submit" class="botaocrud">Adicionar</button>
+    </div>
+  </form> 
+
 {% endblock header %}
 
 
