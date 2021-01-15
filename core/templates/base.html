@@ -56,9 +56,11 @@
           <a href="{% url 'account_login' %}">Login</a>
         {% endif %}
       </div>
+      
+      {% block header %}{% endblock header %}
+
     </div>
 
-    
     {% block content %}{% endblock content %}
 
     {% block modal_block %}{% endblock modal_block %}
