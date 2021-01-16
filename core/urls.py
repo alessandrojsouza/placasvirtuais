@@ -36,7 +36,7 @@ urlpatterns = [
     name='create'
   ),
   path(
-    '<int:pk>/update/',
+    'user/<int:pk>/update/',
     UserUpdate.as_view(),
     name='update'
   ),

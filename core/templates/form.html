@@ -15,45 +15,94 @@
       <a class="botaocrud" onclick="modal()">EXCLUIR</a>
     </div>  
   </div>
-  <form method="PUT" action="">
+  <form method="POST" onsubmit="submitFormUser();" id="formUser">
     {% csrf_token %}
     <div id="newusuario">    
-        <input id="siape" type="number" name="username" value="SIAPE">
-        <input id="nomeusuario" type="text" name="username" value="Nome usuário">
-        <input id="email" type="text" value="Email">
+      <input id="siape" type="number" name="username" value="SIAPE">
+      <input id="nomeusuario" type="text" name="username" value="Nome usuário">
+      <input id="email" type="text" value="Email">
     </div>        
     <div id="botoes">
-        <a class="botaocrud2" href="usuario.html">CANCELAR</a>
-        <!-- <a class="botaocrud" type="submit">ADICIONAR</a> -->
-        <button type="submit" class="botaocrud">Adicionar</button>
+      <a class="botaocrud2" href="usuario.html">CANCELAR</a>
+      <!-- <a class="botaocrud" type="submit">Confirmar</a> -->
+      <button type="submit" class="botaocrud">Confirmar</button>
     </div>
-  </form> 
-
+  </form>
 {% endblock header %}
 
 
 {% block content %}
-    <div class="modalcontainer">
-        <div class="modal">
-            <button class="fechar" onclick="modal()">X</button>
-            <h3>AVISO</h3>
-            <p>Deseja realmente excluir o usuário?</p>
-            <button class="botaocrud2">CANCELAR</button>
-            <button class="botaocrud">EXCLUIR</button>
-        </div>        
-    </div>
+  <div class="modalcontainer">
+    <div class="modal">
+      <button class="fechar" onclick="modal()">X</button>
+      <h3>AVISO</h3>
+      <p>Deseja realmente excluir o usuário?</p>
+      <button class="botaocrud2">CANCELAR</button>
+      <button class="botaocrud">EXCLUIR</button>
+    </div>        
+  </div>
 {% endblock content %}
 
 
 {% block extra_js %}
   <script type="text/javascript">
     function modal() {
-        if(document.querySelector('.modalcontainer').classList.contains('show')){
-            document.querySelector('.modalcontainer').classList.remove('show')
-        }
-        else{
-            document.querySelector('.modalcontainer').classList.add('show')
-        }
-    }    
+      if(document.querySelector('.modalcontainer').classList.contains('show')){
+        document.querySelector('.modalcontainer').classList.remove('show')
+      }
+      else{
+        document.querySelector('.modalcontainer').classList.add('show')
+      }
+    }  
+
+    let pk = parseInt(window.location.pathname.split('/')[2]);
+    const siape = document.querySelector('#siape');
+    const nomeusuario = document.querySelector('#nomeusuario');
+    const email = document.querySelector('#email');
+
+    fetch("/users/api/" + pk, {
+      method: "GET",
+      headers: {
+        'X-CSRFToken': '{{ csrf_token }}',
+      }
+    }).then(res => {
+      res.json().then(item => {
+        item.forEach(element => {
+          siape.value = element.username;
+          nomeusuario.value = element.first_name +" "+ element.last_name;
+          email.value = element.email;
+        });
+      })
+    }).catch(err => {
+      console.log("ERROR: " + err);
+    });
+
+    function submitFormUser() {
+      console.log("submitFormUser");
+
+      fetch("/users/api/" + pk + "/", {
+        method: "PUT",
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+          'Accept': 'application/json, text/plain',
+          'Content-Type': 'application/json;charset=UTF-8',
+        },
+        body: JSON.stringify({
+          username: nomeusuario.value,
+          email: email.value,
+          // first_name: nomeusuario.value(),
+        }),
+      }).then(res => {
+        res.json().then(item => {
+          item.forEach(element => {
+            siape.value = element.username;
+            nomeusuario.value = element.first_name +" "+ element.last_name;
+            email.value = element.email;
+          });
+        })
+      }).catch(err => {
+        console.log("ERROR: " + err);
+      });
+    }
   </script>
 {% endblock extra_js %}

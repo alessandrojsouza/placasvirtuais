@@ -81,7 +81,7 @@ class UserCreate(BaseUserView, views.CreateView):
 
   def get_context_data(self, **kwargs):
     context = super(UserCreate, self).get_context_data(**kwargs)
-    context.update(diet_food_form=DietFoodForm())
+    context.update(user_food_form=DietFoodForm())
     return context
 
   def dispatch(self, *args, **kwargs):
