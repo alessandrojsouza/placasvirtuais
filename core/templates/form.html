@@ -38,7 +38,7 @@
       <h3>AVISO</h3>
       <p>Deseja realmente excluir o usuário?</p>
       <button class="botaocrud2">CANCELAR</button>
-      <button class="botaocrud">EXCLUIR</button>
+      <button class="botaocrud" onclick="deleteUser(event)">EXCLUIR</button>
     </div>        
   </div>
 {% endblock content %}
@@ -78,7 +78,7 @@
     });
 
     function submitFormUser() {
-      console.log("submitFormUser");
+      let userName = (nomeusuario.value).split(" ");
 
       fetch("/users/api/" + pk + "/", {
         method: "PUT",
@@ -88,9 +88,11 @@
           'Content-Type': 'application/json;charset=UTF-8',
         },
         body: JSON.stringify({
-          username: nomeusuario.value,
+          username: siape.value,
+          password: '{{ user.password }}',
           email: email.value,
-          // first_name: nomeusuario.value(),
+          first_name: userName[0],
+          last_name: userName[1]
         }),
       }).then(res => {
         res.json().then(item => {
@@ -100,6 +102,21 @@
             email.value = element.email;
           });
         })
+      }).catch(err => {
+        console.log("ERROR: " + err);
+      });
+    }
+
+    function deleteUser(e) {
+      e.preventDefault();
+
+      fetch("/users/api/" + pk + "/", {
+        method: "DELETE",
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+        }
+      }).then(res => {
+        window.location.href = "/users";
       }).catch(err => {
         console.log("ERROR: " + err);
       });

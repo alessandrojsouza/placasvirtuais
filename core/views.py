@@ -29,8 +29,8 @@ class BaseUserView(object):
 class DashboardView(LoginRequiredMixin, TemplateView):
   template_name = 'dashboard.html'
 
-
-class UserApiView(LoginRequiredMixin, generics.ListAPIView, generics.RetrieveAPIView,
+# LoginRequiredMixin
+class UserApiView(generics.ListAPIView, generics.RetrieveAPIView,
                   generics.CreateAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
   queryset = User.objects.all()
   serializer_class = UserSerializer
