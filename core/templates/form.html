@@ -10,17 +10,17 @@
 {% block header %}
   <div id="cabecalho">
     <div>
-      <p>EDITAR USUÁRIO</p>            
+      <p>Painel Usuário</p>            
       <a class="botaocrud" href="newusuario.html">NOVO</a>
-      <a class="botaocrud" onclick="modal()">EXCLUIR</a>
-    </div>  
+      <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
+    </div>
   </div>
   <form method="POST" onsubmit="submitFormUser();" id="formUser">
     {% csrf_token %}
     <div id="newusuario">    
       <input id="siape" type="number" name="username" value="SIAPE">
-      <input id="nomeusuario" type="text" name="username" value="Nome usuário">
-      <input id="email" type="text" value="Email">
+      <input id="nomeusuario" type="text" name="name" value="Nome usuário">
+      <input id="email" type="email" name="email" value="Email">
     </div>        
     <div id="botoes">
       <a class="botaocrud2" href="usuario.html">CANCELAR</a>
@@ -55,45 +55,19 @@
       }
     }  
 
-    let pk = parseInt(window.location.pathname.split('/')[2]);
+    const deleteInput = document.querySelector('#cabecalho #deleteA');
     const siape = document.querySelector('#siape');
     const nomeusuario = document.querySelector('#nomeusuario');
     const email = document.querySelector('#email');
+    let userName = (nomeusuario.value).split(" ");
+    let pk = parseInt(window.location.pathname.split('/')[2]);
 
-    fetch("/users/api/" + pk, {
-      method: "GET",
-      headers: {
-        'X-CSRFToken': '{{ csrf_token }}',
-      }
-    }).then(res => {
-      res.json().then(item => {
-        item.forEach(element => {
-          siape.value = element.username;
-          nomeusuario.value = element.first_name +" "+ element.last_name;
-          email.value = element.email;
-        });
-      })
-    }).catch(err => {
-      console.log("ERROR: " + err);
-    });
-
-    function submitFormUser() {
-      let userName = (nomeusuario.value).split(" ");
-
-      fetch("/users/api/" + pk + "/", {
-        method: "PUT",
+    if (pk) {  
+      fetch("/users/api/" + pk, {
+        method: "GET",
         headers: {
           'X-CSRFToken': '{{ csrf_token }}',
-          'Accept': 'application/json, text/plain',
-          'Content-Type': 'application/json;charset=UTF-8',
-        },
-        body: JSON.stringify({
-          username: siape.value,
-          password: '{{ user.password }}',
-          email: email.value,
-          first_name: userName[0],
-          last_name: userName[1]
-        }),
+        }
       }).then(res => {
         res.json().then(item => {
           item.forEach(element => {
@@ -105,21 +79,81 @@
       }).catch(err => {
         console.log("ERROR: " + err);
       });
-    }
 
-    function deleteUser(e) {
-      e.preventDefault();
+      function deleteUser(e) {
+        e.preventDefault();
 
-      fetch("/users/api/" + pk + "/", {
-        method: "DELETE",
-        headers: {
-          'X-CSRFToken': '{{ csrf_token }}',
-        }
-      }).then(res => {
-        window.location.href = "/users";
-      }).catch(err => {
-        console.log("ERROR: " + err);
-      });
+        fetch("/users/api/" + pk + "/", {
+          method: "DELETE",
+          headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+          }
+        }).then(res => {
+          window.location.href = "/users";
+        }).catch(err => {
+          console.log("ERROR: " + err);
+        });
+      }
+      
+      function submitFormUser() {  
+        fetch("/users/api/" + pk + "/", {
+          method: "PUT",
+          headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Accept': 'application/json, text/plain',
+            'Content-Type': 'application/json;charset=UTF-8',
+          },
+          body: JSON.stringify({
+            username: siape.value,
+            password: '{{ user.password }}',
+            email: email.value,
+            first_name: userName[0],
+            last_name: userName[1]
+          }),
+        }).then(res => {
+          res.json().then(item => {
+            item.forEach(element => {
+              siape.value = element.username;
+              nomeusuario.value = element.first_name +" "+ element.last_name;
+              email.value = element.email;
+            });
+          })
+        }).catch(err => {
+          console.log("ERROR: " + err);
+        });
+      }
+    } else {
+      deleteInput.style.visibility = "hidden";
+
+      // function submitFormUser() {
+      //   fetch("/users/api/", {
+      //     method: "POST",
+      //     headers: {
+      //       'X-CSRFToken': '{{ csrf_token }}',
+      //       'Accept': 'application/json, text/plain',
+      //       'Content-Type': 'application/json;charset=UTF-8',
+      //     },
+      //     body: JSON.stringify({
+      //       username: siape.value,
+      //       password: 'adminadmin',
+      //       email: email.value,
+      //       first_name: userName[0],
+      //       last_name: userName[1]
+      //     }),
+      //   }).then(res => {
+      //     res.json().then(item => {
+      //       item.forEach(element => {
+      //         siape.value = element.username;
+      //         nomeusuario.value = element.first_name +" "+ element.last_name;
+      //         email.value = element.email;
+      //       });
+      //     })
+      //   }).catch(err => {
+      //     console.log("ERROR: " + err);
+      //   });
+      // }
     }
+    
+
   </script>
 {% endblock extra_js %}

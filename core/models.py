@@ -11,6 +11,9 @@ class User(AbstractUser):
   class Meta(AbstractUser.Meta):
     swappable = 'AUTH_USER_MODEL'
 
+  def get_create_url(self):
+    return reverse('core:create')
+    
   def get_update_url(self):
     return reverse('core:update', kwargs={'pk': self.pk})
 

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 from rest_framework import generics
 
@@ -11,6 +12,10 @@ from django.utils.translation import ugettext as _
 from core.serializers import UserSerializer
 from core.models import User
 from core.forms import UserForm
+
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
+
 
 
 class LoginRequiredMixin(object):
@@ -76,16 +81,27 @@ class UserCreate(BaseUserView, views.CreateView):
     self.object.user = self.request.user
     self.object.save()
     return HttpResponseRedirect(
-        self.object.get_update_url()
+      self.object.get_update_url()
     )
+  
+  def post(self, request):
+    name = request.POST['name'].split(" ")
+    
+    user = User.objects.create_user(request.POST['username'], request.POST['email'], 'admin2@ifrn')
+    # Update fields and then save again
+    user.first_name = name[0]
+    user.last_name = name[1]
+    user.save()
+    return redirect('/users')
 
-  def get_context_data(self, **kwargs):
-    context = super(UserCreate, self).get_context_data(**kwargs)
-    context.update(user_food_form=DietFoodForm())
-    return context
 
-  def dispatch(self, *args, **kwargs):
-    return super(UserCreate, self).dispatch(*args, **kwargs)
+  # def get_context_data(self, **kwargs):
+  #   context = super(UserCreate, self).get_context_data(**kwargs)
+  #   # context.update(user_food_form=DietFoodForm())
+  #   return context
+
+  # def dispatch(self, *args, **kwargs):
+  #   return super(UserCreate, self).dispatch(*args, **kwargs)
 
 
 class UserUpdate(BaseUserView, views.UpdateView):
