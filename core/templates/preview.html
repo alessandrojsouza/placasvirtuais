@@ -10,9 +10,7 @@
 {% block header %}
   <div id="cabecalho">
     <div>
-      <p>Editar Usuário</p>
-      <!-- <a class="botaocrud" href="newusuario.html">NOVO</a> -->
-      <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
+      <p>Visualizar Usuário</p>
     </div>
   </div>
   <form method="POST" onsubmit="submitFormUser();" id="formUser">
@@ -23,8 +21,7 @@
       <input id="email" type="email" name="email" value="Email">
     </div>        
     <div id="botoes">
-      <a class="botaocrud2" href="{% url 'core:list' %}">CANCELAR</a>
-      <button type="submit" class="botaocrud">Confirmar</button>
+      <a class="botaocrud2" href="{% url 'core:list' %}">Voltar</a>
     </div>
   </form>
 {% endblock header %}

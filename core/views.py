@@ -112,3 +112,12 @@ class UserUpdate(BaseUserView, views.UpdateView):
     # context.update(diet_food_form=DietFoodForm())
     context.update(user_food_form=UserForm())
     return context
+
+
+class UserPreview(BaseUserView, views.UpdateView):
+  template_name = 'preview.html'
+
+  def get_context_data(self, **kwargs):
+    context = super(UserPreview, self).get_context_data(**kwargs)
+    context.update(user_food_form=UserForm())
+    return context

@@ -16,6 +16,9 @@ class User(AbstractUser):
     
   def get_update_url(self):
     return reverse('core:update', kwargs={'pk': self.pk})
+  
+  def get_preview_url(self):
+    return reverse('core:preview', kwargs={'pk': self.pk})
 
   def get_absolute_url(self):
     return reverse('core:list')
