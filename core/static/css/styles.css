@@ -69,12 +69,6 @@ textarea:focus, input:focus{
 .item img{
   width: 20px;
 }
-a{
-  text-decoration: none;
-  color: #000000;
-  font-size: 15px;
-  margin-left: 5px;
-}
 
 /* tela login */
 #login{
@@ -129,6 +123,18 @@ button[type="submit"]{
   cursor: pointer;
   margin-left: 15px;
 }
+/* 
+#submit{
+  border-radius: 5px;
+  font-size: 15px;
+  width: 100%;
+  height: 40px;
+  color: #ffffff;
+  background-color: #292929;
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
+  cursor: pointer;
+  margin-left: 15px;
+} */
 
 input[type="voltar"]{
   text-transform: uppercase;
@@ -253,7 +259,7 @@ a{
   text-decoration: none;
   color: #000000;
   font-size: 15px;
-  margin-left: 5px;
+  /* margin-left: 5px; */
 }
 /* usuario */
 #cabecalho{
@@ -276,7 +282,18 @@ a{
   align-items: center; 
   padding: 10px 20px;
 }
-.botaocrud{    
+button.botaocrud {
+  padding: 1px;
+  width: 100px;
+  margin-left: 1rem;
+}
+.modal button.botaocrud {
+  width: 100%;
+  padding: 11px 10px;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+/* .botaocrud{    
   background-color: #292929;
   box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
   border-radius: 5px;
@@ -293,6 +310,24 @@ a{
   padding: 10px 10px;
   font-size: 15px;    
   cursor: pointer;
+} */
+.botaocrud{
+  background-color: #292929;
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
+  border-radius: 5px;
+  padding: 10px 10px;
+  color: #ffffff;
+  font-size: 15px;
+  cursor: pointer;
+}
+.botaocrud2{
+  background-color: #ffffff;
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
+  border-radius: 5px;
+  padding: 10px 10px;
+  font-size: 15px;
+  cursor: pointer;
+  margin-right: 15px;
 }
 #search{
   margin-top: 20px;
@@ -341,6 +376,10 @@ a{
 #table{
   padding: 20px 20px;
   width: 100%;
+  /* display: flex;  
+  flex-wrap: wrap; */
+  display: inline-block;
+
 }
 
 table{
