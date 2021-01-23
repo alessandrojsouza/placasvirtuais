@@ -190,6 +190,7 @@ input{
   display: flex;
   margin: 10px 10px;
 }
+/*formatações*/
 #botoes{    
   display: flex;
   align-items: center; 
@@ -212,7 +213,7 @@ input{
   font-size: 15px;    
   cursor: pointer;
   margin-right: 15px;
-} 
+}
 #new{
   padding: 0px 20px;
 }
@@ -243,7 +244,7 @@ input{
   width: 500px;
   padding: 10px;    
 }
-
+/*list*/
 #position{
   display: flex;
   flex-direction: column;
@@ -277,6 +278,7 @@ input{
 
 #table{   
   padding: 20px 20px;
+  display: flex;  
 }
 
 table{
@@ -302,6 +304,7 @@ p{
   margin-top: 15px;
   margin-bottom: 10px;
 }
+/*modal*/
 .modalcontainer {
   width: 100vw;
   height: 100vh;
