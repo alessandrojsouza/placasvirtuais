@@ -79,14 +79,8 @@ class CourseCreate(BaseCourseView, views.CreateView):
     )
   
   def post(self, request):
-    name = request.POST['name'].split(" ")
-    
-    user = User.objects.create_user(request.POST['username'], request.POST['email'], 'admin2@ifrn')
-    # Update fields and then save again
-    user.first_name = name[0]
-    user.last_name = name[1]
-    user.save()
-    return redirect('/users')
+    course_obj = Course.objects.create(code=request.POST['code'], name=request.POST['name'])
+    return redirect('/courses')
 
 
 class CourseUpdate(BaseCourseView, views.UpdateView):

@@ -13,18 +13,18 @@
 {% block header %}
   <div id="cabecalho">
     <div>
-      <p>Editar Usuário</p>
+      <p>Editar Curso</p>
       <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
     </div>
   </div>
   <form method="POST" onsubmit="submitFormUser();" id="formUser">
     {% csrf_token %}
     <div id="new">    
-      <input id="input1" type="number" name="username" value="Código">
+      <input id="input1" type="number" name="code" value="Código">
       <input id="input2" type="text" name="name" value="Nome do curso">
     </div>        
     <div id="botoes">
-      <a class="botaocrud2" href="{% url 'core:list' %}">Cancelar</a>
+      <a class="botaocrud2" href="{% url 'course:list' %}">Cancelar</a>
       <button type="submit" class="botaocrud">Confirmar</button>
     </div>
   </form>
@@ -92,7 +92,6 @@
         });
       }
       
-      // teste on insomnia
       function submitFormUser() {
         let codigo = document.querySelector('#input1').value;
         let nome = document.querySelector('#input2').value;

@@ -98,7 +98,9 @@
       }
       
       function submitFormUser() {
-        let nomeUsuario = (document.querySelector('#input2').value).split(" ");
+        let siapeValue = document.querySelector('#input1').value;
+        let nomeUsuarioValue = (document.querySelector('#input2').value).split(" ");
+        let emailValue = document.querySelector('#input3').value;
 
         fetch("/users/api/" + pk + "/", {
           method: "PUT",
@@ -106,21 +108,23 @@
             'X-CSRFToken': '{{ csrf_token }}',
             'Accept': 'application/json, text/plain',
             'Content-Type': 'application/json;charset=UTF-8',
+            "Access-Control-Allow-Origin": "*",
           },
           body: JSON.stringify({
-            username: siape.value,
+            username: siapeValue,
             password: '{{ user.password }}',
-            email: email.value,
-            first_name: nomeUsuario[0],
-            last_name: nomeUsuario[1]
+            email: emailValue,
+            first_name: nomeUsuarioValue[0],
+            last_name: nomeUsuarioValue[1],
           }),
         }).then(res => {
           res.json().then(item => {
-            item.forEach(element => {
-              siape.value = element.username;
-              nomeusuario.value = element.first_name +" "+ element.last_name;
-              email.value = element.email;
-            });
+            console.log("fetch ok");
+            // item.forEach(element => {
+            //   siapeValue = element.username;
+            //   nomeusuarioValue.value = element.first_name +" "+ element.last_name;
+            //   emailValue = element.email;
+            // });
           })
         }).catch(err => {
           console.log("ERROR: " + err);

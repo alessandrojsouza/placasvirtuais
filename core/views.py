@@ -86,6 +86,7 @@ class UserCreate(BaseUserView, views.CreateView):
   
   def post(self, request):
     name = request.POST['name'].split(" ")
+    print("name -------------------", name)
     
     user = User.objects.create_user(request.POST['username'], request.POST['email'], 'admin2@ifrn')
     # Update fields and then save again
@@ -93,7 +94,6 @@ class UserCreate(BaseUserView, views.CreateView):
     user.last_name = name[1]
     user.save()
     return redirect('/users')
-
 
   # def get_context_data(self, **kwargs):
   #   context = super(UserCreate, self).get_context_data(**kwargs)
@@ -108,8 +108,8 @@ class UserUpdate(BaseUserView, views.UpdateView):
   template_name = 'form.html'
 
   def get_context_data(self, **kwargs):
+    print("get_context_data ---------------")
     context = super(UserUpdate, self).get_context_data(**kwargs)
-    # context.update(diet_food_form=DietFoodForm())
     context.update(user_food_form=UserForm())
     return context
 
