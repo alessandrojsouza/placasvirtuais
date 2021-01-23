@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <title>Visualizar Usuário</title>
+    <title>Cursos</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles.css">
@@ -31,21 +31,35 @@
                 <a class="item" href="index.html">logout</a>
             </div>                           
         </div>
-        <div id="cabecalho">
-            <div>
-                <p>Visualizar Usuário</p>            
+        <div id="position">
+            <div id="cabecalho">
+                <div>
+                    <p>CURSOS DO SISTEMA</p>            
+                    <a class="botaocrud" href="newcurso.html">NOVO</a>
+                </div>  
             </div>  
-        </div>  
-        <div id="new">    
-            <form >
-                <input id="input1" type="number" value="siape">
-                <input id="input2" type="text" value="nome usuário">
-                <input id="input3" type="text" value="email">
-            </form> 
-        </div>        
-        <div id="botoes">  
-            <a class="botaocrud" href="usuario.html">VOLTAR</a>  
+            <div id="search">    
+                <form >
+                    <input id="input2" type="text" value="nome curso">
+                    <button class="botaocrud">PESQUISAR</button>
+                </form> 
+            </div>
+            <div id="table">
+                <table>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nome</th>
+                        <th>Ações</th>
+                    </tr>
+                    <tr>
+                        <td>202020</td>
+                        <td>Luenne Gomes Mafra</td>
+                        <td><a class="botaocrud2" href="editcurso.html">EDITAR</a>                                
+                        <a class="botaocrud2" href="viewcurso.html">VISUALIZAR</a></td>                                
+                    </tr>                  
+                </table>
+            </div>   
         </div>
-    </div>      
+    </div>    
 </body>
 </html>

@@ -10,50 +10,28 @@
 </head>
 <body>
     <div id="header">
-        <div id="barra">
-            <p>IFRN</p>
-            <div>
-                <p>A+</p>
-                <p>A</p>
-                <p>A-</p>
-            </div>            
-        </div>
-        <div id="navegacao">
-            <div>
-                <a class="item" href="index.html"><img src="img/home.png"></a>
-                <a class="item"><img src="img/seta.png"></a> 
-                <a class="item" href="dashboard.html">DASHBOARD</a>
-                <a class="item"><img src="img/seta.png"></a> 
-                <a class="item">USUÁRIOS</a>
-            </div>
-            <div>
-                <a class="item"><img src="img/login.png"></a>
-                <a class="item" href="index.html">logout</a>
-            </div>                           
-        </div>
         <div id="cabecalho">
             <div>
-                <p>EDITAR USUÁRIO</p>            
+                <p>EDITAR CURSO</p>            
                 <a class="botaocrud" onclick="modal()">EXCLUIR</a>
             </div>  
         </div>        
         <div id="new">    
             <form >
-                <input id="input1" type="number" value="siape">
-                <input id="input2" type="text" value="nome usuário">
-                <input id="input3" type="text" value="email">
+                <input id="input1" type="number" value="código">
+                <input id="input2" type="text" value="nome curso">
             </form> 
         </div>        
         <div id="botoes">                    
-            <a class="botaocrud2" href="usuario.html">CANCELAR</a> 
-            <a class="botaocrud" href="usuario.html">ADICIONAR</a> 
+            <a class="botaocrud2" href="cursos.html">CANCELAR</a> 
+            <a class="botaocrud" href="cursos.html">ADICIONAR</a> 
         </div>
     </div> 
     <div class="modalcontainer">
         <div class="modal">
             <button class="fechar" onclick="modal()">X</button>
             <h3>AVISO</h3>
-            <p>Deseja realmente excluir o usuário?</p>
+            <p>Deseja realmente excluir o curso?</p>
             <button class="botaocrud2">CANCELAR</button>
             <button class="botaocrud">EXCLUIR</button>
         </div>        
