@@ -14,7 +14,7 @@
       <p>Bem vindo(a), {{ user.username }}</p>
     </div>
     <div id="superior">
-      <a class="botao"><img src="{% static 'assets/egresso.png' %}"></a>
+      <a class="botao" href="{% url 'course:list' %}"><img src="{% static 'assets/egresso.png' %}"></a>
       <a class="botao" href="{% url 'core:list' %}"><img src="{% static 'assets/usuario.png' %}"></a>
     </div>
     <div id="inferior">

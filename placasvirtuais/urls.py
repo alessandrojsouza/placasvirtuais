@@ -24,6 +24,7 @@ from core.forms import AllauthCompatLoginForm
 urlpatterns = [
     path('', include('core.urls')),
     path('boards/', include('board.urls')),
+    path('courses/', include('course.urls')),
     path('users/', include('core.urls', namespace='v1')),
     path('admin/', admin.site.urls),
     path(
