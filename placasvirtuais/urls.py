@@ -25,6 +25,7 @@ urlpatterns = [
     path('', include('core.urls')),
     path('boards/', include('board.urls')),
     path('courses/', include('course.urls')),
+    path('egress/', include('egress.urls')),
     path('users/', include('core.urls', namespace='v1')),
     path('admin/', admin.site.urls),
     path(
