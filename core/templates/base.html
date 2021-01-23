@@ -47,7 +47,7 @@
           <p>A-</p>
         </div>            
       </div>
-      <div id="navegacao">
+      <!--<div id="navegacao">
         <img src="{% static 'assets/home.png' %}" width="25">
         <img src="{% static 'assets/seta.png' %}" width="15"> 
         {% if user.is_authenticated %}
@@ -55,7 +55,7 @@
         {% else %}
           <a href="{% url 'account_login' %}">Login</a>
         {% endif %}
-      </div>
+      </div>-->
       
       {% block header %}{% endblock header %}
 

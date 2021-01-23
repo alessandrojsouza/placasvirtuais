@@ -15,10 +15,10 @@
   </div>
   <form method="POST" onsubmit="submitFormUser();" id="formUser">
     {% csrf_token %}
-    <div id="newusuario">    
-      <input id="siape" type="number" name="username" value="SIAPE">
-      <input id="nomeusuario" type="text" name="name" value="Nome usuário">
-      <input id="email" type="email" name="email" value="Email">
+    <div id="new">    
+      <input id="input1" type="number" name="username" value="SIAPE">
+      <input id="input2" type="text" name="name" value="Nome usuário">
+      <input id="input3" type="email" name="email" value="Email">
     </div>        
     <div id="botoes">
       <a class="botaocrud2" href="{% url 'core:list' %}">Voltar</a>
@@ -33,8 +33,8 @@
       <button class="fechar" onclick="modal()">X</button>
       <h3>AVISO</h3>
       <p>Deseja realmente excluir o usuário?</p>
-      <button class="botaocrud2" href="{% url 'core:list' %}">CANCELAR</button>
-      <button class="botaocrud" onclick="deleteUser(event)">EXCLUIR</button>
+      <button class="botaocrud2" href="{% url 'core:list' %}">Cancelar</button>
+      <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
     </div>        
   </div>
 {% endblock content %}

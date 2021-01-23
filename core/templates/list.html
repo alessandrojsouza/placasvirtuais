@@ -8,6 +8,7 @@
 
 
 {% block header %}
+<div id="position">
   <div id="cabecalho">
     <div>
       <p>Usuários do Sistema</p>            
@@ -17,14 +18,14 @@
   <div id="search">    
     <form method="GET" action="{% url 'account_login' %}">
       {% csrf_token %}
-      <input id="nomeusuario" type="text" value="nome usuário" />
-      <button type="submit" class="botaocrud">PESQUISAR</button>
+      <input id="input2" type="text" value="nome usuário" />
+      <button type="submit" class="botaocrud">Pesquisar</button>
     </form> 
   </div>
-{% endblock header %}
+<!--{% endblock header %}
 
 
-{% block content %}
+{% block content %}-->
   <div id="table">
     <table>
       <tr>
@@ -40,13 +41,13 @@
           <td>{{ user.username }}</td>
           <td>{{ user.email }}</td>
           <td>
-            <a class="botaocrud2" href="{{ user.get_update_url }}">EDITAR</a>
-            <a class="botaocrud2" href="{{ user.get_preview_url }}">VISUALIZAR</a>
+            <a class="botaocrud2" href="{{ user.get_update_url }}">Editar</a>
+            <a class="botaocrud2" href="{{ user.get_preview_url }}">Visualizar</a>
           </td>
         </tr>
       {% endfor %}
       
-      <!-- <tr>
+      <!--<tr>
         <td>Luenne Gomes Mafra</td>
         <td>202020039</td>
         <td>jj99pp@hotmail.com</td>
@@ -54,10 +55,10 @@
           <a class="botaocrud2" href="editusuario.html">EDITAR</a>
           <a class="botaocrud2" href="viewusuario.html">VISUALIZAR</a>
         </td>
-      </tr> -->
-
+      </tr>-->
     </table>
-  </div>    
+  </div>   
+</div>   
 {% endblock content %}
 
 

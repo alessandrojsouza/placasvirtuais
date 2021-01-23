@@ -73,7 +73,6 @@ a{
   text-decoration: none;
   color: #000000;
   font-size: 15px;
-  margin-left: 5px;
 }
 
 /* tela login */
@@ -107,37 +106,35 @@ a{
 form > div{
   display: flex;
   margin-top: 20px;
-
 }
 
-input, button {
+input{
   width: 100%;    
   border-radius: 5px;
   padding: 10px;
-  margin-top: 20px;
   background-color: #ffffff;
 }
 
-button[type="submit"]{
-  text-transform: uppercase;
-  text-align: center;
-  border: none;
+#submit{
+  border-radius: 5px;    
+  font-size: 15px;
   width: 100%;
   height: 40px;
   color: #ffffff;
-  background-color: #292929;
+  background-color: #292929;    
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
   cursor: pointer;
   margin-left: 15px;
 }
-
-input[type="voltar"]{
-  text-transform: uppercase;
-  text-align: center;
+#voltar{
   width: 100%;
-  color: #292929;
   cursor: pointer;
   border: solid #292929;
   margin-right: 15px;
+  background-color: #ffffff;
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
+  border-radius: 5px;
+  font-size: 15px;
 }
 
 /* tela dashboard*/
@@ -193,71 +190,67 @@ input[type="voltar"]{
   display: flex;
   margin: 10px 10px;
 }
-
-#bodylogin{
-  background-image: url('../img/background.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: right;
+#botoes{    
+  display: flex;
+  align-items: center; 
+  padding: 10px 20px;
 }
-
-textarea:focus, input:focus{
-  outline: none;
-}
-
-/* barra */
-#header{
-  width: 100%;
-  top: 0;
-}
-#barra{
-  background-color: #f1f1f1;
+.botaocrud{    
+  background-color: #292929;
   box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
-  height:40px;
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-#barra > div{
-  display: flex;
-  align-items: center;
-}
-#barra > div > p{
-  margin: 0 10px;
+  border-radius: 5px;
+  padding: 10px 10px;
+  color: #ffffff;
+  font-size: 15px;   
   cursor: pointer;
 }
-
-/* navegacao */
-#navegacao{
-  width: 100%;
-  display: flex;
-  align-items: center;
+.botaocrud2{    
+  background-color: #ffffff;
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
+  border-radius: 5px;
   padding: 10px 10px;
-  justify-content: space-between;
+  font-size: 15px;    
+  cursor: pointer;
+  margin-right: 15px;
+} 
+#new{
+  padding: 0px 20px;
 }
-#navegacao > div{
-  display: flex;
+#new > form{
+  display: flex;    
   align-items: center;
+  margin-top: 20px;    
+}
+#input1{
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
+  border: thin solid #292929;    
+  border-radius: 5px;
+  width: 90px;
+  padding: 10px;
+  margin-right: 20px;
+}
+#input2{
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
+  border: thin solid #292929;    
+  border-radius: 5px;
+  width: 500px;
+  margin-right: 20px;
+}
+#input3{
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
+  border: thin solid #292929;    
+  border-radius: 5px;
+  width: 500px;
+  padding: 10px;    
 }
 
-/* logout */
-.item{
+#position{
   display: flex;
-  align-items: flex-end;    
+  flex-direction: column;
 }
-.item img{
-  width: 20px;
-}
-a{
-  text-decoration: none;
-  color: #000000;
-  font-size: 15px;
-  margin-left: 5px;
-}
-/* usuario */
 #cabecalho{
   padding: 0px 20px;
+  display: flex;
 }
 #cabecalho > div{
   width: 100%;
@@ -271,76 +264,19 @@ a{
   width: 100px;
   text-align: center;
 }
-#botoes{    
-  display: flex;
-  align-items: center; 
-  padding: 10px 20px;
-}
-.botaocrud{    
-  background-color: #292929;
-  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
-  border-radius: 5px;
-  padding: 10px 10px;
-  margin-left: 15px;
-  color: #ffffff;
-  font-size: 15px;   
-  cursor: pointer;
-}
-.botaocrud2{    
-  background-color: #ffffff;
-  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
-  border-radius: 5px;
-  padding: 10px 10px;
-  font-size: 15px;    
-  cursor: pointer;
-}
 #search{
   margin-top: 20px;
-  padding: 0px 20px;
+  padding: 0px 20px;  
+  display: flex;  
+  align-items: center;
 }
 #search > form{
   display: flex;    
   align-items: center;
 }
-#search input{    
-  margin-right: 0px;
-}
 
-#newusuario{
-  margin-top: 20px;
-  padding: 0px 20px;
-}
-#newusuario > form{
-  display: flex;    
-  align-items: center;
-}
-#siape{
-  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
-  border: thin solid #292929;    
-  border-radius: 5px;
-  width: 90px;
-  padding: 10px;
-  margin-right: 20px;
-}
-#nomeusuario{
-  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
-  border: thin solid #292929;    
-  border-radius: 5px;
-  width: 500px;
-  padding: 10px;
-  margin-right: 20px;
-}
-#email{
-  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
-  border: thin solid #292929;    
-  border-radius: 5px;
-  width: 500px;
-  padding: 10px;    
-}
-
-#table{
+#table{   
   padding: 20px 20px;
-  width: 100%;
 }
 
 table{
