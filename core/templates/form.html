@@ -3,8 +3,8 @@
 
 {% block extra_css %}
   <style type="text/css">
-    button.botaocrud {
-      margin: 1px;
+    button[type="submit"] {
+      width: 7%;
     }
   </style>
 {% endblock extra_css %}
@@ -39,7 +39,7 @@
       <button class="fechar" onclick="modal()">X</button>
       <h3>AVISO</h3>
       <p>Deseja realmente excluir o usuário?</p>
-      <button class="botaocrud2" href="{% url 'core:list' %}">Cancelar</button>
+      <button class="botaocrud2" onclick="modal()">Cancelar</button>      
       <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
     </div>        
   </div>
@@ -58,9 +58,9 @@
     }  
 
     const deleteInput = document.querySelector('#cabecalho #deleteA');
-    const siape = document.querySelector('#siape');
-    const nomeusuario = document.querySelector('#nomeusuario');
-    const email = document.querySelector('#email');
+    const siape = document.querySelector('#input1');
+    const nomeusuario = document.querySelector('#input2');
+    const email = document.querySelector('#input3');
     let userName = (nomeusuario.value).split(" ");
     let pk = parseInt(window.location.pathname.split('/')[2]);
 
@@ -98,7 +98,7 @@
       }
       
       function submitFormUser() {
-        let nomeUsuario = (document.querySelector('#nomeusuario').value).split(" ");
+        let nomeUsuario = (document.querySelector('#input2').value).split(" ");
 
         fetch("/users/api/" + pk + "/", {
           method: "PUT",

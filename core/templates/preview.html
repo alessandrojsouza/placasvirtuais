@@ -52,9 +52,9 @@
     }  
 
     const deleteInput = document.querySelector('#cabecalho #deleteA');
-    const siape = document.querySelector('#siape');
-    const nomeusuario = document.querySelector('#nomeusuario');
-    const email = document.querySelector('#email');
+    const siape = document.querySelector('#input1');
+    const nomeusuario = document.querySelector('#input2');
+    const email = document.querySelector('#input3');
     let userName = (nomeusuario.value).split(" ");
     let pk = parseInt(window.location.pathname.split('/')[2]);
 
@@ -92,7 +92,7 @@
       }
       
       function submitFormUser() {
-        let nomeUsuario = (document.querySelector('#nomeusuario').value).split(" ");
+        let nomeUsuario = (document.querySelector('#input2').value).split(" ");
 
         fetch("/users/api/" + pk + "/", {
           method: "PUT",

@@ -25,11 +25,13 @@
     <form method="POST" action="{% url 'account_login' %}">
       {% csrf_token %}
 
+      <br><br>
       <input type="text" id="{{ form.login.auto_id }}" name="{{ form.login.html_name }}" placeholder="Siape">
       {% for error in form.login.errors %}
         <div class="form-control-feedback text-danger">{{ error }}</div>
       {% endfor %}
 
+      <br><br>
       <input type="password" id="{{ form.password.auto_id }}" name="{{ form.password.html_name }}" placeholder="Senha" />
       <!-- <a class="float-right" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a> -->
       {% for error in form.password.errors %}

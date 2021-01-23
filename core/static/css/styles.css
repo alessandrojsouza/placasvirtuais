@@ -108,11 +108,21 @@ form > div{
   margin-top: 20px;
 }
 
-input{
+input {
   width: 100%;    
   border-radius: 5px;
   padding: 10px;
   background-color: #ffffff;
+}
+
+button[type="submit"] {
+  color: #ffffff;
+  background-color: #292929;
+  cursor: pointer;
+
+  width: 100%;    
+  border-radius: 5px;
+  padding: 10px;
 }
 
 #submit{
