@@ -3,9 +3,6 @@
 
 {% block extra_css %}
   <style type="text/css">
-    button[type="submit"] {
-      width: 7%;
-    }
   </style>
 {% endblock extra_css %}
 
@@ -13,19 +10,17 @@
 {% block header %}
   <div id="cabecalho">
     <div>
-      <p id="title">Editar Curso</p>
-      <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
+      <p>Visualizar Curso</p>
     </div>
   </div>
   <form method="POST" onsubmit="submitFormUser();" id="formUser">
     {% csrf_token %}
     <div id="new">    
-      <input id="input1" type="number" name="code" value="Código">
+      <input id="input1" type="number" name="codigo" value="Código">
       <input id="input2" type="text" name="name" value="Nome do curso">
     </div>        
     <div id="botoes">
-      <a class="botaocrud2" href="{% url 'course:list' %}">Cancelar</a>
-      <button type="submit" class="botaocrud">Confirmar</button>
+      <a class="botaocrud2" href="{% url 'core:list' %}">Voltar</a>
     </div>
   </form>
 {% endblock header %}
@@ -37,7 +32,7 @@
       <button class="fechar" onclick="modal()">X</button>
       <h3>AVISO</h3>
       <p>Deseja realmente excluir o usuário?</p>
-      <button class="botaocrud2" onclick="modal()">Cancelar</button>      
+      <button class="botaocrud2" href="{% url 'course:list' %}">Cancelar</button>
       <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
     </div>        
   </div>
@@ -56,12 +51,11 @@
     }  
 
     const deleteInput = document.querySelector('#cabecalho #deleteA');
-    const titleText = document.querySelector('#cabecalho #title');
     const codigo = document.querySelector('#input1');
     const nome = document.querySelector('#input2');
     let pk = parseInt(window.location.pathname.split('/')[2]);
 
-    if (pk) {
+    if (pk) {  
       fetch("/courses/api/" + pk, {
         method: "GET",
         headers: {
@@ -77,50 +71,7 @@
       }).catch(err => {
         console.log("ERROR: " + err);
       });
-
-      function deleteUser(e) {
-        e.preventDefault();
-
-        fetch("/courses/api/" + pk + "/", {
-          method: "DELETE",
-          headers: {
-            'X-CSRFToken': '{{ csrf_token }}',
-          }
-        }).then(res => {
-          window.location.href = "/courses";
-        }).catch(err => {
-          console.log("ERROR: " + err);
-        });
-      }
-      
-      function submitFormUser() {
-        let codigo = document.querySelector('#input1').value;
-        let nome = document.querySelector('#input2').value;
-
-        fetch("/courses/api/" + pk + "/", {
-          method: "PUT",
-          headers: {
-            'X-CSRFToken': '{{ csrf_token }}',
-            'Accept': 'application/json, text/plain',
-            'Content-Type': 'application/json;charset=UTF-8',
-          },
-          body: JSON.stringify({
-            code: codigo,
-            name: nome,
-          }),
-        }).then(res => {
-          res.json().then(item => {
-            item.forEach(element => {
-              codigo.value = element.code;
-              nome.value = element.name;
-            });
-          })
-        }).catch(err => {
-          console.log("ERROR: " + err);
-        });
-      }
     } else {
-      titleText.innerHTML = "Novo Curso";
       deleteInput.style.visibility = "hidden";
     }
   </script>

@@ -108,7 +108,6 @@ class UserUpdate(BaseUserView, views.UpdateView):
   template_name = 'form.html'
 
   def get_context_data(self, **kwargs):
-    print("get_context_data ---------------")
     context = super(UserUpdate, self).get_context_data(**kwargs)
     context.update(user_food_form=UserForm())
     return context
