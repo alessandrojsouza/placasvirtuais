@@ -10,6 +10,7 @@ from django.utils.translation import ugettext as _
 
 from egress.serializers import EgressSerializer
 from egress.models import Egress
+from board.models import Board
 from egress.forms import EgressForm
 
 from django.http import HttpResponseRedirect
@@ -89,14 +90,30 @@ class EgressCreate(BaseEgressView, views.CreateView):
     )
     return redirect('/egress')
 
+  def get_context_data(self, **kwargs):
+    context = super(EgressCreate, self).get_context_data(**kwargs)
+    context.update(egress_food_form=EgressForm())
+    board = Board.objects.all().order_by('id')
+    context.update({'boards': board})
+    return context
+
 
 class EgressUpdate(BaseEgressView, views.UpdateView):
   template_name = 'egress/form.html'
+  paginate_by = 25
 
   def get_context_data(self, **kwargs):
     context = super(EgressUpdate, self).get_context_data(**kwargs)
-    context.update(egress_food_form=EgressForm())
+    # context.update(egress_food_form=EgressForm())
+    context.update(name=self.request.GET.get('name', ''))
+    board = Board.objects.all().order_by('id')
+    context.update({'boards': board})
     return context
+
+  def get_queryset(self):
+    queryset = super(EgressUpdate, self).get_queryset()
+    queryset = queryset.all().order_by('id', 'name')
+    return queryset
 
 
 class EgressPreview(BaseEgressView, views.UpdateView):
@@ -105,4 +122,6 @@ class EgressPreview(BaseEgressView, views.UpdateView):
   def get_context_data(self, **kwargs):
     context = super(EgressPreview, self).get_context_data(**kwargs)
     context.update(egress_food_form=EgressForm())
+    board = Board.objects.all().order_by('id')
+    context.update({'boards': board})
     return context

@@ -3,9 +3,6 @@
 
 {% block extra_css %}
   <style type="text/css">
-    button[type="submit"] {
-      width: 7%;
-    }
   </style>
 {% endblock extra_css %}
 
@@ -13,11 +10,10 @@
 {% block header %}
   <div id="cabecalho">
     <div>
-      <p id="title">Editar Egresso</p>
-      <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
+      <p>Visualizar Egresso</p>
     </div>
   </div>
-  <form method="POST" onsubmit="submitFormUser();" id="formUser" enctype="multipart/form-data">
+  <form method="POST" onsubmit="submitFormUser();" id="formUser">
     {% csrf_token %}
     <div id="new">    
         <input id="input1" type="number" name="enrollment" value="Matricula">
@@ -41,10 +37,9 @@
             >{{ board.name }}</option>
           {% endfor %}
         </select>
-    </div>
+    </div>     
     <div id="botoes">
-      <a class="botaocrud2" href="{% url 'egress:list' %}">Cancelar</a>
-      <button type="submit" class="botaocrud">Confirmar</button>
+      <a class="botaocrud2" href="{% url 'egress:list' %}">Voltar</a>
     </div>
   </form>
 {% endblock header %}
@@ -56,7 +51,7 @@
       <button class="fechar" onclick="modal()">X</button>
       <h3>AVISO</h3>
       <p>Deseja realmente excluir o usuário?</p>
-      <button class="botaocrud2" onclick="modal()">Cancelar</button>      
+      <button class="botaocrud2" href="{% url 'egress:list' %}">Cancelar</button>
       <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
     </div>        
   </div>
@@ -66,14 +61,14 @@
 {% block extra_js %}
   <script type="text/javascript">
     function modal() {
-      if(document.querySelector('.modalcontainer').classList.contains('show')) {
+      if(document.querySelector('.modalcontainer').classList.contains('show')){
         document.querySelector('.modalcontainer').classList.remove('show')
       }
-      else {
+      else{
         document.querySelector('.modalcontainer').classList.add('show')
       }
-    }
-    
+    }  
+
     const deleteInput = document.querySelector('#cabecalho #deleteA');
     const titleText = document.querySelector('#cabecalho #title');
     
@@ -84,11 +79,10 @@
     const socialNetwork = document.querySelector('[name="socialNetwork"]');
     const lattes = document.querySelector('[name="lattes"]');
     const board = document.querySelector('[name="board"]');
-    // console.log("photo.files[0]", photo.files[0].mozFullPath);
-    console.log("photo element", photo.files);
-    
+
     let pk = parseInt(window.location.pathname.split('/')[2]);
-    if (pk) {
+
+    if (pk) {  
       fetch("/egress/api/" + pk, {
         method: "GET",
         headers: {
@@ -109,60 +103,7 @@
       }).catch(err => {
         console.log("ERROR: " + err);
       });
-
-      function deleteUser(e) {
-        e.preventDefault();
-
-        fetch("/egress/api/" + pk + "/", {
-          method: "DELETE",
-          headers: {
-            'X-CSRFToken': '{{ csrf_token }}',
-          }
-        }).then(res => {
-          window.location.href = "/egress";
-        }).catch(err => {
-          console.log("ERROR: " + err);
-        });
-      }
-      
-      function submitFormUser() {
-        let enrollment = document.querySelector('[name="enrollment"]');
-        let name = document.querySelector('[name="name"]');
-        let email = document.querySelector('[name="email"]');
-        let photo = document.querySelector('[name="photo"]');
-        let socialNetwork = document.querySelector('[name="socialNetwork"]');
-        let lattes = document.querySelector('[name="lattes"]');
-        let board = document.querySelector('[name="board"]');
-
-        fetch("/egress/api/" + pk + "/", {
-          method: "PUT",
-          headers: {
-            'X-CSRFToken': '{{ csrf_token }}',
-            'Accept': 'application/json, text/plain',
-            'Content-Type': 'application/json;charset=UTF-8',
-          },
-          body: JSON.stringify({
-            enrollment: enrollment.value,
-            name: name.value,
-            email: email.value,
-            photo: photo.value,
-            social_network: socialNetwork.value,
-            lattes: lattes.value,
-            board: board.value,
-          }),
-        }).then(res => {
-          res.json().then(item => {
-            item.forEach(element => {
-              codigo.value = element.code;
-              nome.value = element.name;
-            });
-          })
-        }).catch(err => {
-          console.log("ERROR: " + err);
-        });
-      }
     } else {
-      titleText.innerHTML = "Novo Egresso";
       deleteInput.style.visibility = "hidden";
     }
   </script>
