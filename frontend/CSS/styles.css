@@ -8,7 +8,7 @@
     }
     body{
       display: flex;
-      justify-content: center;
+      /*justify-content: center;*/
       align-items: center;
       height: 100vh;    
     }
@@ -173,6 +173,23 @@
       justify-content: center;
       align-items: center;
     }
+    #newegresso{
+      padding: 0px 20px;
+    }
+    #newegresso > form{
+      display: flex;    
+      margin-top: 20px; 
+      flex-direction: column;   
+    }
+    #superior2{
+      display: flex;
+      align-items: center;
+    }
+    #inferior2{
+      margin-top: 25px;
+      display: flex;
+      align-items: center;
+    }
     .botao{
       justify-content: center;
       align-items: center;
@@ -220,8 +237,9 @@
     #new > form{
       display: flex;    
       align-items: center;
-      margin-top: 20px;    
+      margin-top: 20px; 
     }
+    
     #input1{
       box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
       border: thin solid #292929;    
