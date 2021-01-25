@@ -22,7 +22,11 @@
     </div>        
     <div id="new">    
         {% if form.instance.pk %}
-          <input id="input1" type="file" name="photo" accept="image/*" value="{{ form.instance.photo }}">
+          {% if form.instance.photo %}
+            <img id="input1" src="{{ form.instance.photo.url }}" alt="Foto do Egresso">
+          {% else %}
+            <p id="input1">Nenhuma foto do cadastrada</p>
+          {% endif %}
         {% else %}
           <input id="input1" type="file" name="photo" accept="image/*">
         {% endif %}
