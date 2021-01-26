@@ -80,13 +80,13 @@ class EgressCreate(BaseEgressView, views.CreateView):
   
   def post(self, request):
     board_obj = Board.objects.get(pk=request.POST['board'])
-    print("board_obj", board_obj.pk)
 
     egress_obj = Egress.objects.create(
       enrollment=request.POST['enrollment'],
       name=request.POST['name'],
       email=request.POST['email'],
       social_network=request.POST['socialNetwork'],
+      photo=self.request.FILES['photo'],
       lattes=request.POST['lattes'],
       board=board_obj,
     )
