@@ -17,7 +17,7 @@
       <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
     </div>
   </div>
-  <form method="POST" onsubmit="submitFormUser();" id="formUser" enctype="multipart/form-data">
+  <form method="POST" id="formUser" enctype="multipart/form-data">
     {% csrf_token %}
     <div id="new">    
         <input id="input1" type="number" name="enrollment" value="Matricula">
@@ -150,46 +150,43 @@
         return new Blob([ia], {type:mimeString});
       }
       
-      function submitFormUser() {
-        let enrollment = document.querySelector('[name="enrollment"]');
-        let name = document.querySelector('[name="name"]');
-        let email = document.querySelector('[name="email"]');
-        let photo = document.querySelector('[name="photo"]');
-        let socialNetwork = document.querySelector('[name="socialNetwork"]');
-        let lattes = document.querySelector('[name="lattes"]');
-        let board = document.querySelector('[name="board"]');
-        // FIXME: how to upload image to api
-        // console.log("egress photo ---", photo.files[0]);
-        // return;
+      // function submitFormUser() {
+      //   let enrollment = document.querySelector('[name="enrollment"]');
+      //   let name = document.querySelector('[name="name"]');
+      //   let email = document.querySelector('[name="email"]');
+      //   let photo = document.querySelector('[name="photo"]');
+      //   let socialNetwork = document.querySelector('[name="socialNetwork"]');
+      //   let lattes = document.querySelector('[name="lattes"]');
+      //   let board = document.querySelector('[name="board"]');
 
-        fetch("/egress/api/" + pk + "/", {
-          method: "PUT",
-          headers: {
-            'X-CSRFToken': '{{ csrf_token }}',
-            'Accept': 'application/json, text/plain',
-            'Content-Type': 'application/json;charset=UTF-8',
-          },
-          body: JSON.stringify({
-            enrollment: enrollment.value,
-            name: name.value,
-            email: email.value,
-            // photo: photo.value,
-            image: dataURItoBlob(photo.value),
-            social_network: socialNetwork.value,
-            lattes: lattes.value,
-            board: board.value,
-          }),
-        }).then(res => {
-          res.json().then(item => {
-            item.forEach(element => {
-              codigo.value = element.code;
-              nome.value = element.name;
-            });
-          })
-        }).catch(err => {
-          console.log("ERROR: " + err);
-        });
-      }
+      //   fetch("/egress/api/" + pk + "/", {
+      //     method: "PUT",
+      //     headers: {
+      //       'X-CSRFToken': '{{ csrf_token }}',
+      //       'Accept': 'application/json, text/plain',
+      //       'Content-Type': 'application/json;charset=UTF-8',
+      //     },
+      //     body: JSON.stringify({
+      //       enrollment: enrollment.value,
+      //       name: name.value,
+      //       email: email.value,
+      //       // photo: photo.value,
+      //       image: dataURItoBlob(photo.value),
+      //       social_network: socialNetwork.value,
+      //       lattes: lattes.value,
+      //       board: board.value,
+      //     }),
+      //   }).then(res => {
+      //     res.json().then(item => {
+      //       item.forEach(element => {
+      //         codigo.value = element.code;
+      //         nome.value = element.name;
+      //       });
+      //     })
+      //   }).catch(err => {
+      //     console.log("ERROR: " + err);
+      //   });
+      // }
     } else {
       titleText.innerHTML = "Novo Egresso";
       deleteInput.style.visibility = "hidden";

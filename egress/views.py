@@ -104,6 +104,21 @@ class EgressUpdate(BaseEgressView, views.UpdateView):
   template_name = 'egress/form.html'
   paginate_by = 25
 
+  def post(self, request, pk):
+    board_obj = Board.objects.get(pk=request.POST['board'])
+    egreess_obj = Egress.objects.get(id=pk)
+    
+    if self.request.FILES:
+      egreess_obj.photo = self.request.FILES['photo']
+
+    egreess_obj.name = request.POST['name']
+    egreess_obj.email = request.POST['email']
+    egreess_obj.social_network = request.POST['socialNetwork']
+    egreess_obj.lattes = request.POST['lattes']
+    egreess_obj.board = board_obj
+    egreess_obj.save()
+    return redirect('/egress')
+
   def get_context_data(self, **kwargs):
     context = super(EgressUpdate, self).get_context_data(**kwargs)
     # context.update(egress_food_form=EgressForm())
