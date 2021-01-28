@@ -15,4 +15,9 @@ urlpatterns = [
     views.BoardApiView.as_view(),
     name='api_detail_boards'
   ),
+  path(
+    '',
+    views.BoardList.as_view(),
+    name='list'
+  ),
 ]
