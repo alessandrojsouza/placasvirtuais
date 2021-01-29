@@ -20,7 +20,6 @@ class Egress(models.Model):
   photo = models.ImageField(_('Imagem'), upload_to='egress/', blank=True, null=True)  
   image = Base64ImageField(max_length=None, use_url=True)
 
-
   class Meta:
     verbose_name = _(u'Egresso')
     verbose_name_plural = _(u'Egressos')

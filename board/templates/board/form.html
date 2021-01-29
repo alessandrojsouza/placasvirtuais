@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static humanize %}
+
+{% block extra_css %}
+  <style type="text/css">
+    button[type="submit"] {
+      width: 7%;
+    }
+  </style>
+{% endblock extra_css %}
+
+
+{% block header %}
+  <div id="cabecalho">
+    <div>
+      <p id="title">Editar Placa</p>
+      <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
+    </div>
+  </div>
+  <form method="POST" id="formUser" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div id="new">    
+        <input id="input1" type="text" name="name" value="Nome da Placa">
+        <input id="input2" type="text" name="year" value="Ano do periodo">
+        <textarea id="input3" cols="40" rows="10" name="message" placeholder="Mensagem"></textarea>
+    </div>        
+    <div id="new">    
+        {% if form.instance.pk %}
+          {% if form.instance.photo %}
+            <img id="input1" src="{{ form.instance.photo.url }}" alt="Foto da Placa">
+          {% else %}
+            <p id="input1">Nenhuma foto do cadastrada</p>
+          {% endif %}
+          <input id="input1" type="file" name="photo" accept="image/*">
+        {% else %}
+          <input id="input1" type="file" name="photo" accept="image/*">
+        {% endif %}
+        <input id="input2" type="text" name="date" value="Data de formatura">
+        <input id="input3" type="text" name="mentioned" value="Mencionado">
+        {{ form.mentioned }}
+    </div>
+    <div id="new">
+        <select name="course" id="input1">
+          {% for course in courses %}
+            <option 
+              value="{{ course.id }}"
+            >{{ course.name }}</option>
+          {% endfor %}
+        </select>
+    </div>
+    <div id="botoes">
+      <a class="botaocrud2" href="{% url 'board:list' %}">Cancelar</a>
+      <button type="submit" class="botaocrud">Confirmar</button>
+    </div>
+  </form>
+{% endblock header %}
+
+
+{% block content %}
+  <div class="modalcontainer">
+    <div class="modal">
+      <button class="fechar" onclick="modal()">X</button>
+      <h3>AVISO</h3>
+      <p>Deseja realmente excluir o usuário?</p>
+      <button class="botaocrud2" onclick="modal()">Cancelar</button>      
+      <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
+    </div>        
+  </div>
+{% endblock content %}
+
+
+{% block extra_js %}
+  <script type="text/javascript">
+    function modal() {
+      if(document.querySelector('.modalcontainer').classList.contains('show')) {
+        document.querySelector('.modalcontainer').classList.remove('show')
+      }
+      else {
+        document.querySelector('.modalcontainer').classList.add('show')
+      }
+    }
+    
+    const deleteInput = document.querySelector('#cabecalho #deleteA');
+    const titleText = document.querySelector('#cabecalho #title');
+    
+    const name = document.querySelector('[name="name"]');
+    const year = document.querySelector('[name="year"]');
+    const message = document.querySelector('[name="message"]');
+    const date = document.querySelector('[name="date"]');
+    const mentioned = document.querySelector('[name="mentioned"]');
+    const course = document.querySelector('[name="course"]');
+    
+    let pk = parseInt(window.location.pathname.split('/')[2]);
+    if (pk) {
+      fetch("/boards/api/" + pk, {
+        method: "GET",
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+        }
+      }).then(res => {
+        res.json().then(item => {
+          item.forEach(element => {
+            name.value = element.name;
+            year.value = element.year_graduation;
+            message.value = element.message;
+            date.value = element.graduation_date;
+            course.value = element.course;
+            mentioned.value = element.mentioned;
+            course.value = element.course;
+          });
+        })
+      }).catch(err => {
+        console.log("ERROR: " + err);
+      });
+
+      function deleteUser(e) {
+        e.preventDefault();
+
+        fetch("/board/api/" + pk + "/", {
+          method: "DELETE",
+          headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+          }
+        }).then(res => {
+          window.location.href = "/board";
+        }).catch(err => {
+          console.log("ERROR: " + err);
+        });
+      }
+    } else {
+      titleText.innerHTML = "Nova Placa";
+      deleteInput.style.visibility = "hidden";
+    }
+  </script>
+{% endblock extra_js %}

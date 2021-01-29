@@ -8,6 +8,7 @@ from django.utils.translation import ugettext as _
 
 from board.serializers import BoardSerializer
 from board.models import Board
+from course.models import Course
 from board.forms import BoardForm
 
 class BaseBoardView(object):
@@ -49,3 +50,80 @@ class BoardList(BaseBoardView, views.ListView):
     queryset = super(BoardList, self).get_queryset()
     queryset = queryset.all().order_by('id', 'name')
     return queryset
+
+
+class BoardCreate(BaseBoardView, views.CreateView):
+  template_name = 'board/form.html'
+  page_title = _(u'Add Board')
+
+  def form_valid(self, form):
+    self.object = form.save(commit=False)
+    self.object.user = self.request.user
+    self.object.save()
+    return HttpResponseRedirect(
+      self.object.get_update_url()
+    )
+  
+  def post(self, request):
+    board_obj = Board.objects.get(pk=request.POST['board'])
+
+    egress_obj = Egress.objects.create(
+      enrollment=request.POST['enrollment'],
+      name=request.POST['name'],
+      email=request.POST['email'],
+      social_network=request.POST['socialNetwork'],
+      photo=self.request.FILES['photo'],
+      lattes=request.POST['lattes'],
+      board=board_obj,
+    )
+    return redirect('/egress')
+
+  def get_context_data(self, **kwargs):
+    context = super(BoardCreate, self).get_context_data(**kwargs)
+    context.update(egress_food_form=BoardForm())
+    course = Course.objects.all().order_by('id')
+    context.update({'courses': course})
+    return context
+
+
+class BoardUpdate(BaseBoardView, views.UpdateView):
+  template_name = 'board/form.html'
+  paginate_by = 25
+
+  def post(self, request, pk):
+    board_obj = Board.objects.get(pk=request.POST['board'])
+    egreess_obj = Egress.objects.get(id=pk)
+    
+    if self.request.FILES:
+      egreess_obj.photo = self.request.FILES['photo']
+
+    egreess_obj.name = request.POST['name']
+    egreess_obj.email = request.POST['email']
+    egreess_obj.social_network = request.POST['socialNetwork']
+    egreess_obj.lattes = request.POST['lattes']
+    egreess_obj.board = board_obj
+    egreess_obj.save()
+    return redirect('/egress')
+
+  def get_context_data(self, **kwargs):
+    context = super(BoardUpdate, self).get_context_data(**kwargs)
+    context.update(name=self.request.GET.get('name', ''))
+    course = Course.objects.all().order_by('id')
+    context.update({'courses': course})
+    return context
+
+  def get_queryset(self):
+    queryset = super(BoardUpdate, self).get_queryset()
+    queryset = queryset.all().order_by('id', 'name')
+    return queryset
+
+
+class BoardPreview(BaseBoardView, views.UpdateView):
+  template_name = 'board/preview.html'
+
+  def get_context_data(self, **kwargs):
+    context = super(BoardPreview, self).get_context_data(**kwargs)
+    context.update(board_food_form=BoardForm())
+    board = Board.objects.all().order_by('id')
+    context.update({'boards': board})
+    return context

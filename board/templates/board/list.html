@@ -32,20 +32,20 @@
   <div id="table">
     <table>
       <tr>
-        <th>Matricula</th>
         <th>Nome</th>
-        <th>Email</th>
+        <th>Ano de graduação</th>
+        <th>Curso</th>
         <th>Ações</th>
       </tr>
 
-      {% for egress in object_list %}
+      {% for board in object_list %}
         <tr>
-          <td>{{ egress.enrollment }}</td>
-          <td>{{ egress.name }}</td>
-          <td>{{ egress.email }}</td>
+          <td>{{ board.name }}</td>
+          <td>{{ board.year_graduation }}</td>
+          <td>{{ board.course }}</td>
           <td>
-            <a class="botaocrud2" href="{{ egress.get_update_url }}">Editar</a>
-            <a class="botaocrud2" href="{{ egress.get_preview_url }}">Visualizar</a>
+            <a class="botaocrud2" href="{{ board.get_update_url }}">Editar</a>
+            <a class="botaocrud2" href="{{ board.get_preview_url }}">Visualizar</a>
           </td>
         </tr>
       {% endfor %}

@@ -7,6 +7,8 @@ from campus.models import Campus
 
 import datetime
 
+from django.urls import reverse
+
 
 def current_year():
   return datetime.date.today().year
@@ -19,10 +21,11 @@ class Board(models.Model):
   message = models.TextField(
     _('Mensagem'), null=True, blank=True)
   year_graduation = models.IntegerField(_('Ano do período'), default=current_year)
-  graduation_date = models.DateTimeField(_('Data da formatura'), auto_now_add=False)
+  # graduation_date = models.DateTimeField(_('Data da formatura'), auto_now_add=False)
+  graduation_date = models.DateField(_('Data da formatura'))
   
   course = models.ForeignKey(Course, on_delete=models.CASCADE)
-  campus = models.ForeignKey(Campus, on_delete=models.CASCADE)
+  # campus = models.ForeignKey(Campus, on_delete=models.CASCADE)
   mentioned = models.ManyToManyField(Mentioned)
 
   class Meta:
@@ -31,3 +34,15 @@ class Board(models.Model):
 
   def __str__(self):
     return '{0.name}'.format(self)
+
+  def get_create_url(self):
+    return reverse('board:create')
+    
+  def get_update_url(self):
+    return reverse('board:update', kwargs={'pk': self.pk})
+  
+  def get_preview_url(self):
+    return reverse('board:preview', kwargs={'pk': self.pk})
+
+  def get_absolute_url(self):
+    return reverse('board:list')

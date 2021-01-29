@@ -20,4 +20,19 @@ urlpatterns = [
     views.BoardList.as_view(),
     name='list'
   ),
+  path(
+    'create/',
+    views.BoardCreate.as_view(),
+    name='create'
+  ),
+  path(
+    '<int:pk>/update/',
+    views.BoardUpdate.as_view(),
+    name='update'
+  ),
+  path(
+    '<int:pk>/preview/',
+    views.BoardPreview.as_view(),
+    name='preview'
+  ),
 ]
