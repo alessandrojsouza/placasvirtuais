@@ -37,7 +37,7 @@
         {% endif %}
         <input id="input2" type="text" name="date" value="Data de formatura">
         <input id="input3" type="text" name="mentioned" value="Mencionado">
-        {{ form.mentioned }}
+        <!-- {{ form.mentioned }} -->
     </div>
     <div id="new">
         <select name="course" id="input1">
@@ -104,7 +104,6 @@
             year.value = element.year_graduation;
             message.value = element.message;
             date.value = element.graduation_date;
-            course.value = element.course;
             mentioned.value = element.mentioned;
             course.value = element.course;
           });
@@ -116,7 +115,7 @@
       function deleteUser(e) {
         e.preventDefault();
 
-        fetch("/board/api/" + pk + "/", {
+        fetch("/boards/api/" + pk + "/", {
           method: "DELETE",
           headers: {
             'X-CSRFToken': '{{ csrf_token }}',

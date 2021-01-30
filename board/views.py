@@ -65,16 +65,17 @@ class BoardCreate(BaseBoardView, views.CreateView):
     )
   
   def post(self, request):
-    board_obj = Board.objects.get(pk=request.POST['board'])
+    course_obj = Course.objects.get(pk=request.POST['course'])
+    mentioned_obj = Mentioned.objects.get(pk=request.POST['mentioned'])
 
-    egress_obj = Egress.objects.create(
-      enrollment=request.POST['enrollment'],
+    board_obj = Board.objects.create(
       name=request.POST['name'],
-      email=request.POST['email'],
-      social_network=request.POST['socialNetwork'],
+      message=request.POST['message'],
+      year_graduation=request.POST['year_graduation'],
       photo=self.request.FILES['photo'],
-      lattes=request.POST['lattes'],
-      board=board_obj,
+      graduation_date=request.POST['graduation_date'],
+      course=course_obj,
+      mentioned=mentioned_obj
     )
     return redirect('/egress')
 
