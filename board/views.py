@@ -7,9 +7,12 @@ from vanilla import model_views as views
 from django.utils.translation import ugettext as _
 
 from board.serializers import BoardSerializer
-from board.models import Board
+from board.models import Board, Mentioned
 from course.models import Course
 from board.forms import BoardForm
+
+from django.shortcuts import redirect
+
 
 class BaseBoardView(object):
   model = Board
@@ -66,7 +69,7 @@ class BoardCreate(BaseBoardView, views.CreateView):
   
   def post(self, request):
     course_obj = Course.objects.get(pk=request.POST['course'])
-    mentioned_obj = Mentioned.objects.get(pk=request.POST['mentioned'])
+    # mentioned_obj = Mentioned.objects.get(pk=request.POST['mentioned'])
 
     board_obj = Board.objects.create(
       name=request.POST['name'],
@@ -75,15 +78,17 @@ class BoardCreate(BaseBoardView, views.CreateView):
       photo=self.request.FILES['photo'],
       graduation_date=request.POST['graduation_date'],
       course=course_obj,
-      mentioned=mentioned_obj
+      # mentioned=mentioned_obj
     )
-    return redirect('/egress')
+    return redirect('/boards')
 
   def get_context_data(self, **kwargs):
     context = super(BoardCreate, self).get_context_data(**kwargs)
     context.update(egress_food_form=BoardForm())
     course = Course.objects.all().order_by('id')
     context.update({'courses': course})
+    mentioned = Mentioned.objects.all()
+    context.update({'mentioneds': mentioned})
     return context
 
 
@@ -104,13 +109,16 @@ class BoardUpdate(BaseBoardView, views.UpdateView):
     egreess_obj.lattes = request.POST['lattes']
     egreess_obj.board = board_obj
     egreess_obj.save()
-    return redirect('/egress')
+    return redirect('/boards')
 
   def get_context_data(self, **kwargs):
     context = super(BoardUpdate, self).get_context_data(**kwargs)
     context.update(name=self.request.GET.get('name', ''))
     course = Course.objects.all().order_by('id')
     context.update({'courses': course})
+    # mentioned = Mentioned.objects.all()
+    # print("mentioned ------", mentioned)
+    # context.update({'mentioneds': mentioned})
     return context
 
   def get_queryset(self):

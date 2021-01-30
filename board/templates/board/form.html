@@ -21,7 +21,7 @@
     {% csrf_token %}
     <div id="new">    
         <input id="input1" type="text" name="name" value="Nome da Placa">
-        <input id="input2" type="text" name="year" value="Ano do periodo">
+        <input id="input2" type="text" name="year_graduation" value="Ano do periodo">
         <textarea id="input3" cols="40" rows="10" name="message" placeholder="Mensagem"></textarea>
     </div>        
     <div id="new">    
@@ -35,18 +35,31 @@
         {% else %}
           <input id="input1" type="file" name="photo" accept="image/*">
         {% endif %}
-        <input id="input2" type="text" name="date" value="Data de formatura">
-        <input id="input3" type="text" name="mentioned" value="Mencionado">
-        <!-- {{ form.mentioned }} -->
-    </div>
-    <div id="new">
-        <select name="course" id="input1">
+        <input id="input2" type="date" name="graduation_date" value="Data de formatura">
+
+        <select name="course" id="input3">
           {% for course in courses %}
             <option 
               value="{{ course.id }}"
             >{{ course.name }}</option>
           {% endfor %}
         </select>
+    </div>
+    <div id="new">
+      <input id="input1" type="text" name="siape_mentioned" value="SIAPE">
+      <input id="input2" type="text" name="name_mentioned" value="Nome do mencionado">
+      <select name="mention" id="input3">
+        <option value="" selected="">---------</option>
+        <option value="0">Reitor</option>
+        <option value="1">Paraninfo</option>
+        <option value="2">Patrono</option>
+        <option value="3">DG</option>
+        <option value="4">DE</option>
+        <option value="5">Em memoria</option>
+        <option value="6">Funcionário</option>
+        <option value="7">Homenageado</option>
+        <option value="8">Orador</option>
+      </select>
     </div>
     <div id="botoes">
       <a class="botaocrud2" href="{% url 'board:list' %}">Cancelar</a>
@@ -84,9 +97,9 @@
     const titleText = document.querySelector('#cabecalho #title');
     
     const name = document.querySelector('[name="name"]');
-    const year = document.querySelector('[name="year"]');
+    const year = document.querySelector('[name="year_graduation"]');
     const message = document.querySelector('[name="message"]');
-    const date = document.querySelector('[name="date"]');
+    const date = document.querySelector('[name="graduation_date"]');
     const mentioned = document.querySelector('[name="mentioned"]');
     const course = document.querySelector('[name="course"]');
     
@@ -100,6 +113,8 @@
       }).then(res => {
         res.json().then(item => {
           item.forEach(element => {
+            console.log("element.year_graduation", element.year_graduation);
+
             name.value = element.name;
             year.value = element.year_graduation;
             message.value = element.message;
@@ -121,7 +136,7 @@
             'X-CSRFToken': '{{ csrf_token }}',
           }
         }).then(res => {
-          window.location.href = "/board";
+          window.location.href = "/boards";
         }).catch(err => {
           console.log("ERROR: " + err);
         });

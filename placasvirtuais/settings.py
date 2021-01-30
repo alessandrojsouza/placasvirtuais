@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'core',
     'board',
     'course',
-    'mentioned',
     'campus',
     'egress',
     'rest_framework',
@@ -164,11 +163,21 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'pt-BR'
 
+DATE_INPUT_FORMATS = ['%m/%d/%Y']
+DATE_INPUT_FORMATS = [
+    '%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y',
+    '%b %d %Y', '%b %d, %Y',            
+    '%d %b %Y', '%d %b, %Y',            
+    '%B %d %Y', '%B %d, %Y',            
+    '%d %B %Y', '%d %B, %Y',            
+]
+
 TIME_ZONE = 'America/Fortaleza'
 
 USE_I18N = True
 
-USE_L10N = True
+# USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 
