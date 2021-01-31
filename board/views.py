@@ -80,6 +80,8 @@ class BoardCreate(BaseBoardView, views.CreateView):
       course=course_obj,
       # mentioned=mentioned_obj
     )
+    # FIXME: error on create board because not item mentioned created
+    # redirect to update to created mentioned fake
     return redirect('/boards')
 
   def get_context_data(self, **kwargs):
@@ -116,9 +118,7 @@ class BoardUpdate(BaseBoardView, views.UpdateView):
     context.update(name=self.request.GET.get('name', ''))
     course = Course.objects.all().order_by('id')
     context.update({'courses': course})
-    # mentioned = Mentioned.objects.all()
-    # print("mentioned ------", mentioned)
-    # context.update({'mentioneds': mentioned})
+    board_obj = Board.objects.get(pk=self.kwargs.get('pk'))
     return context
 
   def get_queryset(self):
