@@ -70,6 +70,10 @@ class BoardCreate(BaseBoardView, views.CreateView):
   def post(self, request):
     course_obj = Course.objects.get(pk=request.POST['course'])
     # mentioned_obj = Mentioned.objects.get(pk=request.POST['mentioned'])
+    mentioned_obj = Mentioned.objects.create(
+      name=request.POST['name_mentioned'],
+      mention=request.POST['mention_mentioned'],
+    )
 
     board_obj = Board.objects.create(
       name=request.POST['name'],
@@ -78,10 +82,8 @@ class BoardCreate(BaseBoardView, views.CreateView):
       photo=self.request.FILES['photo'],
       graduation_date=request.POST['graduation_date'],
       course=course_obj,
-      # mentioned=mentioned_obj
     )
-    # FIXME: error on create board because not item mentioned created
-    # redirect to update to created mentioned fake
+    board_obj.mentioned.add(mentioned_obj)
     return redirect('/boards')
 
   def get_context_data(self, **kwargs):
@@ -93,24 +95,24 @@ class BoardCreate(BaseBoardView, views.CreateView):
     context.update({'mentioneds': mentioned})
     return context
 
-
+# FIXME: update mentioneds objs
 class BoardUpdate(BaseBoardView, views.UpdateView):
   template_name = 'board/form.html'
   paginate_by = 25
 
   def post(self, request, pk):
-    board_obj = Board.objects.get(pk=request.POST['board'])
-    egreess_obj = Egress.objects.get(id=pk)
+    course_obj = Course.objects.get(pk=request.POST['course'])
+    board_obj = Board.objects.get(id=pk)
     
     if self.request.FILES:
-      egreess_obj.photo = self.request.FILES['photo']
+      board_obj.photo = self.request.FILES['photo']
 
-    egreess_obj.name = request.POST['name']
-    egreess_obj.email = request.POST['email']
-    egreess_obj.social_network = request.POST['socialNetwork']
-    egreess_obj.lattes = request.POST['lattes']
-    egreess_obj.board = board_obj
-    egreess_obj.save()
+    board_obj.name = request.POST['name']
+    board_obj.year_graduation = request.POST['year_graduation']
+    board_obj.graduation_date = request.POST['graduation_date']
+    board_obj.message = request.POST['message']
+    board_obj.course = course_obj
+    board_obj.save()
     return redirect('/boards')
 
   def get_context_data(self, **kwargs):
