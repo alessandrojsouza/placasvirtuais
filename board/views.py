@@ -69,6 +69,8 @@ class BoardCreate(BaseBoardView, views.CreateView):
   
   def post(self, request):
     course_obj = Course.objects.get(pk=request.POST['course'])
+    
+    # FIXME: adds mentioneds obj
     # mentioned_obj = Mentioned.objects.get(pk=request.POST['mentioned'])
     mentioned_obj = Mentioned.objects.create(
       name=request.POST['name_mentioned'],
