@@ -13,8 +13,7 @@
 {% block header %}
   <div id="cabecalho">
     <div>
-      <p id="title">Editar Placa</p>
-      <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
+      <p id="title">Visualizar Placa</p>
     </div>
   </div>
   <form method="POST" id="formUser" enctype="multipart/form-data">
@@ -53,8 +52,8 @@
     {% if form.instance.pk %}
       {% for mentioned in form.instance.mentioned.all %}
         <div id="new" class="new-mentioneds">
-          <input id="input2" type="text" name="name_mentioned_{{ mentioned.id }}" value="{{ mentioned.name }}">
-          <select name="mention_mentioned_{{ mentioned.id }}" id="input3">
+          <input id="input2" type="text" name="name_mentioned" value="{{ mentioned.name }}">
+          <select name="mention_mentioned" id="input3">
             <option value="" selected="">---------</option>
             <option {% if mentioned.mention == 0 %} selected {% endif %} value="0">Reitor</option>
             <option {% if mentioned.mention == 1 %} selected {% endif %} value="1">Paraninfo</option>
@@ -66,11 +65,6 @@
             <option {% if mentioned.mention == 7 %} selected {% endif %} value="7">Homenageado</option>
             <option {% if mentioned.mention == 8 %} selected {% endif %} value="8">Orador</option>
           </select>
-        {% if forloop.first %}
-          <button onclick="addMentioned(event)" class="botaocrud">Adicionar</button>
-        {% else %}
-          <button onclick="delMentioned(event)" class="botaocrud2">Excluir</button>
-        {% endif %}
         </div>
       {% endfor %}
     {% else %}
@@ -88,8 +82,6 @@
           <option value="7">Homenageado</option>
           <option value="8">Orador</option>
         </select>
-        <button onclick="addMentioned(event)" class="botaocrud">Adicionar</button>
-        <button onclick="delMentioned(event)" class="botaocrud2 hidden">Excluir</button>
       </div>
     {% endif %}
     <div id="botoes">
@@ -131,6 +123,7 @@
     const year = document.querySelector('[name="year_graduation"]');
     const message = document.querySelector('[name="message"]');
     const date = document.querySelector('[name="graduation_date"]');
+    const mentioned = document.querySelector('[name="mentioned"]');
     const course = document.querySelector('[name="course"]');
     
     let pk = parseInt(window.location.pathname.split('/')[2]);
@@ -143,10 +136,13 @@
       }).then(res => {
         res.json().then(item => {
           item.forEach(element => {
+            console.log("element.year_graduation", element.year_graduation);
+
             name.value = element.name;
             year.value = element.year_graduation;
             message.value = element.message;
             date.value = element.graduation_date;
+            mentioned.value = element.mentioned;
             course.value = element.course;
           });
         })
@@ -168,42 +164,6 @@
           console.log("ERROR: " + err);
         });
       }
-    } else {
-      titleText.innerHTML = "Nova Placa";
-      deleteInput.style.visibility = "hidden";
-    }
-
-    function addMentioned(e) {
-      e.preventDefault();
-      let qnt = document.querySelectorAll('.new-mentioneds > input').length - 1;
-      const mentionedElem = document.querySelector('.new-mentioneds');
-      let cloneMentioned = mentionedElem.cloneNode(true);
-      
-      cloneMentioned.querySelector('[name="name_mentioned"]').name = "name_mentioned_"+ qnt;
-      cloneMentioned.querySelector('[name="mention_mentioned"]').name = "mention_mentioned_"+ qnt;
-
-      cloneMentioned.querySelector('[name="name_mentioned_'+qnt+'"]').value = "Nome do mencionado";
-      cloneMentioned.querySelector('.botaocrud2').classList.remove('hidden');
-      cloneMentioned.querySelector('.botaocrud').remove();
-      mentionedElem.after(cloneMentioned);
-    }
-
-    // FIXME: delete mentioned by obj
-    function delMentioned(e) {
-      e.preventDefault();
-      let pkMentioned = parseInt((e.target).parentNode.querySelector('#input2').getAttribute("name").slice(-1));
-
-      // delete mentioned by api
-      fetch("/boards/mentioned/api/" + pkMentioned + "/", {
-        method: "DELETE",
-        headers: {
-          'X-CSRFToken': '{{ csrf_token }}',
-        }
-      }).then(res => {
-        (e.target).parentNode.remove();
-      }).catch(err => {
-        console.log("ERROR: " + err);
-      });
     }
   </script>
 {% endblock extra_js %}

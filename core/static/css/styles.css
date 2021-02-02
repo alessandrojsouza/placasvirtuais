@@ -354,3 +354,7 @@ p{
   background-color: #292929;
   cursor: pointer;
 }
+
+.hidden {
+  display: none;
+}
