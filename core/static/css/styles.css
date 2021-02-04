@@ -47,6 +47,14 @@ textarea:focus, input:focus{
   margin: 0 10px;
   cursor: pointer;
 }
+#barra img{
+  width: 40px;
+}
+
+#barra > div > img{  
+  width: 15px;
+  margin-right: 5px;
+}
 
 /* navegacao */
 #navegacao{
@@ -196,7 +204,7 @@ button[type="submit"] {
   border-radius: 10px;
 }
 .botao img{
-  width: 50%;
+  width: 70px;
   display: flex;
   margin: 10px 10px;
 }
@@ -226,6 +234,10 @@ button[type="submit"] {
 }
 #new{
   padding: 0px 20px;
+}
+#new label{
+  display: flex;
+  margin-bottom: 10px;
 }
 #new > form{
   display: flex;    
@@ -311,8 +323,9 @@ h3{
   border-bottom: 2px solid #292929;
 }
 p{
+  font-size: 30px;
   margin-top: 15px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 /*modal*/
 .modalcontainer {
@@ -330,7 +343,10 @@ p{
   display: flex;
 
 }
-
+.modal p{
+  font-size: 20px;
+  margin-bottom: 20px;
+}
 .modal{
   background-color: white;
   width: 25%;

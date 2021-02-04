@@ -19,10 +19,16 @@
   </div>
   <form method="POST" onsubmit="submitFormUser();" id="formUser">
     {% csrf_token %}
-    <div id="new">    
-      <input id="input1" type="number" name="code" value="Código">
-      <input id="input2" type="text" name="name" value="Nome do curso">
-    </div>        
+    <div id="new">   
+      <div>
+        <label>Código</label>
+        <input id="input1" type="number" name="code" value="Código">
+      </div>       
+      <div>
+        <label>Nome Curso</label>
+        <input id="input2" type="text" name="name" value="Nome do curso">
+      </div> 
+    </div>    
     <div id="botoes">
       <a class="botaocrud2" href="{% url 'course:list' %}">Cancelar</a>
       <button type="submit" class="botaocrud">Confirmar</button>

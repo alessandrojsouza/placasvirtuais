@@ -21,7 +21,7 @@
   <div id="search">    
     <form method="GET" action="{% url 'account_login' %}">
       {% csrf_token %}
-      <input id="input2" type="text" value="nome usuário" />
+      <input id="input2" type="text" placeholder="nome usuário"/>
       <button type="submit" class="botaocrud">Pesquisar</button>
     </form> 
   </div>
@@ -49,16 +49,6 @@
           </td>
         </tr>
       {% endfor %}
-      
-      <!--<tr>
-        <td>Luenne Gomes Mafra</td>
-        <td>202020039</td>
-        <td>jj99pp@hotmail.com</td>
-        <td>
-          <a class="botaocrud2" href="editusuario.html">EDITAR</a>
-          <a class="botaocrud2" href="viewusuario.html">VISUALIZAR</a>
-        </td>
-      </tr>-->
     </table>
   </div>   
 </div>   

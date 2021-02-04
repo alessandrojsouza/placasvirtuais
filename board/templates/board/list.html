@@ -21,7 +21,7 @@
   <div id="search">    
     <form method="GET" action="{% url 'account_login' %}">
       {% csrf_token %}
-      <input id="input2" type="text" value="Nome da placa" />
+      <input id="input2" type="text" placeholder="Nome da placa" />
       <button type="submit" class="botaocrud">Pesquisar</button>
     </form> 
   </div>

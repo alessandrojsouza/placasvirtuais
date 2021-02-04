@@ -40,22 +40,16 @@
 
     <div id="header">
       <div id="barra">
-        <a href="{% url 'core:index' %}">IFRN</a>
-        <div>
-          <p>A+</p>
-          <p>A</p>
-          <p>A-</p>
+        <a href="{% url 'core:index' %}"><img src="{% static 'assets/PFV.png' %}"></a>
+        <div> 
+          {% if user.is_authenticated %}
+            <img id="loginimg" src="{% static 'assets/login.png' %}">
+            <a href="{% url 'account_logout' %}">Logout</a>
+          {% else %}
+            <a href="{% url 'account_login' %}">Login</a>
+          {% endif %}
         </div>            
-      </div>
-      <div id="navegacao">
-        <img src="{% static 'assets/home.png' %}" width="25">
-        <img src="{% static 'assets/seta.png' %}" width="15"> 
-        {% if user.is_authenticated %}
-          <a href="{% url 'account_logout' %}">Logout</a>
-        {% else %}
-          <a href="{% url 'account_login' %}">Login</a>
-        {% endif %}
-      </div>
+      </div>     
       
       {% block header %}{% endblock header %}
 
