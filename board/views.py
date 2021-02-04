@@ -1,6 +1,7 @@
 from django.shortcuts import render
+from django.db import models
 
-from rest_framework import generics
+from rest_framework import generics, filters
 
 from vanilla import TemplateView
 from vanilla import model_views as views
@@ -21,7 +22,10 @@ class BaseBoardView(object):
 
 
 class BoardApiView(generics.ListAPIView, generics.RetrieveAPIView,
-                  generics.CreateAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
+                  generics.CreateAPIView, generics.UpdateAPIView, generics.DestroyAPIView):  
+  search_fields = ['name', 'course__name', 'course__id']
+  filter_backends = (filters.SearchFilter,)
+
   queryset = Board.objects.all()
   serializer_class = BoardSerializer
 
@@ -66,11 +70,25 @@ class BoardList(BaseBoardView, views.ListView):
 
   def get_context_data(self, **kwargs):
     context = super(BoardList, self).get_context_data(**kwargs)
+    course = Course.objects.all().order_by('id')
+    context.update({'courses': course})
     context.update(name=self.request.GET.get('name', ''))
     return context
 
   def get_queryset(self):
     queryset = super(BoardList, self).get_queryset()
+    search_name = self.request.GET.get('name', '')
+    search_course = self.request.GET.get('course', '')
+
+    if search_name is not None:
+      queryset = queryset.filter(
+        models.Q(name__icontains=search_name)
+      )
+    if search_course is not None:
+      queryset = queryset.filter(
+        models.Q(course__id__icontains=search_course)
+      )
+
     queryset = queryset.all().order_by('id', 'name')
     return queryset
 

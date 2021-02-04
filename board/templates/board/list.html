@@ -19,9 +19,15 @@
     </div>  
   </div>  
   <div id="search">    
-    <form method="GET" action="{% url 'account_login' %}">
-      {% csrf_token %}
-      <input id="input2" type="text" placeholder="Nome da placa" />
+    <form method="GET" action=".">
+      <input id="input2" type="text" name="name" placeholder="Nome da placa" value="" />
+      <select name="course" id="input3">
+        {% for course in courses %}
+          <option
+            value="{{ course.id }}"
+          >{{ course.name }}</option>
+        {% endfor %}
+      </select>
       <button type="submit" class="botaocrud">Pesquisar</button>
     </form> 
   </div>
@@ -57,5 +63,20 @@
 
 {% block extra_js %}
   <script type="text/javascript">
+    function checkParams(field) {
+      var url = window.location.href;
+      if (url.indexOf('?' + field + '=') != -1)
+        return true;
+      else if (url.indexOf('&' + field + '=') != -1)
+        return true;
+      return false;
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = document.querySelector('[name="name"]');
+    const course = document.querySelector('[name="course"]');
+
+    name.value = urlParams.get('name');
+    course.value = urlParams.get('course');
   </script>
 {% endblock extra_js %}
