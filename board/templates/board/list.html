@@ -77,6 +77,6 @@
     const course = document.querySelector('[name="course"]');
 
     name.value = urlParams.get('name');
-    course.value = urlParams.get('course');
+    course.value = urlParams.get('course') === null ? "1" : urlParams.get('course');
   </script>
 {% endblock extra_js %}
