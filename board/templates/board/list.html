@@ -20,8 +20,8 @@
   </div>  
   <div id="search">    
     <form method="GET" action=".">
-      <input id="input2" type="text" name="name" placeholder="Nome da placa" value="" />
-      <select name="course" id="input3">
+      <input id="input2" type="text" name="name" placeholder="digite o nome aqui..." value="" />
+      <select name="course" class="select">
         {% for course in courses %}
           <option
             value="{{ course.id }}"

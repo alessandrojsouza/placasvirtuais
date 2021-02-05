@@ -204,7 +204,7 @@ button[type="submit"] {
   border-radius: 10px;
 }
 .botao img{
-  width: 70px;
+  width: 105px;
   display: flex;
   margin: 10px 10px;
 }
@@ -265,6 +265,22 @@ button[type="submit"] {
   border-radius: 5px;
   width: 500px;
   padding: 10px;    
+}
+#input4{
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
+  border: thin solid #292929;    
+  border-radius: 5px;
+  width: 200px;
+  padding: 10px;
+  margin-right: 20px;  
+}
+.select{
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .15);
+  border: thin solid #292929;    
+  border-radius: 5px;
+  width: 200px;
+  padding: 10px;
+  margin-right: 20px;
 }
 /*list*/
 #position{

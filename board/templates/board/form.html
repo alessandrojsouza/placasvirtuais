@@ -13,42 +13,63 @@
 {% block header %}
   <div id="cabecalho">
     <div>
-      <p id="title">Editar Placa</p>
+      <p id="title">Editar placa</p>
       <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
     </div>
   </div>
   <form method="POST" id="formUser" enctype="multipart/form-data">
     {% csrf_token %}
-    <div id="new">    
-      <input id="input1" type="text" name="name" value="Nome da Placa">
-      <input id="input2" type="text" name="year_graduation" value="Ano do periodo">
-      <select name="period_graduation" id="input3">
-        <option value="1" selected>1</option>
-        <option value="2">2</option>
-      </select>
+    <div id="new">  
+      <div>
+        <label>Nome da placa</label>
+        <input id="input2" type="text" name="name" value="Nome da Placa">
+      </div>  
+      <div>
+        <label>Ano do período</label>
+        <input id="input4" type="text" name="year_graduation" value="Ano do periodo">
+      </div>
+      <div>
+        <label>Período</label>
+        <select name="period_graduation" id="input1">
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+        </select>        
+      </div>
     </div>        
-    <div id="new">    
-      {% if form.instance.pk %}
-        {% if form.instance.photo %}
-          <img id="input1" src="{{ form.instance.photo.url }}" alt="Foto da Placa">
+    <div id="new"> 
+      <div>
+        <label>Foto da placa</label>
+        {% if form.instance.pk %}
+          {% if form.instance.photo %}
+            <img id="input2" src="{{ form.instance.photo.url }}" alt="Foto da Placa">
+          {% else %}
+            <p id="input2">Nenhuma foto do cadastrada</p>
+          {% endif %}
+          <input id="input2" type="file" name="photo" accept="image/*">
         {% else %}
-          <p id="input1">Nenhuma foto do cadastrada</p>
+          <input id="input2" type="file" name="photo" accept="image/*">
         {% endif %}
-        <input id="input1" type="file" name="photo" accept="image/*">
-      {% else %}
-        <input id="input1" type="file" name="photo" accept="image/*">
-      {% endif %}
-      <input id="input2" type="date" name="graduation_date" value="Data de formatura">
-      <select name="course" id="input3">
-        {% for course in courses %}
-          <option 
-            value="{{ course.id }}"
-          >{{ course.name }}</option>
-        {% endfor %}
-      </select>
+      </div>   
+      <div>
+        <label>Data da formatura</label>
+        <input id="input4" type="date" name="graduation_date" value="Data de formatura">
+      </div>
+      <div>
+        <label>Selecione o curso</label>
+        <select name="course" id="input4">
+          {% for course in courses %}
+            <option 
+              value="{{ course.id }}"
+            >{{ course.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
     </div>
     <div id="new">
-      <textarea id="input3" cols="40" rows="10" name="message" placeholder="Mensagem"></textarea>
+      <div>
+        <label>Mensagem da turma</label>
+        <textarea id="input3" cols="40" rows="10" name="message" placeholder="Mensagem"></textarea>
+      </div>      
     </div>
     {% if form.instance.pk %}
       {% for mentioned in form.instance.mentioned.all %}
@@ -75,21 +96,32 @@
       {% endfor %}
     {% else %}
       <div id="new" class="new-mentioneds">
-        <input id="input2" type="text" name="name_mentioned" value="Nome do mencionado">
-        <select name="mention_mentioned" id="input3">
-          <option value="" selected="">---------</option>
-          <option value="0">Reitor</option>
-          <option value="1">Paraninfo</option>
-          <option value="2">Patrono</option>
-          <option value="3">DG</option>
-          <option value="4">DE</option>
-          <option value="5">Em memoria</option>
-          <option value="6">Funcionário</option>
-          <option value="7">Homenageado</option>
-          <option value="8">Orador</option>
-        </select>
-        <button onclick="addMentioned(event)" class="botaocrud">Adicionar</button>
-        <button onclick="delMentioned(event)" class="botaocrud2 hidden">Excluir</button>
+        <div>
+          <label>Nome do mencionado</label>
+          <input id="input2" type="text" name="name_mentioned" value="Nome do mencionado">
+        </div>
+        <div>
+          <label>Menção</label>
+          <select name="mention_mentioned" id="input3">
+            <option value="" selected="">---------</option>
+            <option value="0">Reitor</option>
+            <option value="1">Paraninfo</option>
+            <option value="2">Patrono</option>
+            <option value="3">DG</option>
+            <option value="4">DE</option>
+            <option value="5">Em memoria</option>
+            <option value="6">Funcionário</option>
+            <option value="7">Homenageado</option>
+            <option value="8">Orador</option>
+          </select>
+        </div>
+        <div>
+          <label>Ações</label>      
+          <div id="botoes">
+            <button onclick="addMentioned(event)" class="botaocrud">Adicionar</button>
+            <button onclick="delMentioned(event)" class="botaocrud2 hidden">Excluir</button>
+          </div>
+        </div>          
       </div>
     {% endif %}
     <div id="botoes">
