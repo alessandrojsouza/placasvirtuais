@@ -16,22 +16,41 @@
   <form method="POST" onsubmit="submitFormUser();" id="formUser">
     {% csrf_token %}
     <div id="new">    
+      <div>
+        <label>Matrícula</label>
         <input id="input1" type="number" name="enrollment" value="Matricula">
-        <input id="input2" type="text" name="name" value="Nome do egresso">
+      </div>
+      <div>
+          <label>Nome egresso</label>
+          <input id="input2" type="text" name="name" value="Nome do egresso">
+      </div>
+      <div>
+        <label>Email</label>
         <input id="input3" type="email" name="email" value="Email">
+      </div>
     </div>        
-    <div id="new">    
+    <div id="new"> 
+      <div>
+        <label>Foto Egresso</label>
         {% if form.instance.pk %}
           {% if form.instance.photo %}
-            <img id="input1" src="{{ form.instance.photo.url }}" alt="Foto do Egresso">
+            <img id="input2" src="{{ form.instance.photo.url }}" alt="Foto do Egresso">
           {% else %}
-            <p id="input1">Nenhuma foto do cadastrada</p>
+            <p id="input2">Nenhuma foto do cadastrada</p>
           {% endif %}
+          <input id="input2" type="file" name="photo" accept="image/*">
         {% else %}
-          <input id="input1" type="file" name="photo" accept="image/*">
+          <input id="input2" type="file" name="photo" accept="image/*">
         {% endif %}
+      </div>    
+      <div>
+        <label>Rede social</label>
         <input id="input2" type="text" name="socialNetwork" value="Rede social">
+      </div> 
+      <div>
+        <label>Currículo lattes</label>
         <input id="input3" type="text" name="lattes" value="Lattes">
+      </div>
     </div>
     <div id="new">
         <select name="board" id="input1">
