@@ -4,13 +4,18 @@ from django.views.generic.base import RedirectView
 
 from core import views
 
-from core.views import DashboardView, UserApiView, UserList, UserCreate, UserUpdate, UserPreview
+from core.views import DashboardView, UserApiView, UserList, UserCreate, UserUpdate, UserPreview, PageExtern
 
 
 app_name = 'core'
 urlpatterns = [
   path(
     '',
+    PageExtern.as_view(),
+    name='page_extern'
+  ),
+  path(
+    'aba/',
     RedirectView.as_view(url='accounts/login', permanent=False),
     name='index'
   ),

@@ -11,6 +11,7 @@ from django.utils.translation import ugettext as _
 
 from core.serializers import UserSerializer
 from core.models import User
+from course.models import Course
 from core.forms import UserForm
 
 from django.http import HttpResponseRedirect
@@ -120,3 +121,33 @@ class UserPreview(BaseUserView, views.UpdateView):
     context = super(UserPreview, self).get_context_data(**kwargs)
     context.update(user_food_form=UserForm())
     return context
+
+
+class PageExtern(TemplateView, views.ListView):
+  template_name = 'extern.html'
+  paginate_by = 25
+
+  def get_context_data(self, **kwargs):
+    context = super(PageExtern, self).get_context_data(**kwargs)
+    course = Course.objects.all().order_by('id')
+    context.update({'courses': course})
+    context.update(name=self.request.GET.get('name', ''))
+    return context
+
+  def get_queryset(self):
+    queryset = super(PageExtern, self).get_queryset()
+    search_name = self.request.GET.get('name', '')
+    search_course = self.request.GET.get('course', '')
+    search_period = self.request.GET.get('period', '')
+
+    if search_name is not None:
+      queryset = queryset.filter(
+        models.Q(name__icontains=search_name)
+      )
+    if search_course is not None:
+      queryset = queryset.filter(
+        models.Q(course__id__icontains=search_course)
+      )
+
+    queryset = queryset.all().order_by('id', 'name')
+    return queryset
