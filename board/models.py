@@ -51,7 +51,7 @@ class Board(models.Model):
   photo = models.ImageField(_('Imagem'), upload_to='board/')
   message = models.TextField(
     _('Mensagem'), null=True, blank=True)
-  year_graduation = models.IntegerField(_('Ano do período'), default=current_year)
+  year_graduation = models.DateField(_('Ano do período'), default=current_year)
   period_graduation = models.IntegerField(_('Período'), default=1, validators=[MaxValueValidator(2), MinValueValidator(1)])
 
   # graduation_date = models.DateTimeField(_('Data da formatura'), auto_now_add=False)

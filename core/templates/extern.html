@@ -88,6 +88,8 @@
 
     const urlParams = new URLSearchParams(window.location.search);
     const name = document.querySelector('[name="name"]');
+    const year = document.querySelector('[name="year"]');
+    const period = document.querySelector('[name="period"]');
     const course = document.querySelector('[name="course"]');
 
     name.value = urlParams.get('name');
