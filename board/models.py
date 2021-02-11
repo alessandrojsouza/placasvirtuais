@@ -4,7 +4,7 @@ from django.utils.translation import ugettext as _
 from course.models import Course
 from campus.models import Campus
 
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 import datetime
 
@@ -51,8 +51,8 @@ class Board(models.Model):
   photo = models.ImageField(_('Imagem'), upload_to='board/')
   message = models.TextField(
     _('Mensagem'), null=True, blank=True)
-  year_graduation = models.DateField(_('Ano do período'), default=current_year)
-  period_graduation = models.IntegerField(_('Período'), default=1, validators=[MaxValueValidator(2), MinValueValidator(1)])
+  year_graduation = models.DateField(_('Ano do período'))
+  period_graduation = models.PositiveIntegerField(_('Período'), default=1, validators=[MinValueValidator(1), MaxValueValidator(2)])
 
   # graduation_date = models.DateTimeField(_('Data da formatura'), auto_now_add=False)
   graduation_date = models.DateField(_('Data da formatura'))
@@ -67,6 +67,9 @@ class Board(models.Model):
     verbose_name='Mencionado',
     related_name='mentioneds'
   )
+
+  def get_year(self):
+    return self.year_graduation.year
 
   class Meta:
     verbose_name = _(u'PLaca')
@@ -83,6 +86,9 @@ class Board(models.Model):
   
   def get_preview_url(self):
     return reverse('board:preview', kwargs={'pk': self.pk})
+    
+  def get_preview_extern_url(self):
+    return reverse('board:extern', kwargs={'pk': self.pk})
 
   def get_absolute_url(self):
     return reverse('board:list')

@@ -9,14 +9,19 @@ from vanilla import TemplateView
 from vanilla import model_views as views
 from django.utils.translation import ugettext as _
 
+from django.db import models
+
 from core.serializers import UserSerializer
+
 from core.models import User
 from course.models import Course
+from board.models import Board
+
 from core.forms import UserForm
+from board.forms import BoardForm
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
-
 
 
 class LoginRequiredMixin(object):
@@ -29,6 +34,11 @@ class LoginRequiredMixin(object):
 class BaseUserView(object):
   model = User
   form_class = UserForm
+  lookup_field = 'pk'
+
+class BaseBoardView(object):
+  model = Board
+  form_class = BoardForm
   lookup_field = 'pk'
 
 
@@ -123,7 +133,8 @@ class UserPreview(BaseUserView, views.UpdateView):
     return context
 
 
-class PageExtern(TemplateView, views.ListView):
+# class PageExtern(TemplateView, views.ListView):
+class PageExtern(BaseBoardView, views.ListView):
   template_name = 'extern.html'
   paginate_by = 25
 
@@ -131,8 +142,7 @@ class PageExtern(TemplateView, views.ListView):
     context = super(PageExtern, self).get_context_data(**kwargs)
     course = Course.objects.all().order_by('id')
     context.update({'courses': course})
-    year = Board.objects.all().values('year_graduation')
-    print("year", year)
+    year = Board.objects.all()
     context.update({'years': year})
     context.update(name=self.request.GET.get('name', ''))
     return context
@@ -140,12 +150,21 @@ class PageExtern(TemplateView, views.ListView):
   def get_queryset(self):
     queryset = super(PageExtern, self).get_queryset()
     search_name = self.request.GET.get('name', '')
-    search_course = self.request.GET.get('course', '')
+    search_year = self.request.GET.get('year', '')
     search_period = self.request.GET.get('period', '')
+    search_course = self.request.GET.get('course', '')
 
     if search_name is not None:
       queryset = queryset.filter(
         models.Q(name__icontains=search_name)
+      )
+    if search_year is not None:
+      queryset = queryset.filter(
+        models.Q(year_graduation__icontains=search_year)
+      )
+    if search_period is not None:
+      queryset = queryset.filter(
+        models.Q(period_graduation__icontains=search_period)
       )
     if search_course is not None:
       queryset = queryset.filter(

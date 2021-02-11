@@ -44,9 +44,8 @@
           {% else %}
             <p id="input2">Nenhuma foto do cadastrada</p>
           {% endif %}
-          <input id="input2" type="file" name="photo" accept="image/*">
         {% else %}
-          <input id="input2" type="file" name="photo" accept="image/*">
+          <p id="input2">Nenhuma foto do cadastrada</p>
         {% endif %}
       </div> 
       <div>
@@ -64,6 +63,11 @@
         </select>
       </div>
     </div>
+
+    <div id="new">
+      <input id="input2" type="file" name="photo" accept="image/*">
+    </div>    
+
     <div id="new">
       <div>
         <label>Mensagem da turma</label>

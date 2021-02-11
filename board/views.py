@@ -182,3 +182,16 @@ class BoardPreview(BaseBoardView, views.UpdateView):
     mentioned = Mentioned.objects.all()
     context.update({'mentioneds': mentioned})
     return context
+
+
+class BoardPreviewExtern(BaseBoardView, views.UpdateView):
+  template_name = 'board/preview.html'
+
+  def get_context_data(self, **kwargs):
+    context = super(BoardPreviewExtern, self).get_context_data(**kwargs)
+    context.update(board_food_form=BoardForm())
+    course = Course.objects.all().order_by('id')
+    context.update({'courses': course})
+    mentioned = Mentioned.objects.all()
+    context.update({'mentioneds': mentioned})
+    return context

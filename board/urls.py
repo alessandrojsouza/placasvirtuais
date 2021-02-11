@@ -40,4 +40,9 @@ urlpatterns = [
     views.BoardPreview.as_view(),
     name='preview'
   ),
+  path(
+    '<int:pk>/preview-extern/',
+    views.BoardPreview.as_view(),
+    name='extern'
+  ),
 ]

@@ -20,6 +20,10 @@
       button[type="submit"] {
         width: 50px;
       }
+      #viewexterno a {
+        width: 90%;
+        padding: 10px 10px;
+      }
     </style>
   </head>
 
@@ -34,12 +38,21 @@
       <div id="search">    
         <form method="GET" action=".">
           <input id="input2" type="text" name="name" placeholder="Nome da placa" value="" />
+          <select name="year" class="select">
+            <option value="">Selecione o Ano</option>
+            {% for year in years %}
+              <option
+                value="{{ year.get_year }}"
+              >{{ year.get_year }}</option>
+            {% endfor %}
+          </select>
           <select name="period" class="select">
-            <option value="">Selecione um periodo</option>
+            <option value="">Selecione um Periodo</option>
             <option value="1">1</option>
             <option value="2">2</option>
           </select>
           <select name="course" class="select">
+            <option value="">Selecione um Curso</option>
             {% for course in courses %}
               <option
                 value="{{ course.id }}"
@@ -55,18 +68,19 @@
           <tr>
             <th>Nome</th>
             <th>Ano de graduação</th>
+            <th>Periodo</th>
             <th>Curso</th>
             <th>Ações</th>
           </tr>
-    
+          
           {% for board in object_list %}
             <tr>
               <td>{{ board.name }}</td>
-              <td>{{ board.year_graduation }}</td>
+              <td>{{ board.get_year }}</td>
+              <td>{{ board.period_graduation }}</td>
               <td>{{ board.course }}</td>
               <td>
-                <a class="botaocrud2" href="{{ board.get_update_url }}">Editar</a>
-                <a class="botaocrud2" href="{{ board.get_preview_url }}">Visualizar</a>
+                <a class="botaocrud2" href="{{ board.get_preview_extern_url }}">Visualizar</a>
               </td>
             </tr>
           {% endfor %}
@@ -93,6 +107,8 @@
     const course = document.querySelector('[name="course"]');
 
     name.value = urlParams.get('name');
-    course.value = urlParams.get('course') === null ? "1" : urlParams.get('course');
+    year.value = urlParams.get('year') === null ? "" : urlParams.get('year');
+    period.value = urlParams.get('period') === null ? "" : urlParams.get('period');
+    course.value = urlParams.get('course') === null ? "" : urlParams.get('course');
   </script>
 </html>

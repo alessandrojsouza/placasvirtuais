@@ -26,7 +26,8 @@
       </div>  
       <div>
         <label>Ano do período</label>
-        <input id="input4" type="text" name="year_graduation" value="Ano do periodo">
+        <!-- <input id="input4" type="text" name="year_graduation" value="Ano do periodo"> -->
+        <input id="input4" type="date" name="year_graduation" value="Ano do periodo">
       </div>
       <div>
         <label>Período</label>
@@ -45,11 +46,11 @@
           {% else %}
             <p id="input2">Nenhuma foto do cadastrada</p>
           {% endif %}
-          <input id="input2" type="file" name="photo" accept="image/*">
         {% else %}
-          <input id="input2" type="file" name="photo" accept="image/*">
+          <p id="input2">Nenhuma foto do cadastrada</p>
         {% endif %}
-      </div>   
+      </div>
+      
       <div>
         <label>Data da formatura</label>
         <input id="input4" type="date" name="graduation_date" value="Data de formatura">
@@ -65,6 +66,11 @@
         </select>
       </div>
     </div>
+
+    <div id="new">
+      <input id="input2" type="file" name="photo" accept="image/*">
+    </div>    
+
     <div id="new">
       <div>
         <label>Mensagem da turma</label>

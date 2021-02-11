@@ -15,7 +15,7 @@ urlpatterns = [
     name='page_extern'
   ),
   path(
-    'aba/',
+    '/',
     RedirectView.as_view(url='accounts/login', permanent=False),
     name='index'
   ),
