@@ -47,7 +47,7 @@
       {% for board in object_list %}
         <tr>
           <td>{{ board.name }}</td>
-          <td>{{ board.year_graduation }}</td>
+          <td>{{ board.get_year }}</td>
           <td>{{ board.course }}</td>
           <td>
             <a class="botaocrud2" href="{{ board.get_update_url }}">Editar</a>

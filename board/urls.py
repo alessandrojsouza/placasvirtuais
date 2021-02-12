@@ -42,7 +42,7 @@ urlpatterns = [
   ),
   path(
     '<int:pk>/preview-extern/',
-    views.BoardPreview.as_view(),
+    views.BoardPreviewExtern.as_view(),
     name='extern'
   ),
 ]

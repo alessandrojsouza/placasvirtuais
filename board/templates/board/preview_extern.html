@@ -3,8 +3,14 @@
 
 {% block extra_css %}
   <style type="text/css">
+    #barra {
+      display: none;
+    }
     button[type="submit"] {
       width: 7%;
+    }
+    table img#input2 {
+      width: 70px;
     }
   </style>
 {% endblock extra_css %}
@@ -44,8 +50,6 @@
           {% else %}
             <p id="input2">Nenhuma foto do cadastrada</p>
           {% endif %}
-        {% else %}
-          <p id="input2">Nenhuma foto do cadastrada</p>
         {% endif %}
       </div> 
       <div>
@@ -92,31 +96,40 @@
           </select>
         </div>
       {% endfor %}
-    {% else %}
-      <div id="new" class="new-mentioneds">
-        <div>
-          <label>Nome do mencionado</label>
-          <input id="input2" type="text" name="name_mentioned" value="Nome do mencionado">
-        </div>
-        <div>
-          <label>Menção</label>
-          <select name="mention_mentioned" id="input3">
-            <option value="" selected="">---------</option>
-            <option value="0">Reitor</option>
-            <option value="1">Paraninfo</option>
-            <option value="2">Patrono</option>
-            <option value="3">DG</option>
-            <option value="4">DE</option>
-            <option value="5">Em memoria</option>
-            <option value="6">Funcionário</option>
-            <option value="7">Homenageado</option>
-            <option value="8">Orador</option>
-          </select>
-        </div>  
+    {% endif %}
+
+    <div id="new">
+      <label>Egressos</label>
+      {% if not egress %}
+        <p id="input2">Nenhum egresso cadastrado na placa</p>
+      {% endif %}
+    </div>
+    {% if egress %}
+      <div id="table">
+        <table>
+          <tr>
+            <th>Imagem</th>
+            <th>Nome</th>
+            <th>Matricula</th>
+            <th>Email</th>
+          </tr>
+    
+          {% for egress in egress %}
+            <tr>
+              <td>
+                <img id="input2" src="{{ egress.photo.url }}" alt="Foto do Egresso">
+              </td>
+              <td>{{ egress.name }}</td>
+              <td>{{ egress.enrollment }}</td>
+              <td>{{ egress.email }}</td>
+            </tr>
+          {% endfor %}
+        </table>
       </div>
     {% endif %}
+    
     <div id="botoes">
-      <a class="botaocrud2" href="{% url 'board:list' %}">Cancelar</a>
+      <a class="botaocrud2" href="{% url 'core:page_extern' %}">Voltar</a>
     </div>
   </form>
 {% endblock header %}

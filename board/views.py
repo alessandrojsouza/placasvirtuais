@@ -8,8 +8,11 @@ from vanilla import model_views as views
 from django.utils.translation import ugettext as _
 
 from board.serializers import BoardSerializer, MentionedSerializer
+
 from board.models import Board, Mentioned
 from course.models import Course
+from egress.models import Egress
+
 from board.forms import BoardForm
 
 from django.shortcuts import redirect
@@ -185,7 +188,7 @@ class BoardPreview(BaseBoardView, views.UpdateView):
 
 
 class BoardPreviewExtern(BaseBoardView, views.UpdateView):
-  template_name = 'board/preview.html'
+  template_name = 'board/preview_extern.html'
 
   def get_context_data(self, **kwargs):
     context = super(BoardPreviewExtern, self).get_context_data(**kwargs)
@@ -194,4 +197,6 @@ class BoardPreviewExtern(BaseBoardView, views.UpdateView):
     context.update({'courses': course})
     mentioned = Mentioned.objects.all()
     context.update({'mentioneds': mentioned})
+    egress = Egress.objects.filter(board=self.kwargs.get('pk'))
+    context.update({'egress': egress})
     return context
