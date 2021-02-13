@@ -94,9 +94,9 @@
             <option {% if mentioned.mention == 8 %} selected {% endif %} value="8">Orador</option>
           </select>
         {% if forloop.first %}
-          <button onclick="addMentioned(event)" class="botaocrud">Adicionar</button>
+          <button onclick="addMentioned(event, '{{ mentioned.id }}')" class="botaocrud">Adicionar</button>
         {% else %}
-          <button onclick="delMentioned(event)" class="botaocrud2">Excluir</button>
+          <button onclick="delMentioned(event, '{{ mentioned.id }}')" class="botaocrud2">Excluir</button>
         {% endif %}
         </div>
       {% endfor %}
@@ -211,37 +211,41 @@
       deleteInput.style.visibility = "hidden";
     }
 
-    function addMentioned(e) {
+    function addMentioned(e, pk) {
       e.preventDefault();
-      let qnt = document.querySelectorAll('.new-mentioneds > input').length - 1;
+      // let qnt = document.querySelectorAll('.new-mentioneds > input').length - 1;
+      let qnt = document.querySelectorAll('.new-mentioneds > input').length;
       const mentionedElem = document.querySelector('.new-mentioneds');
       let cloneMentioned = mentionedElem.cloneNode(true);
       
-      cloneMentioned.querySelector('[name="name_mentioned"]').name = "name_mentioned_"+ qnt;
-      cloneMentioned.querySelector('[name="mention_mentioned"]').name = "mention_mentioned_"+ qnt;
+      cloneMentioned.querySelector('[name="name_mentioned_'+ pk +'"]').name = "name_mentioned_"+ qnt;
+      cloneMentioned.querySelector('[name="mention_mentioned_'+ pk +'"]').name = "mention_mentioned_"+ qnt;
 
       cloneMentioned.querySelector('[name="name_mentioned_'+qnt+'"]').value = "Nome do mencionado";
-      cloneMentioned.querySelector('.botaocrud2').classList.remove('hidden');
+      cloneMentioned.querySelector(' > .botaocrud2').classList.remove('hidden');
       cloneMentioned.querySelector('.botaocrud').remove();
       mentionedElem.after(cloneMentioned);
     }
 
     // FIXME: delete mentioned by obj
-    function delMentioned(e) {
+    function delMentioned(e, pk) {
       e.preventDefault();
-      let pkMentioned = parseInt((e.target).parentNode.querySelector('#input2').getAttribute("name").slice(-1));
+      let pkMentioned = parseInt((e.target).parentNode.parentNode.parentNode.querySelector('#input2').getAttribute("name").slice(-1));
 
-      // delete mentioned by api
-      fetch("/boards/mentioned/api/" + pkMentioned + "/", {
-        method: "DELETE",
-        headers: {
-          'X-CSRFToken': '{{ csrf_token }}',
-        }
-      }).then(res => {
-        (e.target).parentNode.remove();
-      }).catch(err => {
-        console.log("ERROR: " + err);
-      });
+      if (pk === undefined) {
+        (e.target).parentNode.parentNode.parentNode.remove();
+      } else {
+        fetch("/boards/mentioned/api/" + pkMentioned + "/", {
+          method: "DELETE",
+          headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+          }
+        }).then(res => {
+          (e.target).parentNode.parentNode.parentNode.remove();
+        }).catch(err => {
+          console.log("ERROR: " + err);
+        });
+      }
     }
   </script>
 {% endblock extra_js %}
