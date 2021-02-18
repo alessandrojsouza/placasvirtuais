@@ -25,7 +25,7 @@
       </div>
       <div>
           <label>Nome egresso</label>
-          <input id="input2" type="text" name="name" value="Nome do egresso">
+          <input id="input4" type="text" name="name" value="Nome do egresso">
       </div>
       <div>
         <label>Email</label>
@@ -41,16 +41,16 @@
           {% else %}
             <p id="input2">Nenhuma foto do cadastrada</p>
           {% endif %}
-          <input id="input2" type="file" name="photo" accept="image/*">
+          <!-- <input id="input2" type="file" name="photo" accept="image/*"> -->
         {% else %}
-          <input id="input2" type="file" name="photo" accept="image/*">
+          <!-- <input id="input2" type="file" name="photo" accept="image/*"> -->
         {% endif %}
       </div>    
     </div>
     <div id="new">
       <div>
         <label>Rede social</label>
-        <input id="input2" type="text" name="socialNetwork" value="Rede social">
+        <input id="input4" type="text" name="socialNetwork" value="Rede social">
       </div> 
       <div>
         <label>Currículo lattes</label>
@@ -58,13 +58,16 @@
       </div>
     </div>
     <div id="new">
-        <select name="board" id="input1">
+      <div>
+        <label>Placa</label>
+        <select name="board" id="input4">
           {% for board in boards %}
             <option 
               value="{{ board.id }}"
             >{{ board.name }}</option>
           {% endfor %}
         </select>
+      </div>
     </div>     
     <div id="botoes">
       <a class="botaocrud2" href="{% url 'egress:list' %}">Voltar</a>

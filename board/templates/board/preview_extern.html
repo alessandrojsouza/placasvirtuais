@@ -68,9 +68,9 @@
       </div>
     </div>
 
-    <div id="new">
+    <!-- <div id="new">
       <input id="input2" type="file" name="photo" accept="image/*">
-    </div>    
+    </div>     -->
 
     <div id="new">
       <div>
@@ -81,19 +81,22 @@
     {% if form.instance.pk %}
       {% for mentioned in form.instance.mentioned.all %}
         <div id="new" class="new-mentioneds">
-          <input id="input2" type="text" name="name_mentioned" value="{{ mentioned.name }}">
-          <select name="mention_mentioned" id="input3">
-            <option value="" selected="">---------</option>
-            <option {% if mentioned.mention == 0 %} selected {% endif %} value="0">Reitor</option>
-            <option {% if mentioned.mention == 1 %} selected {% endif %} value="1">Paraninfo</option>
-            <option {% if mentioned.mention == 2 %} selected {% endif %} value="2">Patrono</option>
-            <option {% if mentioned.mention == 3 %} selected {% endif %} value="3">DG</option>
-            <option {% if mentioned.mention == 4 %} selected {% endif %} value="4">DE</option>
-            <option {% if mentioned.mention == 5 %} selected {% endif %} value="5">Em memoria</option>
-            <option {% if mentioned.mention == 6 %} selected {% endif %} value="6">Funcionário</option>
-            <option {% if mentioned.mention == 7 %} selected {% endif %} value="7">Homenageado</option>
-            <option {% if mentioned.mention == 8 %} selected {% endif %} value="8">Orador</option>
-          </select>
+          <div>
+            <label>Mencionados</label>
+            <input id="input2" type="text" name="name_mentioned" value="{{ mentioned.name }}">
+            <select name="mention_mentioned" id="input3">
+              <option value="" selected="">---------</option>
+              <option {% if mentioned.mention == 0 %} selected {% endif %} value="0">Reitor</option>
+              <option {% if mentioned.mention == 1 %} selected {% endif %} value="1">Paraninfo</option>
+              <option {% if mentioned.mention == 2 %} selected {% endif %} value="2">Patrono</option>
+              <option {% if mentioned.mention == 3 %} selected {% endif %} value="3">DG</option>
+              <option {% if mentioned.mention == 4 %} selected {% endif %} value="4">DE</option>
+              <option {% if mentioned.mention == 5 %} selected {% endif %} value="5">Em memoria</option>
+              <option {% if mentioned.mention == 6 %} selected {% endif %} value="6">Funcionário</option>
+              <option {% if mentioned.mention == 7 %} selected {% endif %} value="7">Homenageado</option>
+              <option {% if mentioned.mention == 8 %} selected {% endif %} value="8">Orador</option>
+            </select>
+          </div>
         </div>
       {% endfor %}
     {% endif %}
@@ -129,7 +132,7 @@
     {% endif %}
     
     <div id="botoes">
-      <a class="botaocrud2" href="{% url 'core:page_extern' %}">Voltar</a>
+      <a class="botaocrud" href="{% url 'core:page_extern' %}">Voltar</a>
     </div>
   </form>
 {% endblock header %}

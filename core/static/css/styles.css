@@ -14,7 +14,7 @@
   }
   
   #bodylogin{
-    background-image: url('../assets/background.png');
+    /* background-image: url('../assets/background.png'); */
     background-size: contain;
     background-repeat: no-repeat;
     background-position: right;

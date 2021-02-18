@@ -6,7 +6,7 @@
     button[type="submit"] {
       width: 7%;
     }
-    img {
+    img#input2 {
       width: 20% !important;
     }
   </style>
@@ -25,15 +25,15 @@
     <div id="new">    
       <div>
         <label>Matrícula</label>
-        <input id="input1" type="number" name="enrollment" value="Matricula">
+        <input id="input1" type="number" name="enrollment" value="">
       </div>
       <div>
           <label>Nome egresso</label>
-          <input id="input2" type="text" name="name" value="Nome do egresso">
+          <input id="input4" type="text" name="name" value="">
       </div>
       <div>
         <label>Email</label>
-        <input id="input3" type="email" name="email" value="Email">
+        <input id="input3" type="email" name="email" value="">
       </div>
     </div>        
     <div id="new"> 
@@ -54,21 +54,24 @@
     <div id="new">
       <div>
         <label>Rede social</label>
-        <input id="input2" type="text" name="socialNetwork" value="Rede social">
+        <input id="input4" type="text" name="socialNetwork" value="">
       </div> 
       <div>
         <label>Currículo lattes</label>
-        <input id="input3" type="text" name="lattes" value="Lattes">
+        <input id="input3" type="text" name="lattes" value="">
       </div>
     </div>
     <div id="new">
-      <select name="board" id="input1">
-        {% for board in boards %}
-          <option 
-            value="{{ board.id }}"
-          >{{ board.name }}</option>
-        {% endfor %}
-      </select>
+      <div>
+        <label>Placa</label>
+        <select name="board" id="input4">
+          {% for board in boards %}
+            <option
+              value="{{ board.id }}"
+            >{{ board.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
     </div>
     <div id="botoes">
       <a class="botaocrud2" href="{% url 'egress:list' %}">Cancelar</a>
