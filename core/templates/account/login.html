@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% load static i18n account socialaccount %}
+
+{% load static humanize %}
+
+
+{% block content %}
+  <!-- FIXME: resolve login with django using SIAPE and PASSWORD -->
+  <div id="login">
+    <div>
+      <img src="{% static 'assets/login.png' %}">
+      <p>Login</p>
+    </div>
+    
+    {% for error in form.non_field_errors %}
+      <div class="alert alert-danger" role="alert">
+        {{ error }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+    {% endfor %}
+
+    <form method="POST" action="{% url 'account_login' %}">
+      {% csrf_token %}
+
+      <br><br>
+      <input type="text" id="{{ form.login.auto_id }}" name="{{ form.login.html_name }}" placeholder="Siape">
+      {% for error in form.login.errors %}
+        <div class="form-control-feedback text-danger">{{ error }}</div>
+      {% endfor %}
+
+      <br><br>
+      <input type="password" id="{{ form.password.auto_id }}" name="{{ form.password.html_name }}" placeholder="Senha" />
+      <!-- <a class="float-right" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a> -->
+      {% for error in form.password.errors %}
+        <div class="form-control-feedback text-danger">{{ error }}</div>
+      {% endfor %}
+
+      {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+      {% endif %}
+      
+      <div>
+        <!-- <input type="voltar" value="voltar" /> -->
+        <!-- <input type="submit" value="confirmar" /> -->
+        <button type="submit" class="btn btn-primary btn-gradient btn-block" tabindex="3">
+          <i class="batch-icon batch-icon-key"></i>
+          {% trans "Sign In" %}
+        </button>
+      </div>
+      
+      <hr>
+      <!-- <br> <p class="text-center">
+        Ainda não possui conta? <a href="{% url 'account_signup' %}"> <br> Cadastre-se.</a>
+      </p> -->
+      
+    </form>
+  </div>
+{% endblock content %}

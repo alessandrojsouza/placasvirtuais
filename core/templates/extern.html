@@ -1,0 +1,114 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Placas Virtuais - IFRN, Central</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
+
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <style type="text/css">
+      button[type="submit"] {
+        width: 50px;
+      }
+      #viewexterno a {
+        width: 90%;
+        padding: 10px 10px;
+      }
+    </style>
+  </head>
+
+  <body id="bodylogin">
+    <div id="viewexterno">
+      <div>
+        <h1>PLACAS DE FORMATURA</h1>
+      </div>     
+      <div>
+          <h1>VIRTUAIS</h1>
+      </div> 
+      <div id="search">    
+        <form method="GET" action=".">
+          <input id="input2" type="text" name="name" placeholder="Nome da placa" value="" />
+          <select name="year" class="select">
+            <option value="">Selecione o Ano</option>
+            {% for year in years %}
+              <option
+                value="{{ year.get_year }}"
+              >{{ year.get_year }}</option>
+            {% endfor %}
+          </select>
+          <select name="period" class="select">
+            <option value="">Selecione um Periodo</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+          </select>
+          <select name="course" class="select">
+            <option value="">Selecione um Curso</option>
+            {% for course in courses %}
+              <option
+                value="{{ course.id }}"
+              >{{ course.name }}</option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="botaocrud"><img src="{% static 'assets/lupa.png' %}"></a></button>
+        </form> 
+      </div>
+    
+      <div id="table">
+        <table>
+          <tr>
+            <th>Nome</th>
+            <th>Ano de graduação</th>
+            <th>Periodo</th>
+            <th>Curso</th>
+            <th>Ações</th>
+          </tr>
+          
+          {% for board in object_list %}
+            <tr>
+              <td>{{ board.name }}</td>
+              <td>{{ board.get_year }}</td>
+              <td>{{ board.period_graduation }}</td>
+              <td>{{ board.course }}</td>
+              <td>
+                <a class="botaocrud2" href="{{ board.get_preview_extern_url }}">Visualizar</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
+      
+    </div>
+  </body>
+
+  <script type="text/javascript">
+    function checkParams(field) {
+      var url = window.location.href;
+      if (url.indexOf('?' + field + '=') != -1)
+        return true;
+      else if (url.indexOf('&' + field + '=') != -1)
+        return true;
+      return false;
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = document.querySelector('[name="name"]');
+    const year = document.querySelector('[name="year"]');
+    const period = document.querySelector('[name="period"]');
+    const course = document.querySelector('[name="course"]');
+
+    name.value = urlParams.get('name');
+    year.value = urlParams.get('year') === null ? "" : urlParams.get('year');
+    period.value = urlParams.get('period') === null ? "" : urlParams.get('period');
+    course.value = urlParams.get('course') === null ? "" : urlParams.get('course');
+  </script>
+</html>

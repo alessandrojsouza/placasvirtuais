@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static humanize %}
+
+{% block extra_css %}
+  <style type="text/css">
+  </style>
+{% endblock extra_css %}
+
+
+{% block content %}
+  <div id="container">
+    <div id="apresentacao">
+      <img src="{% static 'assets/login.png' %}">
+      <p>Bem vindo(a), {{ user.username }}</p>
+    </div>
+    <div id="superior">
+      <a class="botao" href="{% url 'egress:list' %}"><img src="{% static 'assets/egresso.png' %}"></a>
+      <a class="botao" href="{% url 'core:list' %}"><img src="{% static 'assets/usuario.png' %}"></a>
+    </div>
+    <div id="inferior">
+      <a class="botao" href="{% url 'course:list' %}"><img src="{% static 'assets/curso.png' %}"></a>
+      <a class="botao"><img src="{% static 'assets/campi.png' %}"></a>
+      <a class="botao" href="{% url 'board:list' %}"><img src="{% static 'assets/placa.png' %}"></a>
+    </div>
+  </div>
+{% endblock content %}
+
+
+{% block extra_js %}
+  <script type="text/javascript">
+  </script>
+{% endblock extra_js %}

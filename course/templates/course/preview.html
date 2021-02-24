@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static humanize %}
+
+{% block extra_css %}
+  <style type="text/css">
+  </style>
+{% endblock extra_css %}
+
+
+{% block header %}
+  <div id="cabecalho">
+    <div>
+      <p>Visualizar Curso</p>
+    </div>
+  </div>
+  <form method="POST" onsubmit="submitFormUser();" id="formUser">
+    {% csrf_token %}
+    <div id="new">   
+      <div>
+        <label>Código</label>
+        <input id="input1" type="number" name="codigo" value="Código">
+      </div>       
+      <div>
+        <label>Nome Curso</label>
+        <input id="input2" type="text" name="name" value="Nome do curso">
+      </div> 
+    </div>     
+    <div id="botoes">
+      <a class="botaocrud" href="{% url 'course:list' %}">Voltar</a>
+    </div>
+  </form>
+{% endblock header %}
+
+
+{% block content %}
+  <div class="modalcontainer">
+    <div class="modal">
+      <button class="fechar" onclick="modal()">X</button>
+      <h3>AVISO</h3>
+      <p>Deseja realmente excluir o curso?</p>
+      <button class="botaocrud2" href="{% url 'course:list' %}">Cancelar</button>
+      <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
+    </div>        
+  </div>
+{% endblock content %}
+
+
+{% block extra_js %}
+  <script type="text/javascript">
+    function modal() {
+      if(document.querySelector('.modalcontainer').classList.contains('show')){
+        document.querySelector('.modalcontainer').classList.remove('show')
+      }
+      else{
+        document.querySelector('.modalcontainer').classList.add('show')
+      }
+    }  
+
+    const deleteInput = document.querySelector('#cabecalho #deleteA');
+    const codigo = document.querySelector('#input1');
+    const nome = document.querySelector('#input2');
+    let pk = parseInt(window.location.pathname.split('/')[2]);
+
+    if (pk) {  
+      fetch("/courses/api/" + pk, {
+        method: "GET",
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+        }
+      }).then(res => {
+        res.json().then(item => {
+          item.forEach(element => {
+            codigo.value = element.code;
+            nome.value = element.name;
+          });
+        })
+      }).catch(err => {
+        console.log("ERROR: " + err);
+      });
+    } else {
+      deleteInput.style.visibility = "hidden";
+    }
+  </script>
+{% endblock extra_js %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static humanize %}
+
+{% block extra_css %}
+  <style type="text/css">
+    button[type="submit"] {
+      width: 15%;
+    }
+  </style>
+{% endblock extra_css %}
+
+
+{% block header %}
+<div id="position">
+  <div id="cabecalho">
+    <div>
+      <p>Egressos do Sistema</p>            
+      <a class="botaocrud" href="create">NOVO</a>
+    </div>  
+  </div>  
+  <div id="search">    
+    <form method="GET" action="{% url 'account_login' %}">
+      {% csrf_token %}
+      <input id="input2" type="text" placeholder="Nome do egresso" />
+      <button type="submit" class="botaocrud">Pesquisar</button>
+    </form> 
+  </div>
+{% endblock header %}
+
+
+{% block content %}
+  <div id="table">
+    <table>
+      <tr>
+        <th>Matricula</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Ações</th>
+      </tr>
+
+      {% for egress in object_list %}
+        <tr>
+          <td>{{ egress.enrollment }}</td>
+          <td>{{ egress.name }}</td>
+          <td>{{ egress.email }}</td>
+          <td>
+            <a class="botaocrud2" href="{{ egress.get_update_url }}">Editar</a>
+            <a class="botaocrud2" href="{{ egress.get_preview_url }}">Visualizar</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>   
+</div>   
+{% endblock content %}
+
+
+{% block extra_js %}
+  <script type="text/javascript">
+  </script>
+{% endblock extra_js %}

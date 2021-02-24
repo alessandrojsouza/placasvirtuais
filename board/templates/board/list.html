@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static humanize %}
+
+{% block extra_css %}
+  <style type="text/css">
+    button[type="submit"] {
+      width: 15%;
+    }
+  </style>
+{% endblock extra_css %}
+
+
+{% block header %}
+<div id="position">
+  <div id="cabecalho">
+    <div>
+      <p>Placas do Sistema</p>            
+      <a class="botaocrud" href="create">NOVO</a>
+    </div>  
+  </div>  
+  <div id="search">    
+    <form method="GET" action=".">
+      <input id="input2" type="text" name="name" placeholder="digite o nome aqui..." value="" />
+      <select name="course" class="select">
+        {% for course in courses %}
+          <option
+            value="{{ course.id }}"
+          >{{ course.name }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="botaocrud">Pesquisar</button>
+    </form> 
+  </div>
+{% endblock header %}
+
+
+{% block content %}
+  <div id="table">
+    <table>
+      <tr>
+        <th>Nome</th>
+        <th>Ano de graduação</th>
+        <th>Curso</th>
+        <th>Ações</th>
+      </tr>
+
+      {% for board in object_list %}
+        <tr>
+          <td>{{ board.name }}</td>
+          <td>{{ board.get_year }}</td>
+          <td>{{ board.course }}</td>
+          <td>
+            <a class="botaocrud2" href="{{ board.get_update_url }}">Editar</a>
+            <a class="botaocrud2" href="{{ board.get_preview_url }}">Visualizar</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>   
+</div>   
+{% endblock content %}
+
+
+{% block extra_js %}
+  <script type="text/javascript">
+    function checkParams(field) {
+      var url = window.location.href;
+      if (url.indexOf('?' + field + '=') != -1)
+        return true;
+      else if (url.indexOf('&' + field + '=') != -1)
+        return true;
+      return false;
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = document.querySelector('[name="name"]');
+    const course = document.querySelector('[name="course"]');
+
+    name.value = urlParams.get('name');
+    course.value = urlParams.get('course') === null ? "1" : urlParams.get('course');
+  </script>
+{% endblock extra_js %}
