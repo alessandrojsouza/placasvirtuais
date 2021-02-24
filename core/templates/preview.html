@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load static humanize %}
+
+{% block extra_css %}
+  <style type="text/css">
+  </style>
+{% endblock extra_css %}
+
+
+{% block header %}
+  <div id="cabecalho">
+    <div>
+      <p>Visualizar Usuário</p>
+    </div>
+  </div>
+  <form method="POST" onsubmit="submitFormUser();" id="formUser">
+    {% csrf_token %}
+    <div id="new">   
+      <div>
+        <label>SIAPE</label>
+        <input id="input1" type="text" name="username" value="SIAPE">
+      </div>       
+      <div>
+        <label>Nome Usuário</label>
+        <input id="input2" type="text" name="name" value="Nome usuário">
+      </div>
+      <div>
+        <label>Email</label>
+        <input id="input3" type="email" name="email" value="Email">
+      </div>  
+    </div>        
+    <div id="botoes">
+      <a class="botaocrud" href="{% url 'core:list' %}">Voltar</a>
+    </div>
+  </form>
+{% endblock header %}
+
+
+{% block content %}
+  <div class="modalcontainer">
+    <div class="modal">
+      <button class="fechar" onclick="modal()">X</button>
+      <h3>AVISO</h3>
+      <p>Deseja realmente excluir o usuário?</p>
+      <button class="botaocrud2" href="{% url 'core:list' %}">Cancelar</button>
+      <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
+    </div>        
+  </div>
+{% endblock content %}
+
+
+{% block extra_js %}
+  <script type="text/javascript">
+    function modal() {
+      if(document.querySelector('.modalcontainer').classList.contains('show')){
+        document.querySelector('.modalcontainer').classList.remove('show')
+      }
+      else{
+        document.querySelector('.modalcontainer').classList.add('show')
+      }
+    }  
+
+    const deleteInput = document.querySelector('#cabecalho #deleteA');
+    const siape = document.querySelector('#input1');
+    const nomeusuario = document.querySelector('#input2');
+    const email = document.querySelector('#input3');
+    let userName = (nomeusuario.value).split(" ");
+    let pk = parseInt(window.location.pathname.split('/')[2]);
+
+    if (pk) {  
+      fetch("/users/api/" + pk, {
+        method: "GET",
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+        }
+      }).then(res => {
+        res.json().then(item => {
+          item.forEach(element => {
+            siape.value = element.username;
+            nomeusuario.value = element.first_name +" "+ element.last_name;
+            email.value = element.email;
+          });
+        })
+      }).catch(err => {
+        console.log("ERROR: " + err);
+      });
+
+      function deleteUser(e) {
+        e.preventDefault();
+
+        fetch("/users/api/" + pk + "/", {
+          method: "DELETE",
+          headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+          }
+        }).then(res => {
+          window.location.href = "/users";
+        }).catch(err => {
+          console.log("ERROR: " + err);
+        });
+      }
+      
+      function submitFormUser() {
+        let nomeUsuario = (document.querySelector('#input2').value).split(" ");
+
+        fetch("/users/api/" + pk + "/", {
+          method: "PUT",
+          headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Accept': 'application/json, text/plain',
+            'Content-Type': 'application/json;charset=UTF-8',
+          },
+          body: JSON.stringify({
+            username: siape.value,
+            password: '{{ user.password }}',
+            email: email.value,
+            first_name: nomeUsuario[0],
+            last_name: nomeUsuario[1]
+          }),
+        }).then(res => {
+          res.json().then(item => {
+            item.forEach(element => {
+              siape.value = element.username;
+              nomeusuario.value = element.first_name +" "+ element.last_name;
+              email.value = element.email;
+            });
+          })
+        }).catch(err => {
+          console.log("ERROR: " + err);
+        });
+      }
+    } else {
+      deleteInput.style.visibility = "hidden";
+    }
+  </script>
+{% endblock extra_js %}

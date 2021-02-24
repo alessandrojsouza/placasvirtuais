@@ -1,0 +1,263 @@
+{% extends "base.html" %}
+{% load static humanize %}
+
+{% block extra_css %}
+  <style type="text/css">
+    button[type="submit"] {
+      width: 7%;
+    }
+  </style>
+{% endblock extra_css %}
+
+
+{% block header %}
+  <div id="cabecalho">
+    <div>
+      <p id="title">Editar placa</p>
+      <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
+    </div>
+  </div>
+  <form method="POST" id="formUser" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div id="new">  
+      <div>
+        <label>Nome da placa</label>
+        <input id="input2" type="text" name="name" value="">
+      </div>  
+      <div>
+        <label>Ano do período</label>
+        <!-- <input id="input4" type="text" name="year_graduation" value="Ano do periodo"> -->
+        <input id="input4" type="date" name="year_graduation" value="">
+      </div>
+      <div>
+        <label>Período</label>
+        <select name="period_graduation" id="input1">
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+        </select>        
+      </div>
+    </div>        
+    <div id="new"> 
+      <div>
+        <label>Foto da placa</label>
+        {% if form.instance.pk %}
+          {% if form.instance.photo %}
+            <img id="input2" src="{{ form.instance.photo.url }}" alt="Foto da Placa">
+          {% else %}
+            <p id="input2">Nenhuma foto do cadastrada</p>
+          {% endif %}
+        {% else %}
+          <p id="input2">Nenhuma foto do cadastrada</p>
+        {% endif %}
+      </div>
+      
+      <div>
+        <label>Data da formatura</label>
+        <input id="input4" type="date" name="graduation_date" value="">
+      </div>
+      <div>
+        <label>Selecione o curso</label>
+        <select name="course" id="input4">
+          {% for course in courses %}
+            <option 
+              value="{{ course.id }}"
+            >{{ course.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div id="new">
+      <input id="input2" type="file" name="photo" accept="image/*">
+    </div>    
+
+    <div id="new">
+      <div>
+        <label>Mensagem da turma</label>
+        <textarea id="input3" cols="40" rows="10" name="message" placeholder="Mensagem"></textarea>
+      </div>      
+    </div>
+    {% if form.instance.pk %}
+      {% for mentioned in form.instance.mentioned.all %}
+        <div id="new" class="new-mentioneds">
+          <div>
+            <label>Nome do mencionado</label>
+            <!-- <input id="input2" type="text" name="name_mentioned" value=""> -->
+            <input id="input2" type="text" name="name_mentioned_{{ mentioned.id }}" value="{{ mentioned.name }}">
+          </div>
+          <div>
+            <label>Menção</label>
+            <select name="mention_mentioned_{{ mentioned.id }}" id="input3">
+              <option value="" selected="">---------</option>
+              <option {% if mentioned.mention == 0 %} selected {% endif %} value="0">Reitor</option>
+              <option {% if mentioned.mention == 1 %} selected {% endif %} value="1">Paraninfo</option>
+              <option {% if mentioned.mention == 2 %} selected {% endif %} value="2">Patrono</option>
+              <option {% if mentioned.mention == 3 %} selected {% endif %} value="3">DG</option>
+              <option {% if mentioned.mention == 4 %} selected {% endif %} value="4">DE</option>
+              <option {% if mentioned.mention == 5 %} selected {% endif %} value="5">Em memoria</option>
+              <option {% if mentioned.mention == 6 %} selected {% endif %} value="6">Funcionário</option>
+              <option {% if mentioned.mention == 7 %} selected {% endif %} value="7">Homenageado</option>
+              <option {% if mentioned.mention == 8 %} selected {% endif %} value="8">Orador</option>
+            </select>
+          </div>
+          <div>
+            <label>Ações</label>
+            <div id="botoes">
+              {% if forloop.first %}
+                <button onclick="addMentioned(event, '{{ mentioned.id }}')" class="botaocrud">Adicionar</button>
+              {% else %}
+                <button onclick="delMentioned(event, '{{ mentioned.id }}')" class="botaocrud2">Excluir</button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div id="new" class="new-mentioneds">
+        <div>
+          <label>Nome do mencionado</label>
+          <input id="input2" type="text" name="name_mentioned" value="">
+        </div>
+        <div>
+          <label>Menção</label>
+          <select name="mention_mentioned" id="input3">
+            <option value="" selected="">---------</option>
+            <option value="0">Reitor</option>
+            <option value="1">Paraninfo</option>
+            <option value="2">Patrono</option>
+            <option value="3">DG</option>
+            <option value="4">DE</option>
+            <option value="5">Em memoria</option>
+            <option value="6">Funcionário</option>
+            <option value="7">Homenageado</option>
+            <option value="8">Orador</option>
+          </select>
+        </div>
+        <div>
+          <label>Ações</label>      
+          <div id="botoes">
+            <button onclick="addMentioned(event)" class="botaocrud">Adicionar</button>
+            <button onclick="delMentioned(event)" class="botaocrud2 hidden">Excluir</button>
+          </div>
+        </div>          
+      </div>
+    {% endif %}
+    <div id="botoes">
+      <a class="botaocrud2" href="{% url 'board:list' %}">Cancelar</a>
+      <button type="submit" class="botaocrud">Confirmar</button>
+    </div>
+  </form>
+{% endblock header %}
+
+
+{% block content %}
+  <div class="modalcontainer">
+    <div class="modal">
+      <button class="fechar" onclick="modal()">X</button>
+      <h3>AVISO</h3>
+      <p>Deseja realmente excluir o usuário?</p>
+      <button class="botaocrud2" onclick="modal()">Cancelar</button>      
+      <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
+    </div>        
+  </div>
+{% endblock content %}
+
+
+{% block extra_js %}
+  <script type="text/javascript">
+    function modal() {
+      if(document.querySelector('.modalcontainer').classList.contains('show')) {
+        document.querySelector('.modalcontainer').classList.remove('show');
+      }
+      else {
+        document.querySelector('.modalcontainer').classList.add('show');
+      }
+    }
+    
+    const deleteInput = document.querySelector('#cabecalho #deleteA');
+    const titleText = document.querySelector('#cabecalho #title');
+    
+    const name = document.querySelector('[name="name"]');
+    const year = document.querySelector('[name="year_graduation"]');
+    const message = document.querySelector('[name="message"]');
+    const date = document.querySelector('[name="graduation_date"]');
+    const course = document.querySelector('[name="course"]');
+    
+    let pk = parseInt(window.location.pathname.split('/')[2]);
+    if (pk) {
+      fetch("/boards/api/" + pk, {
+        method: "GET",
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+        }
+      }).then(res => {
+        res.json().then(item => {
+          item.forEach(element => {
+            name.value = element.name;
+            year.value = element.year_graduation;
+            message.value = element.message;
+            date.value = element.graduation_date;
+            course.value = element.course;
+          });
+        })
+      }).catch(err => {
+        console.log("ERROR: " + err);
+      });
+
+      function deleteUser(e) {
+        e.preventDefault();
+
+        fetch("/boards/api/" + pk + "/", {
+          method: "DELETE",
+          headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+          }
+        }).then(res => {
+          window.location.href = "/boards";
+        }).catch(err => {
+          console.log("ERROR: " + err);
+        });
+      }
+    } else {
+      titleText.innerHTML = "Nova Placa";
+      deleteInput.style.visibility = "hidden";
+    }
+
+    function addMentioned(e, pk) {
+      e.preventDefault();
+      // let qnt = document.querySelectorAll('.new-mentioneds > input').length - 1;
+      let qnt = document.querySelectorAll('.new-mentioneds > input').length;
+      const mentionedElem = document.querySelector('.new-mentioneds');
+      let cloneMentioned = mentionedElem.cloneNode(true);
+      
+      cloneMentioned.querySelector('[name="name_mentioned_'+ pk +'"]').name = "name_mentioned_"+ qnt;
+      cloneMentioned.querySelector('[name="mention_mentioned_'+ pk +'"]').name = "mention_mentioned_"+ qnt;
+
+      cloneMentioned.querySelector('[name="name_mentioned_'+qnt+'"]').value = "Nome do mencionado";
+      cloneMentioned.querySelector(' > .botaocrud2').classList.remove('hidden');
+      cloneMentioned.querySelector('.botaocrud').remove();
+      mentionedElem.after(cloneMentioned);
+    }
+
+    // FIXME: delete mentioned by obj
+    function delMentioned(e, pk) {
+      e.preventDefault();
+      let pkMentioned = parseInt((e.target).parentNode.parentNode.parentNode.querySelector('#input2').getAttribute("name").slice(-1));
+
+      if (pk === undefined) {
+        (e.target).parentNode.parentNode.parentNode.remove();
+      } else {
+        fetch("/boards/mentioned/api/" + pkMentioned + "/", {
+          method: "DELETE",
+          headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+          }
+        }).then(res => {
+          (e.target).parentNode.parentNode.parentNode.remove();
+        }).catch(err => {
+          console.log("ERROR: " + err);
+        });
+      }
+    }
+  </script>
+{% endblock extra_js %}

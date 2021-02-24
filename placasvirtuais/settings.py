@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 
+from django.contrib.messages import constants as messages
+
 from pathlib import Path
 from decouple import config, Csv
 from dj_database_url import parse as dburl
@@ -31,6 +33,12 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())
 # Application definition
 
 INSTALLED_APPS = [
+    # allauth
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # django and apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,10 +48,12 @@ INSTALLED_APPS = [
     'core',
     'board',
     'course',
-    'mentioned',
     'campus',
     'egress',
     'rest_framework',
+    # more packages
+    'django.contrib.humanize',
+    'django.contrib.postgres',
 ]
 
 MIDDLEWARE = [
@@ -61,7 +71,8 @@ ROOT_URLCONF = 'placasvirtuais.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # 'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'core', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,6 +84,16 @@ TEMPLATES = [
         },
     },
 ]
+
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
 
 WSGI_APPLICATION = 'placasvirtuais.wsgi.application'
 
@@ -87,6 +108,35 @@ DATABASES = {
 
 
 AUTH_USER_MODEL = 'core.User'
+
+LOGIN_REDIRECT_URL = 'core:dashboard'
+
+ACCOUNT_LOGOUT_ON_GET = True
+
+# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+# ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+# ACCOUNT_AUTHENTICATION_METHOD = 'siape'
+
+ACCOUNT_USERNAME_REQUIRED = True
+
+ACCOUNT_EMAIL_REQUIRED = True
+
+ACCOUNT_USERNAME_REQUIRED = True
+
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "Placas Virtuais de Formatura - "
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger'
+}
+
+ACCOUNT_FORMS = {
+    'signup': 'core.forms.CustomSignupForm',
+}
+
+EMAIL_REQUIRED = True
 
 
 # Password validation
@@ -121,8 +171,12 @@ USE_L10N = True
 
 USE_TZ = True
 
+SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_URL = '/media/' 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% load static humanize %}
+
+{% block extra_css %}
+  <style type="text/css">
+    button[type="submit"] {
+      width: 7%;
+    }
+  </style>
+{% endblock extra_css %}
+
+
+{% block header %}
+  <div id="cabecalho">
+    <div>
+      <p id="title">Editar Usuário</p>
+      <!-- <a class="botaocrud" href="newusuario.html">NOVO</a> -->
+      <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
+    </div>
+  </div>
+  <form method="POST" onsubmit="submitFormUser();" id="formUser">
+    {% csrf_token %}
+    <div id="new">   
+      <div>
+        <label>SIAPE</label>
+        <input id="input1" type="text" name="username" value="">
+      </div>       
+      <div>
+        <label>Nome Usuário</label>
+        <input id="input2" type="text" name="name" value="">
+      </div>
+      <div>
+        <label>Email</label>
+        <input id="input3" type="email" name="email" value="">
+      </div>  
+    </div>     
+    <div id="botoes">
+      <a class="botaocrud2" href="{% url 'core:list' %}">Cancelar</a>
+      <button type="submit" class="botaocrud">Confirmar</button>
+    </div>
+  </form>
+{% endblock header %}
+
+
+{% block content %}
+  <div class="modalcontainer">
+    <div class="modal">
+      <button class="fechar" onclick="modal()">X</button>
+      <h3>AVISO</h3>
+      <p>Deseja realmente excluir o usuário?</p>
+      <button class="botaocrud2" onclick="modal()">Cancelar</button>      
+      <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
+    </div>        
+  </div>
+{% endblock content %}
+
+
+{% block extra_js %}
+  <script type="text/javascript">
+    function modal() {
+      if(document.querySelector('.modalcontainer').classList.contains('show')){
+        document.querySelector('.modalcontainer').classList.remove('show')
+      }
+      else{
+        document.querySelector('.modalcontainer').classList.add('show')
+      }
+    }  
+
+    const deleteInput = document.querySelector('#cabecalho #deleteA');
+    const titleText = document.querySelector('#cabecalho #title');
+    const siape = document.querySelector('#input1');
+    const nomeusuario = document.querySelector('#input2');
+    const email = document.querySelector('#input3');
+    let userName = (nomeusuario.value).split(" ");
+    let pk = parseInt(window.location.pathname.split('/')[2]);
+
+    if (pk) {  
+      fetch("/users/api/" + pk, {
+        method: "GET",
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+        }
+      }).then(res => {
+        res.json().then(item => {
+          item.forEach(element => {
+            siape.value = element.username;
+            nomeusuario.value = element.first_name +" "+ element.last_name;
+            email.value = element.email;
+          });
+        })
+      }).catch(err => {
+        console.log("ERROR: " + err);
+      });
+
+      function deleteUser(e) {
+        e.preventDefault();
+
+        fetch("/users/api/" + pk + "/", {
+          method: "DELETE",
+          headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+          }
+        }).then(res => {
+          window.location.href = "/users";
+        }).catch(err => {
+          console.log("ERROR: " + err);
+        });
+      }
+      
+      function submitFormUser() {
+        let siapeValue = document.querySelector('#input1').value;
+        let nomeUsuarioValue = (document.querySelector('#input2').value).split(" ");
+        let emailValue = document.querySelector('#input3').value;
+
+        fetch("/users/api/" + pk + "/", {
+          method: "PUT",
+          headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Accept': 'application/json, text/plain',
+            'Content-Type': 'application/json;charset=UTF-8',
+            "Access-Control-Allow-Origin": "*",
+          },
+          body: JSON.stringify({
+            username: siapeValue,
+            password: '{{ user.password }}',
+            email: emailValue,
+            first_name: nomeUsuarioValue[0],
+            last_name: nomeUsuarioValue[1],
+          }),
+        }).then(res => {
+          res.json().then(item => {
+            console.log("fetch ok");
+            // item.forEach(element => {
+            //   siapeValue = element.username;
+            //   nomeusuarioValue.value = element.first_name +" "+ element.last_name;
+            //   emailValue = element.email;
+            // });
+          })
+        }).catch(err => {
+          console.log("ERROR: " + err);
+        });
+      }
+    } else {
+      titleText.innerHTML = "Novo Usuário";
+      deleteInput.style.visibility = "hidden";
+    }
+  </script>
+{% endblock extra_js %}

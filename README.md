@@ -17,6 +17,7 @@ Desenvolvimento se dá através do host http://localhost:8000/
 ❯ cd placasvirtuais/
 ❯ python3 -m venv .wnea
 ❯ source .wnea/bin/activate ou .wnea\Scripts\activate (windows)
+❯ sudo apt-get install libpq-dev python3-dev python3-venv
 ❯ pip3 install -r requirements.txt
 ❯ cp contrib/env-sample .env
 ❯ python3 manage.py makemigrations

@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+{% load static humanize %}
+
+{% block extra_css %}
+  <style type="text/css">
+    button[type="submit"] {
+      width: 7%;
+    }
+    img#input2 {
+      width: 20% !important;
+    }
+  </style>
+{% endblock extra_css %}
+
+
+{% block header %}
+  <div id="cabecalho">
+    <div>
+      <p id="title">Editar Egresso</p>
+      <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
+    </div>
+  </div>
+  <form method="POST" id="formUser" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div id="new">    
+      <div>
+        <label>Matrícula</label>
+        <input id="input1" type="number" name="enrollment" value="">
+      </div>
+      <div>
+          <label>Nome egresso</label>
+          <input id="input4" type="text" name="name" value="">
+      </div>
+      <div>
+        <label>Email</label>
+        <input id="input3" type="email" name="email" value="">
+      </div>
+    </div>        
+    <div id="new"> 
+      <div>
+        <label>Foto Egresso</label>
+        {% if form.instance.pk %}
+          {% if form.instance.photo %}
+            <img id="input2" src="{{ form.instance.photo.url }}" alt="Foto do Egresso">
+          {% else %}
+            <p id="input2">Nenhuma foto do cadastrada</p>
+          {% endif %}
+          <input id="input2" type="file" name="photo" accept="image/*">
+        {% else %}
+          <input id="input2" type="file" name="photo" accept="image/*">
+        {% endif %}
+      </div>    
+    </div>
+    <div id="new">
+      <div>
+        <label>Rede social</label>
+        <input id="input4" type="text" name="socialNetwork" value="">
+      </div> 
+      <div>
+        <label>Currículo lattes</label>
+        <input id="input3" type="text" name="lattes" value="">
+      </div>
+    </div>
+    <div id="new">
+      <div>
+        <label>Placa</label>
+        <select name="board" id="input4">
+          {% for board in boards %}
+            <option
+              value="{{ board.id }}"
+            >{{ board.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div id="botoes">
+      <a class="botaocrud2" href="{% url 'egress:list' %}">Cancelar</a>
+      <button type="submit" class="botaocrud">Confirmar</button>
+    </div>
+  </form>
+{% endblock header %}
+
+
+{% block content %}
+  <div class="modalcontainer">
+    <div class="modal">
+      <button class="fechar" onclick="modal()">X</button>
+      <h3>AVISO</h3>
+      <p>Deseja realmente excluir o usuário?</p>
+      <button class="botaocrud2" onclick="modal()">Cancelar</button>      
+      <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
+    </div>        
+  </div>
+{% endblock content %}
+
+
+{% block extra_js %}
+  <script type="text/javascript">
+    function modal() {
+      if(document.querySelector('.modalcontainer').classList.contains('show')) {
+        document.querySelector('.modalcontainer').classList.remove('show')
+      }
+      else {
+        document.querySelector('.modalcontainer').classList.add('show')
+      }
+    }
+    
+    const deleteInput = document.querySelector('#cabecalho #deleteA');
+    const titleText = document.querySelector('#cabecalho #title');
+    
+    const enrollment = document.querySelector('[name="enrollment"]');
+    const name = document.querySelector('[name="name"]');
+    const email = document.querySelector('[name="email"]');
+    const photo = document.querySelector('[name="photo"]');
+    const socialNetwork = document.querySelector('[name="socialNetwork"]');
+    const lattes = document.querySelector('[name="lattes"]');
+    const board = document.querySelector('[name="board"]');
+    
+    let pk = parseInt(window.location.pathname.split('/')[2]);
+    if (pk) {
+      fetch("/egress/api/" + pk, {
+        method: "GET",
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+        }
+      }).then(res => {
+        res.json().then(item => {
+          item.forEach(element => {
+            enrollment.value = element.enrollment;
+            name.value = element.name;
+            email.value = element.email;
+            // photo.value = element.photo;
+            socialNetwork.value = element.social_network;
+            lattes.value = element.lattes;
+            board.value = element.board;
+          });
+        })
+      }).catch(err => {
+        console.log("ERROR: " + err);
+      });
+
+      function deleteUser(e) {
+        e.preventDefault();
+
+        fetch("/egress/api/" + pk + "/", {
+          method: "DELETE",
+          headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+          }
+        }).then(res => {
+          window.location.href = "/egress";
+        }).catch(err => {
+          console.log("ERROR: " + err);
+        });
+      }
+
+      function dataURItoBlob(dataURI) {
+        // convert base64/URLEncoded data component to raw binary data held in a string
+        var byteString;
+        if (dataURI.split(',')[0].indexOf('base64') >= 0) {
+          byteString = atob(dataURI.split(',')[1]);
+        }
+        else {
+          byteString = unescape(dataURI.split(',')[1]);
+        }
+
+        // separate out the mime component
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+        // write the bytes of the string to a typed array
+        var ia = new Uint8Array(byteString.length);
+        for (var i = 0; i < byteString.length; i++) {
+          ia[i] = byteString.charCodeAt(i);
+        }
+
+        return new Blob([ia], {type:mimeString});
+      }
+      
+      // function submitFormUser() {
+      //   let enrollment = document.querySelector('[name="enrollment"]');
+      //   let name = document.querySelector('[name="name"]');
+      //   let email = document.querySelector('[name="email"]');
+      //   let photo = document.querySelector('[name="photo"]');
+      //   let socialNetwork = document.querySelector('[name="socialNetwork"]');
+      //   let lattes = document.querySelector('[name="lattes"]');
+      //   let board = document.querySelector('[name="board"]');
+
+      //   fetch("/egress/api/" + pk + "/", {
+      //     method: "PUT",
+      //     headers: {
+      //       'X-CSRFToken': '{{ csrf_token }}',
+      //       'Accept': 'application/json, text/plain',
+      //       'Content-Type': 'application/json;charset=UTF-8',
+      //     },
+      //     body: JSON.stringify({
+      //       enrollment: enrollment.value,
+      //       name: name.value,
+      //       email: email.value,
+      //       // photo: photo.value,
+      //       image: dataURItoBlob(photo.value),
+      //       social_network: socialNetwork.value,
+      //       lattes: lattes.value,
+      //       board: board.value,
+      //     }),
+      //   }).then(res => {
+      //     res.json().then(item => {
+      //       item.forEach(element => {
+      //         codigo.value = element.code;
+      //         nome.value = element.name;
+      //       });
+      //     })
+      //   }).catch(err => {
+      //     console.log("ERROR: " + err);
+      //   });
+      // }
+    } else {
+      titleText.innerHTML = "Novo Egresso";
+      deleteInput.style.visibility = "hidden";
+    }
+  </script>
+{% endblock extra_js %}
