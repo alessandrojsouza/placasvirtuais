@@ -12,9 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
-
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">    
 
     <style type="text/css">
       button[type="submit"] {
@@ -28,16 +27,32 @@
   </head>
 
   <body id="bodylogin">
-    <div id="viewexterno">
+    <div id="header">
+      <div id="barra">
+        <a href="{% url 'core:index' %}"><img src="{% static 'assets/PFV.png' %}"></a>
+        <div> 
+          {% if user.is_authenticated %}
+            <img id="loginimg" src="{% static 'assets/login.png' %}">
+            <a href="{% url 'account_logout' %}">Logout</a>
+          {% else %}
+            <img id="loginimg" src="{% static 'assets/login.png' %}">
+            <a href="{% url 'account_login' %}">Login</a>
+          {% endif %}
+        </div>            
+      </div>   
+    </div>
+
+    <div class="container" id="viewexterno">
       <div>
         <h1>PLACAS DE FORMATURA</h1>
       </div>     
       <div>
-          <h1>VIRTUAIS</h1>
+        <h1>VIRTUAIS</h1>
       </div> 
-      <div id="search">    
+      <!-- <div id="search"> -->
+      <div class="row" id="search">
         <form method="GET" action=".">
-          <input id="input2" type="text" name="name" placeholder="Nome da placa" value="" />
+          <input id="input2" type="text" name="name" placeholder="Nome do egresso" value="" />
           <select name="year" class="select">
             <option value="">Selecione o Ano</option>
             {% for year in years %}
@@ -63,30 +78,35 @@
         </form> 
       </div>
     
-      <div id="table">
-        <table>
+      <div id="table" class="row">
+        <table class="table table-bordered border-gray">
           <tr>
-            <th>Nome</th>
-            <th>Ano de graduação</th>
-            <th>Periodo</th>
+            <th>#</th>
+            <th>Foto</th>
+            <th>Nome do egresso ou placa</th>
             <th>Curso</th>
-            <th>Ações</th>
+            <th>Ano</th>
+            <th>Periodo</th>
           </tr>
           
-          {% for board in object_list %}
-            <tr>
-              <td>{{ board.name }}</td>
-              <td>{{ board.get_year }}</td>
-              <td>{{ board.period_graduation }}</td>
-              <td>{{ board.course }}</td>
-              <td>
-                <a class="botaocrud2" href="{{ board.get_preview_extern_url }}">Visualizar</a>
-              </td>
-            </tr>
-          {% endfor %}
+          <!-- search by egress and board to visit board -->
+          {% if object_list %}
+            {% for board in object_list %}
+              <tr>
+                <td>
+                  <a class="botaocrud2" href="{{ board.get_preview_extern_url }}">Visualizar</a>
+                </td>
+                <td>{{ board.photo }}</td>
+                <td>{{ board.name }}</td>
+                <td>{{ board.get_year }}</td>
+                <td>{{ board.period_graduation }}</td>
+                <td>{{ board.course }}</td>
+              </tr>
+            {% endfor %}
+          {% endif %}
         </table>
       </div>
-      
+
     </div>
   </body>
 
