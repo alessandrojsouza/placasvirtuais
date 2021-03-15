@@ -13,17 +13,7 @@
 
     <!-- Bootstrap CSS -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">    
-
-    <style type="text/css">
-      button[type="submit"] {
-        width: 50px;
-      }
-      #viewexterno a {
-        width: 90%;
-        padding: 10px 10px;
-      }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/stylesExtern.css' %}">
   </head>
 
   <body id="bodylogin">
@@ -42,72 +32,110 @@
       </div>   
     </div>
 
-    <div class="container" id="viewexterno">
+    <!-- <main class="container"> -->
+    <main>
       <div>
         <h1>PLACAS DE FORMATURA</h1>
       </div>     
       <div>
-        <h1>VIRTUAIS</h1>
-      </div> 
-      <!-- <div id="search"> -->
-      <div class="row" id="search">
-        <form method="GET" action=".">
-          <input id="input2" type="text" name="name" placeholder="Nome do egresso" value="" />
-          <select name="year" class="select">
-            <option value="">Selecione o Ano</option>
-            {% for year in years %}
-              <option
-                value="{{ year.get_year }}"
-              >{{ year.get_year }}</option>
-            {% endfor %}
-          </select>
-          <select name="period" class="select">
-            <option value="">Selecione um Periodo</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-          </select>
-          <select name="course" class="select">
-            <option value="">Selecione um Curso</option>
-            {% for course in courses %}
-              <option
-                value="{{ course.id }}"
-              >{{ course.name }}</option>
-            {% endfor %}
-          </select>
-          <button type="submit" class="botaocrud"><img src="{% static 'assets/lupa.png' %}"></a></button>
+          <h1>VIRTUAIS</h1>
+      </div>
+      <!-- <div class="row"> -->
+      <div class="search-and-filters">
+        <form method="GET" action=".">          
+          <div class="filter">
+            <label>Nome Formando:</label>
+            <input type="text" name="name" placeholder="" value="" />
+          </div>
+          <div class="filter" >
+            <label>Ano:</label>
+            <select name="year" id="setoruo_select">
+              {% for year in years %}
+                <option
+                  value="{{ year.get_year }}"
+                >{{ year.get_year }}</option>
+              {% endfor %}
+            </select>
+          </div>            
+          <div class="filter" >
+            <label>Período:</label>  
+              <select name="period" class="select">
+                <option value=""></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+          </div>
+          <!--
+          <div class="filter" >
+            <label>Campi:</label>          
+            <select name="course" class="select">
+              <option value=""></option>
+                <option
+                  value=""></option>
+            </select>
+          </div>
+          -->     
+          
+          <div class="filter" >
+            <label>Curso:</label>
+            <select name="course" class="select">
+              <option value=""></option>
+              {% for course in courses %}
+                <option
+                  value="{{ course.id }}"
+                >{{ course.name }}</option>
+              {% endfor %}
+            </select>
+          </div>  
+          <div class="submit-button">            
+            <button id="button_filter" type="submit">Filtrar</button>
+          </div>
         </form> 
       </div>
-    
-      <div id="table" class="row">
-        <table class="table table-bordered border-gray">
-          <tr>
-            <th>#</th>
-            <th>Foto</th>
-            <th>Nome do egresso ou placa</th>
-            <th>Curso</th>
-            <th>Ano</th>
-            <th>Periodo</th>
-          </tr>
+      
+      <!--<div id="table" class="row">-->
+      <div class="results" class="row">
+        <!--<table id="result_list" class="table table-bordered border-gray">-->
+        <table id="result_list">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Foto</th>
+              <th>Nome do egresso ou placa</th>
+              <th>Ano</th>
+              <th>Período</th>
+              <!--<th>Campi</th>-->
+              <th>Curso</th>
+            </tr>
+          </thead>          
           
           <!-- search by egress and board to visit board -->
+          
+          <tbody>
           {% if object_list %}
             {% for board in object_list %}
               <tr>
-                <td>
-                  <a class="botaocrud2" href="{{ board.get_preview_extern_url }}">Visualizar</a>
+                <th class="field-show_list_display_icons">
+                  <a class="icon icon-view" href="{{ board.get_preview_extern_url }}"><img src="{% static 'assets/lupa.png' %}"></a>
+                </th>
+                <td class="field-get_foto">
+                  <div class="photo-circle">
+                    <img src="">{{ board.photo }}
+                  </div>
                 </td>
-                <td>{{ board.photo }}</td>
                 <td>{{ board.name }}</td>
                 <td>{{ board.get_year }}</td>
                 <td>{{ board.period_graduation }}</td>
                 <td>{{ board.course }}</td>
-              </tr>
+              </tr>             
             {% endfor %}
           {% endif %}
+          
+        </tbody> 
         </table>
       </div>
 
-    </div>
+    </main>
   </body>
 
   <script type="text/javascript">

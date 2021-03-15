@@ -2,76 +2,86 @@
 {% load static humanize %}
 
 {% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/stylesPreview_Extern.css' %}">
   <style type="text/css">
     #barra {
       display: none;
-    }
-    button[type="submit"] {
-      width: 7%;
-    }
-    table img#input2   {
-      width: 70px;
     }
   </style>
 {% endblock extra_css %}
 
 
 {% block header %}
-  <div id="cabecalho">
-    <div>
-      <p id="title">Visualizar Placa</p>
-    </div>
+<main id="content">
+  <div id="title-container">
+    <!--Exibir nome do aluno ou da turma não sei...-->
+    <h2>Turma:</h2>
   </div>
-  <form method="POST" id="formUser" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div id="new">  
-      <div>
-        <label>Nome da placa</label>
-        <input id="input2" type="text" name="name" value="Nome da Placa" disabled>
-      </div>  
-      <div>
-        <label>Ano do período</label>
-        <input id="input4" type="text" name="year_graduation" value="Ano do periodo" disabled>
-      </div>
-      <div>
-        <label>Período</label>
-        <select name="period_graduation" id="input1" disabled>
-          <option value="1" selected>1</option>
-          <option value="2">2</option>
-        </select>        
-      </div>
-    </div>    
-    <div id="new">    
-      <div>
-        <label>Foto da placa</label>
-        {% if form.instance.pk %}
+  <div class="action-bar-container">
+    <ul class="action-bar">
+      <li><a href="{% url 'core:page_extern' %}">Voltar</a></li>
+    </ul>    
+  </div>
+  <div class="box">
+    <h4>Dados Pessoais</h4>
+    <div class="photo-circle big">
+      {% if form.instance.pk %}
           {% if form.instance.photo %}
-            <img id="input2" src="{{ form.instance.photo.url }}" alt="Foto da Placa">
+            <img src="{{ form.instance.photo.url }}" alt="Foto da Placa">
           {% else %}
-            <p id="input2">Nenhuma foto do cadastrada</p>
+            <p>Nenhuma foto do cadastrada</p>
           {% endif %}
         {% endif %}
-      </div> 
-      <div>
-        <label>Data da formatura</label>
-        <input id="input4" type="date" name="graduation_date" value="Data de formatura" disabled>
-      </div>
-      <div>
-        <label>Selecione o curso</label>
-        <select name="course" id="input4" disabled>
-          {% for course in courses %}
-            <option 
-              value="{{ course.id }}"
-            >{{ course.name }}</option>
-          {% endfor %}
-        </select>
-      </div>
     </div>
+    <div>
+      <table class="info">
+        <tbody>
+          <tr>
+            <td>Nome da placa</td>
+            <td><input type="text" name="name" value="Nome da Placa" disabled></td>
+            <td>Data formatura</td>
+            <td><input type="date" name="graduation_date" value="Data de formatura" disabled></td>
+          </tr>
+          <tr>
+            <td>Ano do período</td>
+            <td><input type="text" name="year_graduation" value="Ano do periodo" disabled></td>
+            <td>Período</td>
+            <td>
+              <select name="period_graduation" disabled>
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+              </select> 
+            </td>
+          </tr>
+          <tr>
+            <td>Campi</td>
+            <td>-------</td>
+            <td>Curso</td>
+            <td>
+              <select name="course" disabled>
+                {% for course in courses %}
+                  <option 
+                    value="{{ course.id }}"
+                  >{{ course.name }}</option>
+                {% endfor %}
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!--
+  <ul class="tabs with-content">
+    <li class="active">Egressos</li>
+    <li>Mencionados</li>
+    <li>Mensagem</li>
+  </ul>
+  -->
 
-    <!-- <div id="new">
-      <input id="input2" type="file" name="photo" accept="image/*">
-    </div>     -->
 
+  <form method="POST" id="formUser" enctype="multipart/form-data">
+    {% csrf_token %}
     <div id="new">
       <div>
         <label>Mensagem da turma</label>
@@ -130,11 +140,8 @@
         </table>
       </div>
     {% endif %}
-    
-    <div id="botoes">
-      <a class="botaocrud" href="{% url 'core:page_extern' %}">Voltar</a>
-    </div>
   </form>
+</main>
 {% endblock header %}
 
 

@@ -1,0 +1,181 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Roboto;
+    border: none;
+}
+main {
+    background-color: #fff;
+    grid-area: main;
+    height: auto;
+    overflow: auto;
+    padding: 40px 40px 80px 50px;
+    position: relative;
+    width: 100%;
+}
+/*Formatação*/
+h3 {
+    text-align:left;
+    padding: 0px 10px;
+    border-bottom: 0px solid #292929;
+}
+table {
+    width: 100%;
+    box-shadow: none;
+    border-radius: none;
+    color: #666666;
+    background-color: #fff;
+  }
+input {
+    width: 100%;
+    border-radius: none;
+    padding: 10px;
+    background-color: transparent;
+  }
+select {
+    background-color: transparent;
+}
+/*Title*/
+.title-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    width: 100%;
+}
+h2 {
+    color: #292929;
+    float: left;
+    font-size: 200%;
+    margin: 0 0 20px;
+    max-width: 80%;
+    padding: 0 0 5px;
+}
+.title-container>.action-bar-container {
+    order: 3;
+    padding-left: 25px;
+}
+.title-container>.action-bar-container .action-bar {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.action-bar {
+    background-color: transparent;
+    border: 0 none;
+    float: right;
+    padding: 0;
+    width: auto;
+}
+.action-bar li {
+    float: left;
+    list-style: none;
+    margin: 0 0 5px 5px;
+}
+.action-bar a{
+    background-color: #e6e6e6;
+    color: #292929;
+    padding: 8px 14px;
+    border: 0 none;
+    border-radius: 25px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 100%;
+    white-space: nowrap;
+    text-decoration: none;
+}
+/*Dados*/
+.box {
+    clear: both;
+    margin-bottom: 30px;
+    width: 100%;
+}
+div.photo-circle.big {
+    height: 150px;
+    width: 150px;
+}
+div.photo-circle {
+    border-radius: 50%;
+    float: left;
+    height: 60px;
+    margin: 7px 10px 10px 0;
+    overflow: hidden;
+    width: 60px;
+}
+div.photo-circle+div {
+    display: flex;
+}
+table.info {
+    border: 0 none;
+    display: table;
+    margin: 0 0 20px;
+}
+table {
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    overflow: auto;
+    width: 100%;
+}
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+table.info td:nth-child(odd) {
+    color: #666;
+    font-weight: 900;
+    text-align: right;
+}
+
+table.info td:first-child {
+    width: 10%;
+}
+table.info td {
+    background-color: transparent;
+    border: 0 none;
+    box-shadow: 0 0 0 transparent;
+    padding: 7px;
+}
+
+/*Egressos, mencionados e mensagem*/
+.tabs {
+    border-bottom: 1px solid #666;
+    margin-bottom: 15px;
+    margin-top: 10px;
+    width: 100%;
+}
+.pills, .tabs {
+    clear: both;
+    display: inline-block;
+    padding: 0;
+    width: 100%;
+}
+.tabs li.active:hover {
+    background-color: #fff;
+}
+.tabs.with-content li {
+    border-bottom-color: #fff;
+    margin-bottom: 0;
+}
+.tabs li.active {
+    background-color: #fff;
+    border-bottom: 1px solid #fff;
+    border-left: 1px solid #999;
+    border-right: 1px solid #999;
+    border-top: 1px solid #999;
+    font-weight: 900;
+    position: relative;
+    z-index: 2;
+}
+.tabs li:hover {
+    background-color: #eee;
+}
+.tabs li {
+    background-color: #f6f6f6;
+    border: 1px solid #fff;
+    border-bottom-color: #666;
+    border-radius: 10px 10px 0 0;
+    float: left;
+    line-height: 1.2em;
+    margin: 5px 5px -1px 0;
+}
