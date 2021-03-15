@@ -151,10 +151,10 @@ class PageExtern(BaseBoardView, views.ListView):
 
   def get_queryset(self):
     queryset = super(PageExtern, self).get_queryset()
-    search_name = self.request.GET.get('name', '')
-    search_year = self.request.GET.get('year', '')
-    search_period = self.request.GET.get('period', '')
-    search_course = self.request.GET.get('course', '')
+    search_name = self.request.GET.get('name', None)
+    search_year = self.request.GET.get('year', None)
+    search_period = self.request.GET.get('period', None)
+    search_course = self.request.GET.get('course', None)
 
     if search_name is not None:
       egress = Egress.objects.filter(name__icontains=search_name)
@@ -167,14 +167,17 @@ class PageExtern(BaseBoardView, views.ListView):
         queryset = queryset.filter(
           models.Q(name__icontains='@')
         )
+
     if search_year is not None:
       queryset = queryset.filter(
         models.Q(year_graduation__icontains=search_year)
       )
+
     if search_period is not None:
       queryset = queryset.filter(
         models.Q(period_graduation__icontains=search_period)
       )
+
     if search_course is not None:
       queryset = queryset.filter(
         models.Q(course__id__icontains=search_course)

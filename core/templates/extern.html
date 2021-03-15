@@ -40,9 +40,8 @@
       <div>
           <h1>VIRTUAIS</h1>
       </div>
-      <!-- <div class="row"> -->
-      <div class="search-and-filters">
-        <form method="GET" action=".">          
+      <div class="search-and-filters row">
+        <form method="GET" action="." style="justify-content: center; display: flex;">
           <div class="filter">
             <label>Nome Formando:</label>
             <input type="text" name="name" placeholder="" value="" />
@@ -99,7 +98,7 @@
         <table id="result_list">
           <thead>
             <tr>
-              <th>#</th>
+              <th class="col-sm-1">#</th>
               <th>Foto</th>
               <th>Nome do egresso ou placa</th>
               <th>Ano</th>
@@ -118,10 +117,13 @@
                 <th class="field-show_list_display_icons">
                   <a class="icon icon-view" href="{{ board.get_preview_extern_url }}"><img src="{% static 'assets/lupa.png' %}"></a>
                 </th>
-                <td class="field-get_foto">
+                <!-- <td class="field-get_foto">
                   <div class="photo-circle">
-                    <img src="">{{ board.photo }}
+                    <img src="{{ board.photo.url }}">
                   </div>
+                </td> -->
+                <td>
+                  <img src="{{ board.photo.url }}" class="rounded-circle img-thumbnail" alt="Foto do egresso">
                 </td>
                 <td>{{ board.name }}</td>
                 <td>{{ board.get_year }}</td>
@@ -129,8 +131,7 @@
                 <td>{{ board.course }}</td>
               </tr>             
             {% endfor %}
-          {% endif %}
-          
+          {% endif %}          
         </tbody> 
         </table>
       </div>
