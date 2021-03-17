@@ -205,3 +205,7 @@ th .icon {
   font-size: 115%;
   margin: 5px;
 }
+
+.rounded-circle {
+  max-width: 8rem;
+}

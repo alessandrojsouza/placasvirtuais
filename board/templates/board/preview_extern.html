@@ -28,7 +28,7 @@
     <div class="photo-circle big" style="border: 1px solid black;">
       {% if form.instance.pk %}
           {% if form.instance.photo %}
-            <img src="{{ form.instance.photo.url }}" alt="Foto da Placa" style="width: 100%;">
+            <img src="{{ form.instance.photo.url }}" alt="Foto da Placa" style="height: 100%;">
           {% else %}
             <p>Nenhuma foto do cadastrada</p>
           {% endif %}
@@ -72,6 +72,81 @@
       </table>
     </div>
   </div>
+
+  <div class="container-fluid">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="egress-tab" data-bs-toggle="tab" data-bs-target="#egress" type="button" role="tab" aria-controls="egress" aria-selected="true">Egressos</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="mentioned-tab" data-bs-toggle="tab" data-bs-target="#mentioned" type="button" role="tab" aria-controls="mentioned" aria-selected="false">Mencionados</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="message-tab" data-bs-toggle="tab" data-bs-target="#message" type="button" role="tab" aria-controls="message" aria-selected="false">Mensagem</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="egress" role="tabpanel" aria-labelledby="egress-tab">
+        <div class="row">
+          {% if not egress %}
+            <p id="input2">Nenhum egresso cadastrado na placa</p>
+          {% else %}
+            {% for egress in egress %}
+              <div class="col-md-6">
+                <div class="card mt-3">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img src="{{ egress.photo.url }}" alt="Foto do Egresso">
+                    </div>
+                    <div class="col-md-8 mt-5">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ egress.name }}</h5>
+                        <p class="card-text"><small class="text-muted">Matricula:</small> 329803183</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <div class="tab-pane fade" id="mentioned" role="tabpanel" aria-labelledby="mentioned-tab">
+        <div class="row">
+          {% if not form.instance.pk %}
+            <p id="input2">Nenhum mencionado cadastrado na placa</p>
+          {% else %}
+            {% for mentioned in form.instance.mentioned.all %}
+              <div class="col-md-6">
+                <div class="card mt-3">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <!-- <img src="{{ egress.photo.url }}" alt="Foto do Egresso"> -->
+                    </div>
+                    <div class="col-md-8 mt-5">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ mentioned.name }}</h5>
+                        <!-- <p class="card-text"><small class="text-muted">Matricula:</small> 329803183</p> -->
+                        <p class="card-text"><small class="text-muted">Menção: </small>
+                          {{ mentioned.get_mention_display }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <div class="tab-pane fade" id="message" role="tabpanel" aria-labelledby="message-tab">
+        <div class="col-md-12">
+          <textarea id="tab-textarea" cols="40" rows="10" name="message" placeholder="Mensagem" disabled></textarea>
+        </div>
+      </div>
+    </div>    
+  </div>
+
   <!--
   <ul class="tabs with-content">
     <li class="active">Egressos</li>
@@ -81,7 +156,7 @@
   -->
 
 
-  <form method="POST" id="formUser" enctype="multipart/form-data">
+  <!-- <form method="POST" id="formUser" enctype="multipart/form-data">
     {% csrf_token %}
     <div id="new">
       <div>
@@ -110,9 +185,9 @@
           </div>
         </div>
       {% endfor %}
-    {% endif %}
+    {% endif %} -->
 
-    <div id="new">
+    <!-- <div id="new">
       <label>Egressos</label>
       {% if not egress %}
         <p id="input2">Nenhum egresso cadastrado na placa</p>
@@ -139,8 +214,8 @@
             </tr>
           {% endfor %}
         </table>
-      </div>
-    {% endif %}
+      </div> 
+    {% endif %} -->
   </form>
 </main>
 {% endblock header %}
@@ -191,12 +266,8 @@
       }).then(res => {
         res.json().then(item => {
           item.forEach(element => {
-            console.log("board", element.name);
-            console.log("boardName", boardName);
-            console.log("boardName", boardName.value);
-
             name.value = element.name;
-            boardName.value = `Placa:  blabla${element.name}`;
+            boardName.innerText = `Placa: ${element.name}`;
             year.value = element.year_graduation;
             message.value = element.message;
             date.value = element.graduation_date;
