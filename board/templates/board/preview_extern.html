@@ -28,7 +28,9 @@
     <div class="photo-circle big" style="border: 1px solid black;">
       {% if form.instance.pk %}
           {% if form.instance.photo %}
-            <img src="{{ form.instance.photo.url }}" alt="Foto da Placa" style="height: 100%;">
+            <a href="#" class="pop">
+              <img src="{{ form.instance.photo.url }}" alt="Foto da Placa" style="height: 100%;">
+            </a>
           {% else %}
             <p>Nenhuma foto do cadastrada</p>
           {% endif %}
@@ -86,7 +88,7 @@
       </li>
     </ul>
     <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="egress" role="tabpanel" aria-labelledby="egress-tab">
+      <div class="tab-pane tabs fade show active" id="egress" role="tabpanel" aria-labelledby="egress-tab">
         <div class="row">
           {% if not egress %}
             <p id="input2">Nenhum egresso cadastrado na placa</p>
@@ -111,7 +113,7 @@
           {% endif %}
         </div>
       </div>
-      <div class="tab-pane fade" id="mentioned" role="tabpanel" aria-labelledby="mentioned-tab">
+      <div class="tab-pane tabs fade" id="mentioned" role="tabpanel" aria-labelledby="mentioned-tab">
         <div class="row">
           {% if not form.instance.pk %}
             <p id="input2">Nenhum mencionado cadastrado na placa</p>
@@ -139,9 +141,9 @@
           {% endif %}
         </div>
       </div>
-      <div class="tab-pane fade" id="message" role="tabpanel" aria-labelledby="message-tab">
+      <div class="tab-pane tabs fade" id="message" role="tabpanel" aria-labelledby="message-tab">
         <div class="col-md-12">
-          <textarea id="tab-textarea" cols="40" rows="10" name="message" placeholder="Mensagem" disabled></textarea>
+          <textarea id="tab-textarea" cols="50" rows="12" name="message" placeholder="Mensagem" disabled></textarea>
         </div>
       </div>
     </div>    
@@ -231,11 +233,30 @@
       <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
     </div>        
   </div>
+
+  <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">              
+        <div class="modal-body">
+          <!-- <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> -->
+          <img src="" class="imagepreview" style="width: 100%;" >
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
 
 
 {% block extra_js %}
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
   <script type="text/javascript">
+    $(function() {
+      $('.pop').on('click', function() {
+        $('.imagepreview').attr('src', $(this).find('img').attr('src'));
+        $('#imagemodal').modal('show');   
+      });
+    });
+
     function modal() {
       if(document.querySelector('.modalcontainer').classList.contains('show')) {
         document.querySelector('.modalcontainer').classList.remove('show');
