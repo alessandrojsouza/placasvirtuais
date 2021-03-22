@@ -342,7 +342,7 @@ table {
   box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.15);
   border-radius: 5px;
   color: #666666;
-  background-color: #F9F9F9;
+  background-color: #f9f9f9;
 }
 
 td,
@@ -365,6 +365,11 @@ p {
   margin-bottom: 5px;
 }
 /*modal*/
+.modal-content {
+  width: 150% !important;
+  margin: -3rem !important;
+  margin-left: -7rem !important;
+}
 .modalcontainer {
   width: 100vw;
   height: 100vh;
@@ -392,7 +397,7 @@ p {
   /* border: 5px solid #292929; */
   position: relative;
 }
-.fechar {
+/* .fechar {
   position: absolute;
   font-size: 20px;
   top: -10px;
@@ -405,7 +410,7 @@ p {
   color: #ffffff;
   background-color: #292929;
   cursor: pointer;
-}
+} */
 
 .hidden {
   display: none;

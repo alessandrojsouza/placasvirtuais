@@ -29,7 +29,7 @@
       {% if form.instance.pk %}
           {% if form.instance.photo %}
             <a href="#" class="pop">
-              <img src="{{ form.instance.photo.url }}" alt="Foto da Placa" style="height: 100%;">
+              <img src="{{ form.instance.photo.url }}" alt="Foto da Placa" style="height: 100%; width: 100%;">
             </a>
           {% else %}
             <p>Nenhuma foto do cadastrada</p>
@@ -47,13 +47,21 @@
           </tr>
           <tr>
             <td>Ano do período</td>
-            <td><input type="text" name="year_graduation" value="Ano do periodo" disabled></td>
+            <td>
+              <!-- <input type="text" name="year_graduation" value="Ano do periodo" disabled> -->
+              {% if form.instance %}
+                <input type="text" name="name" value="{{ form.instance.get_year }}" disabled>
+              {% endif %}
+            </td>
             <td>Período</td>
             <td>
-              <select name="period_graduation" disabled>
+              <!-- <select name="period_graduation" disabled>
                 <option value="1" selected>1</option>
                 <option value="2">2</option>
-              </select> 
+              </select>  -->
+              {% if form.instance %}
+                <input type="text" name="name" value="{{ form.instance.period_graduation }}" disabled>
+              {% endif %}
             </td>
           </tr>
           <tr>
@@ -61,14 +69,21 @@
             <td>-------</td>
             <td>Curso</td>
             <td>
-              <select name="course" disabled>
+              {% if form.instance %}
+                <input type="text" name="name" value="{{ form.instance.course }}" disabled>
+              {% endif %}
+            </td>
+
+            <!-- <td>
+               <select name="course" disabled>
                 {% for course in courses %}
+                  <p>{{ course.get_name_display }}</p>
                   <option 
                     value="{{ course.id }}"
-                  >{{ course.name }}</option>
+                  >{{ course.name }} - {{ course.get_name_display }}</option>
                 {% endfor %}
               </select>
-            </td>
+            </td> -->
           </tr>
         </tbody>
       </table>
@@ -271,7 +286,7 @@
     
     const name = document.querySelector('[name="name"]');
     const boardName = document.querySelector('.boardName');
-    const year = document.querySelector('[name="year_graduation"]');
+    // const year = document.querySelector('[name="year_graduation"]');
     const message = document.querySelector('[name="message"]');
     const date = document.querySelector('[name="graduation_date"]');
     const mentioned = document.querySelector('[name="mentioned"]');
@@ -289,11 +304,11 @@
           item.forEach(element => {
             name.value = element.name;
             boardName.innerText = `Placa: ${element.name}`;
-            year.value = element.year_graduation;
+            // year.value = element.year_graduation;
             message.value = element.message;
             date.value = element.graduation_date;
-            mentioned.value = element.mentioned;
-            course.value = element.course;
+            // mentioned.value = element.mentioned;
+            // course.value = element.course;
           });
         })
       }).catch(err => {

@@ -193,6 +193,7 @@ table.info td {
   border: thin solid #292929;
   border-radius: 50%;
   max-width: 8rem;
+  width: 8rem;
   height: 8rem;
   margin: 2rem;
   text-align: center;
