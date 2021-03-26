@@ -12,13 +12,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> -->
-
-    <link rel="stylesheet" href="{% static 'css/stylesextern.css' %}">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/stylesExtern.css' %}">
   </head>
 
   <body>
-    <div id="header">
+    <!-- <div id="header">
       <div id="barra">
         <a href="{% url 'core:index' %}"><img src="{% static 'assets/PFV.png' %}"></a>
         <div> 
@@ -26,20 +25,45 @@
             <img id="loginimg" src="{% static 'assets/login.png' %}">
             <a href="{% url 'account_logout' %}">Logout</a>
           {% else %}
+            <img id="loginimg" src="{% static 'assets/login.png' %}">
             <a href="{% url 'account_login' %}">Login</a>
           {% endif %}
         </div>            
+      </div>   
+    </div> -->
+
+    <header class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="{% url 'core:index' %}">
+                <img src="{% static 'assets/PFV.png' %}" class="d-inline-block align-top" style="width: 4rem;">
+              </a>
+              <div>
+                {% if user.is_authenticated %}
+                  <img src="{% static 'assets/login.png' %}" style="width: 2rem;">
+                  <a href="{% url 'account_logout' %}">Logout</a>
+                {% else %}
+                  <img src="{% static 'assets/login.png' %}" style="width: 2rem;">
+                  <a href="{% url 'account_login' %}">Login</a>
+                {% endif %}
+              </div>
+            </div>
+          </nav>
+        </div>
       </div>
-    
+    </header>
+    <!-- <main class="container"> -->
     <main>
       <div>
         <h1>PLACAS DE FORMATURA</h1>
       </div>     
       <div>
           <h1>VIRTUAIS</h1>
-      </div> 
-      <div class="search-and-filters">    
-        <form method="GET" action=".">
+      </div>
+      <div class="search-and-filters row">
+        <form method="GET" action="." style="justify-content: center; display: flex;">
           <div class="filter">
             <label>Nome Formando:</label>
             <input type="text" name="name" placeholder="" value="" />
@@ -47,22 +71,22 @@
           <div class="filter" >
             <label>Ano:</label>
             <select name="year" id="setoruo_select">
-              <option value=""></option>
               {% for year in years %}
                 <option
                   value="{{ year.get_year }}"
                 >{{ year.get_year }}</option>
               {% endfor %}
             </select>
-          </div>  
+          </div>            
           <div class="filter" >
-            <label>Período:</label>        
-            <select name="period" class="select">
-              <option value=""></option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-            </select>
-          </div> 
+            <label>Período:</label>  
+              <select name="period" class="select">
+                <option value=""></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+          </div>
+          <!--
           <div class="filter" >
             <label>Campi:</label>          
             <select name="course" class="select">
@@ -70,9 +94,11 @@
                 <option
                   value=""></option>
             </select>
-          </div> 
+          </div>
+          -->     
+          
           <div class="filter" >
-            <label>Curso:</label>          
+            <label>Curso:</label>
             <select name="course" class="select">
               <option value=""></option>
               {% for course in courses %}
@@ -87,32 +113,50 @@
           </div>
         </form> 
       </div>
-    
-      <div class="results">
+      
+      <!--<div id="table" class="row">-->
+      <div class="results" class="row">
+        <!--<table id="result_list" class="table table-bordered border-gray">-->
         <table id="result_list">
           <thead>
             <tr>
+              <th class="col-sm-1">#</th>
               <th>Foto</th>
-              <th>Nome do Formando</th>
-              <th>Curso</th>
+              <th>Nome do egresso ou placa</th>
               <th>Ano</th>
-              <th>Periodo</th>
+              <th>Período</th>
+              <!--<th>Campi</th>-->
+              <th>Curso</th>
             </tr>
-          </thead>
+          </thead>          
+          
+          <!-- search by egress and board to visit board -->
+          
           <tbody>
+          {% if object_list %}
             {% for board in object_list %}
               <tr>
+                <th class="field-show_list_display_icons">
+                  <a class="icon icon-view" href="{{ board.get_preview_extern_url }}"><img src="{% static 'assets/lupa.png' %}"></a>
+                </th>
+                <!-- <td class="field-get_foto">
+                  <div class="photo-circle">
+                    <img src="{{ board.photo.url }}">
+                  </div>
+                </td> -->
+                <td>
+                  <img src="{{ board.photo.url }}" class="rounded-circle" alt="Foto do egresso">
+                </td>
                 <td>{{ board.name }}</td>
-                <td>{{ board.course }}</td>
                 <td>{{ board.get_year }}</td>
                 <td>{{ board.period_graduation }}</td>
-              </tr>
+                <td>{{ board.course }}</td>
+              </tr>             
             {% endfor %}
-
-          </tbody>
+          {% endif %}          
+        </tbody> 
         </table>
       </div>
-      
     </main>
   </body>
 

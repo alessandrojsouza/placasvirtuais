@@ -2,76 +2,179 @@
 {% load static humanize %}
 
 {% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/stylesPreview_Extern.css' %}">
   <style type="text/css">
     #barra {
       display: none;
-    }
-    button[type="submit"] {
-      width: 7%;
-    }
-    table img#input2   {
-      width: 70px;
     }
   </style>
 {% endblock extra_css %}
 
 
 {% block header %}
-  <div id="cabecalho">
-    <div>
-      <p id="title">Visualizar Placa</p>
-    </div>
+<main id="content">
+  <div id="title-container">
+    <!--Exibir nome do aluno ou da turma não sei...-->
+    <h2 class="boardName">Placa:</h2>
+    <!-- <h2>Turma:</h2> -->
   </div>
-  <form method="POST" id="formUser" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div id="new">  
-      <div>
-        <label>Nome da placa</label>
-        <input id="input2" type="text" name="name" value="Nome da Placa" disabled>
-      </div>  
-      <div>
-        <label>Ano do período</label>
-        <input id="input4" type="text" name="year_graduation" value="Ano do periodo" disabled>
-      </div>
-      <div>
-        <label>Período</label>
-        <select name="period_graduation" id="input1" disabled>
-          <option value="1" selected>1</option>
-          <option value="2">2</option>
-        </select>        
-      </div>
-    </div>    
-    <div id="new">    
-      <div>
-        <label>Foto da placa</label>
-        {% if form.instance.pk %}
+  <div class="action-bar-container">
+    <ul class="action-bar">
+      <li><a href="{% url 'core:page_extern' %}">Voltar</a></li>
+    </ul>    
+  </div>
+  <div class="box">
+    <h4>Dados Pessoais</h4>
+    <div class="photo-circle big" style="border: 1px solid black;">
+      {% if form.instance.pk %}
           {% if form.instance.photo %}
-            <img id="input2" src="{{ form.instance.photo.url }}" alt="Foto da Placa">
+            <a href="#" class="pop">
+              <img src="{{ form.instance.photo.url }}" alt="Foto da Placa" style="height: 100%; width: 100%;">
+            </a>
           {% else %}
-            <p id="input2">Nenhuma foto do cadastrada</p>
+            <p>Nenhuma foto do cadastrada</p>
           {% endif %}
         {% endif %}
-      </div> 
-      <div>
-        <label>Data da formatura</label>
-        <input id="input4" type="date" name="graduation_date" value="Data de formatura" disabled>
-      </div>
-      <div>
-        <label>Selecione o curso</label>
-        <select name="course" id="input4" disabled>
-          {% for course in courses %}
-            <option 
-              value="{{ course.id }}"
-            >{{ course.name }}</option>
-          {% endfor %}
-        </select>
-      </div>
     </div>
+    <div>
+      <table class="info">
+        <tbody>
+          <tr>
+            <td>Nome da placa</td>
+            <td><input type="text" name="name" value="Nome da Placa" disabled></td>
+            <td>Data formatura</td>
+            <td><input type="date" name="graduation_date" value="Data de formatura" disabled></td>
+          </tr>
+          <tr>
+            <td>Ano do período</td>
+            <td>
+              <!-- <input type="text" name="year_graduation" value="Ano do periodo" disabled> -->
+              {% if form.instance %}
+                <input type="text" name="name" value="{{ form.instance.get_year }}" disabled>
+              {% endif %}
+            </td>
+            <td>Período</td>
+            <td>
+              <!-- <select name="period_graduation" disabled>
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+              </select>  -->
+              {% if form.instance %}
+                <input type="text" name="name" value="{{ form.instance.period_graduation }}" disabled>
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
+            <td>Campi</td>
+            <td>-------</td>
+            <td>Curso</td>
+            <td>
+              {% if form.instance %}
+                <input type="text" name="name" value="{{ form.instance.course }}" disabled>
+              {% endif %}
+            </td>
 
-    <!-- <div id="new">
-      <input id="input2" type="file" name="photo" accept="image/*">
-    </div>     -->
+            <!-- <td>
+               <select name="course" disabled>
+                {% for course in courses %}
+                  <p>{{ course.get_name_display }}</p>
+                  <option 
+                    value="{{ course.id }}"
+                  >{{ course.name }} - {{ course.get_name_display }}</option>
+                {% endfor %}
+              </select>
+            </td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
+  <div class="container-fluid">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="egress-tab" data-bs-toggle="tab" data-bs-target="#egress" type="button" role="tab" aria-controls="egress" aria-selected="true">Egressos</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="mentioned-tab" data-bs-toggle="tab" data-bs-target="#mentioned" type="button" role="tab" aria-controls="mentioned" aria-selected="false">Mencionados</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="message-tab" data-bs-toggle="tab" data-bs-target="#message" type="button" role="tab" aria-controls="message" aria-selected="false">Mensagem</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane tabs fade show active" id="egress" role="tabpanel" aria-labelledby="egress-tab">
+        <div class="row">
+          {% if not egress %}
+            <p id="input2">Nenhum egresso cadastrado na placa</p>
+          {% else %}
+            {% for egress in egress %}
+              <div class="col-md-6">
+                <div class="card mt-3">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img src="{{ egress.photo.url }}" alt="Foto do Egresso">
+                    </div>
+                    <div class="col-md-8 mt-5">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ egress.name }}</h5>
+                        <p class="card-text"><small class="text-muted">Matricula:</small> 329803183</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <div class="tab-pane tabs fade" id="mentioned" role="tabpanel" aria-labelledby="mentioned-tab">
+        <div class="row">
+          {% if not form.instance.pk %}
+            <p id="input2">Nenhum mencionado cadastrado na placa</p>
+          {% else %}
+            {% for mentioned in form.instance.mentioned.all %}
+              <div class="col-md-6">
+                <div class="card mt-3">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <!-- <img src="{{ egress.photo.url }}" alt="Foto do Egresso"> -->
+                    </div>
+                    <div class="col-md-8 mt-5">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ mentioned.name }}</h5>
+                        <!-- <p class="card-text"><small class="text-muted">Matricula:</small> 329803183</p> -->
+                        <p class="card-text"><small class="text-muted">Menção: </small>
+                          {{ mentioned.get_mention_display }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <div class="tab-pane tabs fade" id="message" role="tabpanel" aria-labelledby="message-tab">
+        <div class="col-md-12">
+          <textarea id="tab-textarea" cols="50" rows="12" name="message" placeholder="Mensagem" disabled></textarea>
+        </div>
+      </div>
+    </div>    
+  </div>
+
+  <!--
+  <ul class="tabs with-content">
+    <li class="active">Egressos</li>
+    <li>Mencionados</li>
+    <li>Mensagem</li>
+  </ul>
+  -->
+
+
+  <!-- <form method="POST" id="formUser" enctype="multipart/form-data">
+    {% csrf_token %}
     <div id="new">
       <div>
         <label>Mensagem da turma</label>
@@ -99,9 +202,9 @@
           </div>
         </div>
       {% endfor %}
-    {% endif %}
+    {% endif %} -->
 
-    <div id="new">
+    <!-- <div id="new">
       <label>Egressos</label>
       {% if not egress %}
         <p id="input2">Nenhum egresso cadastrado na placa</p>
@@ -128,13 +231,10 @@
             </tr>
           {% endfor %}
         </table>
-      </div>
-    {% endif %}
-    
-    <div id="botoes">
-      <a class="botaocrud" href="{% url 'core:page_extern' %}">Voltar</a>
-    </div>
+      </div> 
+    {% endif %} -->
   </form>
+</main>
 {% endblock header %}
 
 
@@ -148,11 +248,30 @@
       <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
     </div>        
   </div>
+
+  <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">              
+        <div class="modal-body">
+          <!-- <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> -->
+          <img src="" class="imagepreview" style="width: 100%;" >
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
 
 
 {% block extra_js %}
+  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
   <script type="text/javascript">
+    $(function() {
+      $('.pop').on('click', function() {
+        $('.imagepreview').attr('src', $(this).find('img').attr('src'));
+        $('#imagemodal').modal('show');   
+      });
+    });
+
     function modal() {
       if(document.querySelector('.modalcontainer').classList.contains('show')) {
         document.querySelector('.modalcontainer').classList.remove('show');
@@ -166,7 +285,8 @@
     const titleText = document.querySelector('#cabecalho #title');
     
     const name = document.querySelector('[name="name"]');
-    const year = document.querySelector('[name="year_graduation"]');
+    const boardName = document.querySelector('.boardName');
+    // const year = document.querySelector('[name="year_graduation"]');
     const message = document.querySelector('[name="message"]');
     const date = document.querySelector('[name="graduation_date"]');
     const mentioned = document.querySelector('[name="mentioned"]');
@@ -182,14 +302,13 @@
       }).then(res => {
         res.json().then(item => {
           item.forEach(element => {
-            console.log("element.year_graduation", element.year_graduation);
-
             name.value = element.name;
-            year.value = element.year_graduation;
+            boardName.innerText = `Placa: ${element.name}`;
+            // year.value = element.year_graduation;
             message.value = element.message;
             date.value = element.graduation_date;
-            mentioned.value = element.mentioned;
-            course.value = element.course;
+            // mentioned.value = element.mentioned;
+            // course.value = element.course;
           });
         })
       }).catch(err => {

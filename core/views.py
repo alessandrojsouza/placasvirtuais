@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 
 from django.contrib.auth.decorators import login_required
@@ -16,6 +17,7 @@ from core.serializers import UserSerializer
 from core.models import User
 from course.models import Course
 from board.models import Board
+from egress.models import Egress
 
 from core.forms import UserForm
 from board.forms import BoardForm
@@ -149,23 +151,33 @@ class PageExtern(BaseBoardView, views.ListView):
 
   def get_queryset(self):
     queryset = super(PageExtern, self).get_queryset()
-    search_name = self.request.GET.get('name', '')
-    search_year = self.request.GET.get('year', '')
-    search_period = self.request.GET.get('period', '')
-    search_course = self.request.GET.get('course', '')
+    search_name = self.request.GET.get('name', None)
+    search_year = self.request.GET.get('year', None)
+    search_period = self.request.GET.get('period', None)
+    search_course = self.request.GET.get('course', None)
 
     if search_name is not None:
-      queryset = queryset.filter(
-        models.Q(name__icontains=search_name)
-      )
+      egress = Egress.objects.filter(name__icontains=search_name)
+      if egress:
+        for item in egress:
+          queryset = queryset.filter(
+            models.Q(name__icontains=item.board)
+          )
+      else:
+        queryset = queryset.filter(
+          models.Q(name__icontains='@')
+        )
+
     if search_year is not None:
       queryset = queryset.filter(
         models.Q(year_graduation__icontains=search_year)
       )
+
     if search_period is not None:
       queryset = queryset.filter(
         models.Q(period_graduation__icontains=search_period)
       )
+
     if search_course is not None:
       queryset = queryset.filter(
         models.Q(course__id__icontains=search_course)
