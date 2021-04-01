@@ -14,10 +14,18 @@ body {
 /* barra */
 header {
   padding: 0 !important;
+  background-color: #292929;
 }
 header img {
   width: 40px;
 }
+header a {
+  color: #fff !important;
+}
+a {
+  text-decoration: none;
+}
+
 #barra {
   background-color: #f1f1f1;
   box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.15);
