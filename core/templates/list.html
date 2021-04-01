@@ -14,15 +14,15 @@
 <div id="position">
   <div id="cabecalho">
     <div>
-      <p>Usuários do Sistema</p>            
-      <a class="botaocrud" href="{{ user.get_create_url }}">NOVO</a>
+      <p>Usuários do sistema</p>            
+      <a class="botaocrud" href="{{ user.get_create_url }}">Novo</a>
     </div>  
   </div>  
   <div id="search">    
     <form method="GET" action="{% url 'account_login' %}">
       {% csrf_token %}
       <input id="input2" type="text" placeholder="nome usuário"/>
-      <button type="submit" class="botaocrud">Pesquisar</button>
+      <button type="submit" class="botaocrud">Filtrar</button>
     </form> 
   </div>
 {% endblock header %}

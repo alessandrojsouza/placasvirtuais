@@ -4,12 +4,24 @@
 
 {% load static humanize %}
 
+{% block extra_css %}
+  <style>
+    #barra div a {
+      display: none;
+    }
+    #login img {
+      width: 5rem;
+      margin: 0.3rem;
+    }
+  </style>
+{% endblock extra_css %}
+
+
 
 {% block content %}
-  <!-- FIXME: resolve login with django using SIAPE and PASSWORD -->
   <div id="login">
     <div>
-      <img src="{% static 'assets/login.png' %}">
+      <img src="{% static 'assets/avatar-new.png' %}">
       <p>Login</p>
     </div>
     

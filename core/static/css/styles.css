@@ -50,7 +50,8 @@ input:focus {
   top: 0;
 }
 #barra {
-  background-color: #f1f1f1;
+  background-color: #292929;
+  color: #ffffff;
   box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.15);
   padding: 1.5rem;
   display: flex;
@@ -70,8 +71,8 @@ input:focus {
 }
 
 #barra > div > img {
-  width: 15px;
-  margin-right: 5px;
+  width: 2rem;
+  margin-left: 0.5rem;
 }
 
 /* navegacao */
@@ -97,13 +98,16 @@ input:focus {
 }
 a {
   text-decoration: none;
-  color: #000000;
   font-size: 1rem;
+  color: inherit;
+}
+a:hover {
+  color: inherit;
 }
 
 /* tela login */
 #login {
-  background-color: #f1f1f1;
+  background-color: #dddddd;
   box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.15);
   width: 350px;
   padding: 50px;
@@ -143,11 +147,20 @@ input {
 
 button[type="submit"] {
   color: #ffffff;
-  background-color: #292929;
+  background-color: #25a25a;
   cursor: pointer;
 
   width: 100%;
   border-radius: 5px;
+  padding: 10px;
+}
+
+#search button[type="submit"] {
+  color: #ffffff;
+  background-color: #292929;
+  cursor: pointer;
+
+  border-radius: 3rem;
   padding: 10px;
 }
 
@@ -320,7 +333,16 @@ button[type="submit"] {
 #cabecalho a {
   width: 100px;
   text-align: center;
+  background: #25a25a;
+  border-radius: 3rem;
+  font-size: 1.1rem;
 }
+
+#cabecalho p {
+  font-weight: 700;
+  font-size: 2rem;
+}
+
 #search {
   margin-top: 20px;
   padding: 0px 20px;
