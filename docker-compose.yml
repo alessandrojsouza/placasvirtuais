@@ -1,0 +1,35 @@
+version: "3.3"
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: placasvirtuais_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pg_db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - placasvirtuais-network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:5699"
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "5699:5699"
+    networks:
+      - placasvirtuais-network
+
+volumes:
+  pg_db:
+
+networks:
+  placasvirtuais-network:
