@@ -24,3 +24,14 @@ Desenvolvimento se dá através do host http://localhost:8000/
 ❯ python3 manage.py migrate
 ❯ python3 manage.py runserver
 ```
+
+## Como realizar build?
+
+Essa aplicação utiliza dockerfile e docker-compose para produção.
+
+
+```console
+❯ // need create .env
+❯ sudo docker-compose stop
+❯ sudo docker-compose up -d --build
+```
