@@ -3,6 +3,10 @@
 
 {% block extra_css %}
   <style type="text/css">
+    #apresentacao img {
+      width: 5rem;
+      margin: 0.3rem;
+    }
   </style>
 {% endblock extra_css %}
 
@@ -10,8 +14,8 @@
 {% block content %}
   <div id="container">
     <div id="apresentacao">
-      <img src="{% static 'assets/login.png' %}">
-      <p>Bem vindo(a), {{ user.username }}</p>
+      <img src="{% static 'assets/avatar-new.png' %}">
+      <p>Bem vindo(a), {{ user.get_full_name }}</p>
     </div>
     <div id="superior">
       <a class="botao" href="{% url 'egress:list' %}"><img src="{% static 'assets/egresso.png' %}"></a>

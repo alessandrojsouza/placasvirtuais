@@ -4,12 +4,24 @@
 
 {% load static humanize %}
 
+{% block extra_css %}
+  <style>
+    #barra div a {
+      display: none;
+    }
+    #login img {
+      width: 5rem;
+      margin: 0.3rem;
+    }
+  </style>
+{% endblock extra_css %}
+
+
 
 {% block content %}
-  <!-- FIXME: resolve login with django using SIAPE and PASSWORD -->
   <div id="login">
     <div>
-      <img src="{% static 'assets/login.png' %}">
+      <img src="{% static 'assets/avatar-new.png' %}">
       <p>Login</p>
     </div>
     
@@ -47,7 +59,8 @@
         <!-- <input type="submit" value="confirmar" /> -->
         <button type="submit" class="btn btn-primary btn-gradient btn-block" tabindex="3">
           <i class="batch-icon batch-icon-key"></i>
-          {% trans "Sign In" %}
+          <!-- {% trans "Sign In" %} -->
+          Login com SUAP
         </button>
       </div>
       

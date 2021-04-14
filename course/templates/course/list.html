@@ -14,15 +14,15 @@
 <div id="position">
   <div id="cabecalho">
     <div>
-      <p>Cursos do Sistema</p>            
-      <a class="botaocrud" href="create">NOVO</a>
+      <p>Cursos do sistema</p>            
+      <a class="botaocrud" href="create">Novo</a>
     </div>  
   </div>  
   <div id="search">    
     <form method="GET" action="{% url 'account_login' %}">
       {% csrf_token %}
       <input id="input2" type="text" placeholder="Nome do curso" />
-      <button type="submit" class="botaocrud">Pesquisar</button>
+      <button type="submit" class="botaocrud">Filtrar</button>
     </form> 
   </div>
 {% endblock header %}

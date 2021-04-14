@@ -35,18 +35,19 @@
     <header class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <nav class="navbar navbar-light bg-light">
+          <nav class="navbar navbar-light">
             <div class="container-fluid">
               <a class="navbar-brand" href="{% url 'core:index' %}">
-                <img src="{% static 'assets/PFV.png' %}" class="d-inline-block align-top" style="width: 4rem;">
+                <!-- <img src="{% static 'assets/PFV.png' %}" class="d-inline-block align-top" style="width: 4rem;"> -->
+                <h4>Placas de Formatura Virtual</h4>
               </a>
               <div>
                 {% if user.is_authenticated %}
-                  <img src="{% static 'assets/login.png' %}" style="width: 2rem;">
-                  <a href="{% url 'account_logout' %}">Logout</a>
+                <a href="{% url 'account_logout' %}">Logout</a>
+                <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
                 {% else %}
-                  <img src="{% static 'assets/login.png' %}" style="width: 2rem;">
-                  <a href="{% url 'account_login' %}">Login</a>
+                <a href="{% url 'account_login' %}">Login</a>
+                <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
                 {% endif %}
               </div>
             </div>
@@ -56,14 +57,57 @@
     </header>
     <!-- <main class="container"> -->
     <main>
-      <div>
-        <h1>PLACAS DE FORMATURA</h1>
-      </div>     
-      <div>
-          <h1>VIRTUAIS</h1>
+      <div id="begin-content">
+        <img src="{% static 'assets/barra.png' %}" style="width: 1.5%;">
+        <p>Plataforma dedicada a placas de formatura do campus Natal Central - IFRN</p>
+        <img src="{% static 'assets/imagem-1.svg' %}">
+      </div>
+      <div id="row">
+        <img src="{% static 'assets/scroll.svg' %}">
+      </div>
+      <div id="middle-content">
+        <div id="teste">
+          <img src="{% static 'assets/imagem-2.svg' %}" style="width: 15%;">
+          <p>Récem-formandos</p>
+        </div>        
+        <!--Carrosel-->
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <!-- <img src="{% static 'assets/teste-carrosel/gris.png' %}" class="d-block w-100" alt="..."> -->
+              <img src="https://i.pinimg.com/originals/d1/a2/0c/d1a20c76ac4b7a77d906581f6bf3ecaf.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+              <!-- <img src="{% static 'assets/teste-carrosel/gris4.png' %}" class="d-block w-100" alt="..."> -->
+              <img src="https://i.pinimg.com/originals/93/8f/51/938f51313579266c0dd63623eeca037d.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+              <!-- <img src="{% static 'assets/teste-carrosel/gris7.png' %}" class="d-block w-100" alt="..."> -->
+              <img src="https://i.pinimg.com/originals/78/d8/35/78d835939efbbe6873894007126fac01.jpg" class="d-block w-100" alt="...">
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+        <!--Fim Carrosel-->
+      </div>
+      <div id="end-content">
+        <img src="{% static 'assets/imagem-3.svg' %}">
+        <p>Encontre sua turma</p>
       </div>
       <div class="search-and-filters row">
-        <form method="GET" action="." style="justify-content: center; display: flex;">
+        <form method="GET" action="." style="justify-content: flex-start; display: flex;">
           <div class="filter">
             <label>Nome Formando:</label>
             <input type="text" name="name" placeholder="" value="" />
@@ -181,4 +225,6 @@
     period.value = urlParams.get('period') === null ? "" : urlParams.get('period');
     course.value = urlParams.get('course') === null ? "" : urlParams.get('course');
   </script>
+  <!-- Option 1: Bootstrap Bundle with Popper -->
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </html>
