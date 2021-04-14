@@ -1,5 +1,5 @@
 from django.urls import path
-
+from django.conf.urls import url
 from django.views.generic.base import RedirectView
 
 from core import views
@@ -50,4 +50,5 @@ urlpatterns = [
     UserPreview.as_view(),
     name='preview'
   ),
+  url(r'^suap_login/$', views.suap_login)
 ]
