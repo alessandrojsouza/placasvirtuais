@@ -1,5 +1,9 @@
+import requests
+
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+
+from django.contrib.auth import authenticate, login
 
 from allauth.account.forms import LoginForm, SetPasswordField, PasswordField
 from allauth.account.utils import setup_user_email
@@ -12,11 +16,32 @@ from allauth.account.forms import SignupForm
 
 class AllauthCompatLoginForm(LoginForm):
 	def user_credentials(self):
-		credentials = super(AllauthCompatLoginForm, self).user_credentials()
-		# credentials['login'] = credentials.get('email') or credentials.get('username')
-		credentials['login'] = credentials.get('username')
-		return credentials
+		login = self.cleaned_data["login"]
+		password = self.cleaned_data["password"]
 
+		response = requests.post('https://suap.ifrn.edu.br/api/v2/autenticacao/token/', {
+			"username": login,
+			"password": password,
+		})
+		try:
+			suapResponse = response.json()
+			if suapResponse["token"]:
+				try:
+					user = User.objects.get(username__exact=login)
+					if user:
+						userAutentication = authenticate(username=login, password=str(password))
+						if userAutentication is None:
+							user.set_password(str(password))
+							user.save()
+				except:
+					pass
+		except:
+			pass
+		
+		credentials = super(AllauthCompatLoginForm, self).user_credentials()
+		credentials['login'] = credentials.get('username')
+		credentials['password'] = credentials.get('password')
+		return credentials
 
 class ContactForm(forms.Form):
 	pass

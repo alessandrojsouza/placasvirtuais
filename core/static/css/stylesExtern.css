@@ -14,9 +14,16 @@ body {
 /* barra */
 header {
   padding: 0 !important;
+  background-color: #292929;
 }
 header img {
   width: 40px;
+}
+header a {
+  color: #fff !important;
+}
+a {
+  text-decoration: none;
 }
 #barra {
   background-color: #f1f1f1;
@@ -35,15 +42,93 @@ header img {
   margin: 0 10px;
   cursor: pointer;
 }
-/* #barra img {
-  width: 40px;
-} */
-
 #barra > div > img {
   width: 15px;
   margin-right: 5px;
 }
 
+/*begin*/
+#begin-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10%;
+}
+#begin-content p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 30px;
+  text-align: center;
+  width: 50%;
+}
+#begin-content img {
+  width: 30%;
+}
+#row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+  margin-bottom: 10%;
+}
+#row img {
+  width: 2%;
+}
+
+/*middle*/
+#middle-content {
+  background-image: url("../assets/middle.png");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  width: 100%;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  align-content: flex-start;
+  flex-direction: column;
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+#teste {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  align-content: flex-start;
+}
+#middle-content > img {
+  width: 10% !important;
+}
+#middle-content p {
+  color: #292929;
+  font-weight: bold;
+  font-size: 30px;
+}
+#carouselExampleIndicators {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  align-content: flex-start;
+}
+
+/*end*/
+#end-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 10%;
+  margin-bottom: 2%;
+}
+#end-content img {
+  width: 15%;
+}
+#end-content p {
+  color: #292929;
+  font-weight: bold;
+  font-size: 30px;
+}
 /*Barra de Filtros*/
 main h1 {
   font-size: 70px;
@@ -110,8 +195,8 @@ main {
   margin-top: 15px;
 }
 #button_filter {
-  background-color: #e6e6e6;
-  color: #292929;
+  background-color: #25a25a;
+  color: #fff;
   padding: 10px 15px;
   border: 0 none;
   border-radius: 25px;
