@@ -25,6 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 SECRET_KEY = config('SECRET_KEY')
+CLIENTE_ID = config('CLIENTE_ID')
+CLIENT_SECRET = config('CLIENT_SECRET')
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 

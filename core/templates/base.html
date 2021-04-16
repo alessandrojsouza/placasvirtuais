@@ -40,7 +40,8 @@
 
     <div id="header">
       <div id="barra">
-        <a href="{% url 'core:index' %}"><img src="{% static 'assets/PFV.png' %}"></a>
+        <!-- <a href="url 'core:index'"><img src="{% static 'assets/PFV.png' %}"></a> -->
+        <a href="/dashboard"><img src="{% static 'assets/PFV.png' %}"></a>
         <div> 
           {% if user.is_authenticated %}
             <img id="loginimg" src="{% static 'assets/login.png' %}">

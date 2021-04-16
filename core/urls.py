@@ -14,11 +14,11 @@ urlpatterns = [
     PageExtern.as_view(),
     name='page_extern'
   ),
-  path(
-    '/',
-    RedirectView.as_view(url='accounts/login', permanent=False),
-    name='index'
-  ),
+  # path(
+  #   '/',
+  #   RedirectView.as_view(url='accounts/login', permanent=False),
+  #   name='index'
+  # ),
   path('dashboard/', DashboardView.as_view(), name='dashboard'),
   path(
     'api/',

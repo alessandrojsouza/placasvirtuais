@@ -195,5 +195,5 @@ def suap_login(request):
     user = User.objects.filter(email=response.data.get('email_secundario')).first()
     if user:
       auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-      return HttpResponseRedirect('/admin/')
+      return HttpResponseRedirect('/dashboard/')
   return response

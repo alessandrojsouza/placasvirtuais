@@ -1,15 +1,15 @@
-
 import json
 import requests
 
+from django.conf import settings
 from django.http import HttpResponse
 
 
 class OAuth2Response(HttpResponse):
     def __init__(self, request):
         REDIRECT_URI = 'http://localhost:8000/suap_login/'
-        CLIENTE_ID = ''
-        CLIENT_SECRET = ''
+        CLIENTE_ID = settings.CLIENTE_ID
+        CLIENT_SECRET = settings.CLIENT_SECRET
         AUTHORIZE_URL = 'https://suap.ifrn.edu.br/o/authorize/'
         ACCESS_TOKEN_URL = 'https://suap.ifrn.edu.br/o/token/'
         USER_DATA_URL = 'https://suap.ifrn.edu.br/api/eu/'
