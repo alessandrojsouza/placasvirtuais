@@ -33,6 +33,7 @@
   -->
   <div class="search-and-filters row m-0">
     <form method="GET" action="." style="justify-content: flex-start; display: flex;">
+      {% csrf_token %}
       <div class="filter">
         <label>Nome Usuário:</label>
         <input type="text" name="name" placeholder="" value="" />

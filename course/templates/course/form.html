@@ -11,20 +11,23 @@
 
 
 {% block header %}
+<main>
   <div id="cabecalho">
-    <div>
-      <p id="title">Editar Curso</p>
-      <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
-    </div>
+      <div>
+        <p id="title">Editar Curso</p>
+      </div>
+      <div>
+        <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
+      </div>
   </div>
   <form method="POST" onsubmit="submitFormUser();" id="formUser">
     {% csrf_token %}
     <div id="new">   
-      <div>
+      <div class="form">
         <label>Código</label>
         <input id="input1" type="number" name="code" value="">
       </div>       
-      <div>
+      <div class="form">
         <label>Nome Curso</label>
         <input id="input2" type="text" name="name" value="">
       </div> 
@@ -34,6 +37,7 @@
       <button type="submit" class="botaocrud">Confirmar</button>
     </div>
   </form>
+</main>
 {% endblock header %}
 
 

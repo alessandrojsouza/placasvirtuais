@@ -557,3 +557,23 @@ input[type="number"] {
 .form input{
   width: 80%;
 }
+.box {
+  clear: both;
+  margin-bottom: 30px;
+  width: 100%;
+}
+div.photo-circle.big {
+  height: 150px;
+  width: 150px;
+}
+div.photo-circle {
+  border-radius: 50%;
+  float: left;
+  height: 60px;
+  margin: 7px 10px 10px 0;
+  overflow: hidden;
+  width: 60px;
+}
+div.photo-circle + div {
+  display: flex;
+}

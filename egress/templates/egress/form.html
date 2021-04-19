@@ -14,30 +14,34 @@
 
 
 {% block header %}
+<main>
   <div id="cabecalho">
-    <div>
-      <p id="title">Editar Egresso</p>
-      <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
-    </div>
+      <div>
+        <p id="title">Editar Egresso</p>
+      </div>
+      <div>
+        <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
+      </div>
   </div>
+
   <form method="POST" id="formUser" enctype="multipart/form-data">
     {% csrf_token %}
     <div id="new">    
-      <div>
+      <div class="form">
         <label>Matrícula</label>
         <input id="input1" type="number" name="enrollment" value="">
       </div>
-      <div>
+      <div class="form">
           <label>Nome egresso</label>
           <input id="input4" type="text" name="name" value="">
-      </div>
-      <div>
+      </div class="form">
+      <div class="form">
         <label>Email</label>
         <input id="input3" type="email" name="email" value="">
       </div>
     </div>        
     <div id="new"> 
-      <div>
+      <div class="form">
         <label>Foto Egresso</label>
         {% if form.instance.pk %}
           {% if form.instance.photo %}
@@ -52,17 +56,17 @@
       </div>    
     </div>
     <div id="new">
-      <div>
+      <div class="form">
         <label>Rede social</label>
         <input id="input4" type="text" name="socialNetwork" value="">
-      </div> 
-      <div>
+      </div class="form"> 
+      <div class="form">
         <label>Currículo lattes</label>
         <input id="input3" type="text" name="lattes" value="">
       </div>
     </div>
     <div id="new">
-      <div>
+      <div class="form">
         <label>Placa</label>
         <select name="board" id="input4">
           {% for board in boards %}
@@ -78,6 +82,7 @@
       <button type="submit" class="botaocrud">Confirmar</button>
     </div>
   </form>
+</main>
 {% endblock header %}
 
 
