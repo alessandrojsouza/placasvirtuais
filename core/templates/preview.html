@@ -8,12 +8,36 @@
 
 
 {% block header %}
-  <div id="cabecalho">
-    <div>
-      <p>Visualizar Usuário</p>
-    </div>
+<main>
+  <div id="position">
+    <div id="cabecalho">
+      <div>
+        <p>Usuários do sistema</p>            
+      </div> 
+      <div class="action-bar-container">
+        <ul class="action-bar">
+          <li><a href="{% url 'core:list' %}" style="background-color: #292929;">Cancelar</a></li>
+          <li><a href="{{ user.get_update_url }}">Editar</a></li>
+          <li><a >Excluir</a></li>
+        </ul>    
+      </div> 
+    </div>  
   </div>
-  <form method="POST" onsubmit="submitFormUser();" id="formUser">
+  <div class="box">
+    <table class="info">
+      <tr>
+        <td>Nome do usuário</td>
+        <td><input type="text" name="name" value="Nome usuário" disabled></td>
+        <td>Siape</td>
+        <td><input type="text" name="username" value="SIAPE" disabled></td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td><input type="email" name="email" value="Email" disabled></td>        
+      </tr>
+    </table>
+  </div>
+  <!--<form method="POST" onsubmit="submitFormUser();" id="formUser">
     {% csrf_token %}
     <div id="new">   
       <div>
@@ -32,7 +56,8 @@
     <div id="botoes">
       <a class="botaocrud" href="{% url 'core:list' %}">Voltar</a>
     </div>
-  </form>
+  </form>-->
+</main>
 {% endblock header %}
 
 

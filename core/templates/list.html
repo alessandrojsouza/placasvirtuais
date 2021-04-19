@@ -11,48 +11,75 @@
 
 
 {% block header %}
+<main>
 <div id="position">
   <div id="cabecalho">
     <div>
-      <p>Usuários do sistema</p>            
+      <p>Usuários do sistema</p>  
+    </div>
+    <div>
       <a class="botaocrud" href="{{ user.get_create_url }}">Novo</a>
     </div>  
   </div>  
-  <div id="search">    
+</div>
+  <!--
+  <div id="search">     
     <form method="GET" action="{% url 'account_login' %}">
       {% csrf_token %}
       <input id="input2" type="text" placeholder="nome usuário"/>
       <button type="submit" class="botaocrud">Filtrar</button>
     </form> 
-  </div>
-{% endblock header %}
+  </div >
+  -->
+  <div class="search-and-filters row m-0">
+    <form method="GET" action="." style="justify-content: flex-start; display: flex;">
+      <div class="filter">
+        <label>Nome Usuário:</label>
+        <input type="text" name="name" placeholder="" value="" />
+      </div>
+      <div class="filter">
+        <label>Siape:</label>
+        <input type="text" name="name" placeholder="" value="" />
+      </div>
+      <div class="submit-button col-1">            
+        <button id="button_filter" type="submit">Filtrar</button>
+      </div>
+    </form>
+  </div>  
 
-
-{% block content %}
-  <div id="table">
-    <table>
-      <tr>
-        <th>Nome</th>
-        <th>SIAPE</th>
-        <th>Email</th>
-        <th>Ações</th>
-      </tr>
-
-      {% for user in object_list %}
+  <div class="results" class="row">
+    <table id="result_list">
+      <thead>
         <tr>
-          <td>{{ user.first_name }} {{ user.last_name }}</td>
-          <td>{{ user.username }}</td>
-          <td>{{ user.email }}</td>
-          <td>
-            <a class="botaocrud2" href="{{ user.get_update_url }}">Editar</a>
-            <a class="botaocrud2" href="{{ user.get_preview_url }}">Visualizar</a>
-          </td>
+          <th class="col-sm-1">#</th>
+          <th>Nome</th>
+          <th>SIAPE</th>
+          <th>Email</th>
         </tr>
-      {% endfor %}
+      </thead>
+
+      <tbody>
+        {% for user in object_list %}
+          <tr>
+            <th class="field-show_list_display_icons">
+              <a class="icon icon-view" href="{{ user.get_preview_url }}"><img src="{% static 'assets/lupa.png' %}"></a>
+            </th>
+            <!--
+            <td>
+              <a class="botaocrud2" href="{{ user.get_update_url }}">Editar</a>
+              <a class="botaocrud2" href="{{ user.get_preview_url }}">Visualizar</a>
+            </td>
+            -->
+            <td>{{ user.first_name }} {{ user.last_name }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
     </table>
-  </div>   
-</div>   
-{% endblock content %}
+  </div>
+</main>   
+{% endblock header %}
 
 
 {% block extra_js %}

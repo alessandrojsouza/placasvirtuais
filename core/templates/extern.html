@@ -33,7 +33,7 @@
     </div> -->
 
     <header class="container-fluid">
-      <div class="row">
+      <div class="row m-0">
         <div class="col-md-12">
           <nav class="navbar navbar-light">
             <div class="container-fluid">
@@ -101,11 +101,12 @@
           </button>
         </div>
         <!--Fim Carrosel-->
-      </div>
-      <div id="end-content">
-        <img src="{% static 'assets/imagem-3.svg' %}">
-        <p>Encontre sua turma</p>
-      </div>
+      </div>      
+      <div class="container">
+        <div id="end-content">
+          <img src="{% static 'assets/imagem-3.svg' %}">
+          <p>Encontre sua turma</p>
+        </div>      
       <div class="search-and-filters row">
         <form method="GET" action="." style="justify-content: flex-start; display: flex;">
           <div class="filter">
@@ -201,6 +202,7 @@
         </tbody> 
         </table>
       </div>
+    </div>
     </main>
   </body>
 
