@@ -22,7 +22,7 @@
       </div>  
     </div>  
   </div> 
-  <div class="search-and-filters row">
+  <div class="search-and-filters row m-0">
     <form method="GET" action="." style="justify-content: flex-start; display: flex;">
       <div class="filter">
         <label>Nome Formando:</label>
@@ -63,7 +63,6 @@
     </form> 
   </div>
   <div class="results" class="row">
-    <!--<table id="result_list" class="table table-bordered border-gray">-->
     <table id="result_list">
       <thead>
         <tr>
@@ -109,29 +108,7 @@
 
 
 {% block content %}
-  <div id="table">
-    <table>
-      <tr>
-        <th>Nome</th>
-        <th>Ano de graduação</th>
-        <th>Curso</th>
-        <th>Ações</th>
-      </tr>
-
-      {% for board in object_list %}
-        <tr>
-          <td>{{ board.name }}</td>
-          <td>{{ board.get_year }}</td>
-          <td>{{ board.course }}</td>
-          <td>
-            <a class="botaocrud2" href="{{ board.get_update_url }}">Editar</a>
-            <a class="botaocrud2" href="{{ board.get_preview_url }}">Visualizar</a>
-          </td>
-        </tr>
-      {% endfor %}
-    </table>
-  </div>   
-</div>   
+   
 {% endblock content %}
 
 

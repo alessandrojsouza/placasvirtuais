@@ -11,34 +11,35 @@
 
 
 {% block header %}
+<main>
   <div id="cabecalho">
     <div>
-      <p id="title">Editar placa</p>
+      <p id="title">Editar Placa</p>
+    </div>
+    <div>
       <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
     </div>
   </div>
   <form method="POST" id="formUser" enctype="multipart/form-data">
     {% csrf_token %}
     <div id="new">  
-      <div>
+      <div class="form">
         <label>Nome da placa</label>
         <input id="input2" type="text" name="name" value="">
       </div>  
-      <div>
+      <div class="form">
         <label>Ano do período</label>
         <!-- <input id="input4" type="text" name="year_graduation" value="Ano do periodo"> -->
         <input id="input4" type="date" name="year_graduation" value="">
       </div>
-      <div>
+      <div class="form">
         <label>Período</label>
         <select name="period_graduation" id="input1">
           <option value="1" selected>1</option>
           <option value="2">2</option>
         </select>        
-      </div>
-    </div>        
-    <div id="new"> 
-      <div>
+      </div>     
+      <div class="form">
         <label>Foto da placa</label>
         {% if form.instance.pk %}
           {% if form.instance.photo %}
@@ -51,11 +52,11 @@
         {% endif %}
       </div>
       
-      <div>
+      <div class="form">
         <label>Data da formatura</label>
         <input id="input4" type="date" name="graduation_date" value="">
       </div>
-      <div>
+      <div class="form">
         <label>Selecione o curso</label>
         <select name="course" id="input4">
           {% for course in courses %}
@@ -65,14 +66,11 @@
           {% endfor %}
         </select>
       </div>
-    </div>
-
-    <div id="new">
-      <input id="input2" type="file" name="photo" accept="image/*">
-    </div>    
-
-    <div id="new">
-      <div>
+      <div class="form">  
+        <label>Foto da placa</label>
+        <input id="input2" type="file" name="photo" accept="image/*">
+      </div>
+      <div class="form">
         <label>Mensagem da turma</label>
         <textarea id="input3" cols="40" rows="10" name="message" placeholder="Mensagem"></textarea>
       </div>      
@@ -80,12 +78,11 @@
     {% if form.instance.pk %}
       {% for mentioned in form.instance.mentioned.all %}
         <div id="new" class="new-mentioneds">
-          <div>
+          <div class="form">
             <label>Nome do mencionado</label>
-            <!-- <input id="input2" type="text" name="name_mentioned" value=""> -->
             <input id="input2" type="text" name="name_mentioned_{{ mentioned.id }}" value="{{ mentioned.name }}">
           </div>
-          <div>
+          <div class="form">
             <label>Menção</label>
             <select name="mention_mentioned_{{ mentioned.id }}" id="input3">
               <option value="" selected="">---------</option>
@@ -104,9 +101,9 @@
             <label>Ações</label>
             <div id="botoes">
               {% if forloop.first %}
-                <button onclick="addMentioned(event, '{{ mentioned.id }}')" class="botaocrud">Adicionar</button>
+                <button onclick="addMentioned(event, '{{ mentioned.id }}')" class="botaocrud">+</button>
               {% else %}
-                <button onclick="delMentioned(event, '{{ mentioned.id }}')" class="botaocrud2">Excluir</button>
+                <button onclick="delMentioned(event, '{{ mentioned.id }}')" class="botaocrud2">-</button>
               {% endif %}
             </div>
           </div>
@@ -136,8 +133,8 @@
         <div>
           <label>Ações</label>      
           <div id="botoes">
-            <button onclick="addMentioned(event)" class="botaocrud">Adicionar</button>
-            <button onclick="delMentioned(event)" class="botaocrud2 hidden">Excluir</button>
+            <button onclick="addMentioned(event)" class="botaocrud">+</button>
+            <button onclick="delMentioned(event)" class="botaocrud2 hidden">-</button>
           </div>
         </div>          
       </div>
@@ -147,6 +144,7 @@
       <button type="submit" class="botaocrud">Confirmar</button>
     </div>
   </form>
+</main>
 {% endblock header %}
 
 
