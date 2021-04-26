@@ -3,7 +3,7 @@ name: Django Test Workflow
 on:
   pull_request:
     branches:
-      - master
+      - main
       - development
 
 jobs:
