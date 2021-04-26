@@ -6,6 +6,10 @@
     button[type="submit"] {
       width: 7%;
     }
+    img {
+      width: 50%;
+      height: 50%;
+    }
   </style>
 {% endblock extra_css %}
 
@@ -17,7 +21,7 @@
       <p id="title">Editar Placa</p>
     </div>
     <div>
-      <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
+      <a class="botaocrud btn-delete" id="deleteA" data-bs-toggle="modal" data-bs-target="#deleteModal">Excluir</a>
     </div>
   </div>
   <form method="POST" id="formUser" enctype="multipart/form-data">
@@ -72,7 +76,7 @@
       </div>
       <div class="form">
         <label>Mensagem da turma</label>
-        <textarea id="input3" cols="40" rows="10" name="message" placeholder="Mensagem"></textarea>
+        <textarea id="input3" cols="100" rows="10" name="message" placeholder="Mensagem"></textarea>
       </div>      
     </div>
     {% if form.instance.pk %}
@@ -149,14 +153,22 @@
 
 
 {% block content %}
-  <div class="modalcontainer">
-    <div class="modal">
-      <button class="fechar" onclick="modal()">X</button>
-      <h3>AVISO</h3>
-      <p>Deseja realmente excluir o usuário?</p>
-      <button class="botaocrud2" onclick="modal()">Cancelar</button>      
-      <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
-    </div>        
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Excluir placa</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Deseja realmente excluir o placa?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" onclick="deleteBoard(event)">Excluir</button>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock content %}
 
@@ -202,7 +214,7 @@
         console.log("ERROR: " + err);
       });
 
-      function deleteUser(e) {
+      function deleteBoard(e) {
         e.preventDefault();
 
         fetch("/boards/api/" + pk + "/", {

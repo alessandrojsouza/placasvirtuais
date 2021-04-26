@@ -18,7 +18,9 @@
         <ul class="action-bar">
           <li><a href="{% url 'course:list' %}" style="background-color: #292929;">Cancelar</a></li>
           <li><a href="{{ course.get_update_url }}">Editar</a></li>
-          <li><a >Excluir</a></li>
+          <li>
+            <a class="botaocrud btn-delete" id="deleteA" data-bs-toggle="modal" data-bs-target="#deleteModal">Excluir</a>
+          </li>
         </ul>    
       </div> 
     </div>  
@@ -30,7 +32,7 @@
         <tr>
           <td>Código</td>
           <td><input type="number" id="input1" name="codigo" value="Código" disabled></td>
-          <td>Nome Curso</td>
+          <td>Nome</td>
           <td><input type="text" id="input2" name="name" value="SIAPE" disabled></td>
         </tr>
       </table>
@@ -41,29 +43,28 @@
 
 
 {% block content %}
-  <div class="modalcontainer">
-    <div class="modal">
-      <button class="fechar" onclick="modal()">X</button>
-      <h3>AVISO</h3>
-      <p>Deseja realmente excluir o curso?</p>
-      <button class="botaocrud2" href="{% url 'course:list' %}">Cancelar</button>
-      <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
-    </div>        
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Excluir curso</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Deseja realmente excluir o curso?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" onclick="deleteCourse(event)">Excluir</button>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock content %}
 
 
 {% block extra_js %}
   <script type="text/javascript">
-    function modal() {
-      if(document.querySelector('.modalcontainer').classList.contains('show')){
-        document.querySelector('.modalcontainer').classList.remove('show')
-      }
-      else{
-        document.querySelector('.modalcontainer').classList.add('show')
-      }
-    }  
-
     const deleteInput = document.querySelector('#cabecalho #deleteA');
     const codigo = document.querySelector('#input1');
     const nome = document.querySelector('#input2');
@@ -87,6 +88,21 @@
       });
     } else {
       deleteInput.style.visibility = "hidden";
+    }
+
+    function deleteCourse(e) {
+      e.preventDefault();
+
+      fetch("/courses/api/" + pk + "/", {
+        method: "DELETE",
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+        }
+      }).then(res => {
+        window.location.href = "/courses";
+      }).catch(err => {
+        console.log("ERROR: " + err);
+      });
     }
   </script>
 {% endblock extra_js %}

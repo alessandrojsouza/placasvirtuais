@@ -239,6 +239,11 @@ button[type="submit"] {
   font-size: 1.1rem;
 }
 
+#cabecalho .btn-delete {
+  background: #e23030;
+  color: #fff;
+}
+
 #cabecalho p {
   font-weight: 700;
   font-size: 2rem;

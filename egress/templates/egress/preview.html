@@ -21,7 +21,9 @@
         <ul class="action-bar">
           <li><a href="{% url 'egress:list' %}" style="background-color: #292929;">Cancelar</a></li>
           <li><a href="{{ egress.get_update_url }}">Editar</a></li>
-          <li><a >Excluir</a></li>
+          <li>
+            <a class="botaocrud btn-delete" id="deleteA" data-bs-toggle="modal" data-bs-target="#deleteModal">Excluir</a>
+          </li>
         </ul>    
       </div> 
     </div>  
@@ -77,29 +79,28 @@
 
 
 {% block content %}
-  <div class="modalcontainer">
-    <div class="modal">
-      <button class="fechar" onclick="modal()">X</button>
-      <h3>AVISO</h3>
-      <p>Deseja realmente excluir o usuário?</p>
-      <button class="botaocrud2" href="{% url 'egress:list' %}">Cancelar</button>
-      <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
-    </div>        
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Excluir egresso</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Deseja realmente excluir o egresso?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" onclick="deleteEgress(event)">Excluir</button>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock content %}
 
 
 {% block extra_js %}
   <script type="text/javascript">
-    function modal() {
-      if(document.querySelector('.modalcontainer').classList.contains('show')){
-        document.querySelector('.modalcontainer').classList.remove('show')
-      }
-      else{
-        document.querySelector('.modalcontainer').classList.add('show')
-      }
-    }  
-
     const deleteInput = document.querySelector('#cabecalho #deleteA');
     const titleText = document.querySelector('#cabecalho #title');
     
@@ -136,6 +137,21 @@
       });
     } else {
       deleteInput.style.visibility = "hidden";
+    }
+
+    function deleteEgress(e) {
+      e.preventDefault();
+
+      fetch("/egress/api/" + pk + "/", {
+        method: "DELETE",
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+        }
+      }).then(res => {
+        window.location.href = "/egress";
+      }).catch(err => {
+        console.log("ERROR: " + err);
+      });
     }
   </script>
 {% endblock extra_js %}

@@ -20,7 +20,9 @@
       <ul class="action-bar">
         <li><a href="{% url 'board:list' %}" style="background-color: #292929;">Cancelar</a></li>
         <li><a href="{{ board.get_update_url }}">Editar</a></li>
-        <li><a >Excluir</a></li>
+        <li>
+          <a class="botaocrud btn-delete" id="deleteA" data-bs-toggle="modal" data-bs-target="#deleteModal">Excluir</a>
+        </li>
       </ul>    
     </div> 
   </div>
@@ -152,14 +154,22 @@
 
 
 {% block content %}
-  <div class="modalcontainer">
-    <div class="modal">
-      <button class="fechar" onclick="modal()">X</button>
-      <h3>AVISO</h3>
-      <p>Deseja realmente excluir a placa?</p>
-      <button class="botaocrud2" onclick="modal()">Cancelar</button>      
-      <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
-    </div>        
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Excluir placa</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Deseja realmente excluir o placa?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" onclick="deleteBoard(event)">Excluir</button>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock content %}
 
@@ -209,7 +219,7 @@
         console.log("ERROR: " + err);
       });
 
-      function deleteUser(e) {
+      function deleteBoard(e) {
         e.preventDefault();
 
         fetch("/boards/api/" + pk + "/", {
