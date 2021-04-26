@@ -16,7 +16,7 @@
       </div> 
       <div class="action-bar-container">
         <ul class="action-bar">
-          <li><a href="{% url 'core:list' %}" style="background-color: #292929;">Cancelar</a></li>
+          <li><a href="{% url 'course:list' %}" style="background-color: #292929;">Cancelar</a></li>
           <li><a href="{{ course.get_update_url }}">Editar</a></li>
           <li><a >Excluir</a></li>
         </ul>    
@@ -29,9 +29,9 @@
       <table class="info">
         <tr>
           <td>Código</td>
-          <td><input type="number" name="codigo" value="Código" disabled></td>
+          <td><input type="number" id="input1" name="codigo" value="Código" disabled></td>
           <td>Nome Curso</td>
-          <td><input type="text" name="name" value="SIAPE" disabled></td>
+          <td><input type="text" id="input2" name="name" value="SIAPE" disabled></td>
         </tr>
       </table>
     </div>  
