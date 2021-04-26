@@ -89,7 +89,7 @@
         <div class="tab-pane tabs fade show active" id="egress" role="tabpanel" aria-labelledby="egress-tab">
           <div class="row">
             {% if not egress %}
-              <p id="input2">Nenhum egresso cadastrado na placa</p>
+              <p id="input2" class="p-4">Nenhum egresso cadastrado na placa</p>
             {% else %}
               {% for egress in egress %}
                 <div class="col-md-6">
@@ -179,7 +179,7 @@
     const titleText = document.querySelector('#cabecalho #title');
     
     const name = document.querySelector('[name="name"]');
-    const year = document.querySelector('[name="year_graduation"]');
+    // const year = document.querySelector('[name="year_graduation"]');
     const message = document.querySelector('[name="message"]');
     const date = document.querySelector('[name="graduation_date"]');
     const mentioned = document.querySelector('[name="mentioned"]');
@@ -195,14 +195,14 @@
       }).then(res => {
         res.json().then(item => {
           item.forEach(element => {
-            console.log("element.year_graduation", element.year_graduation);
+            // console.log("element.year_graduation", element.year_graduation);
+            // year.value = element.year_graduation;
+            // mentioned.value = element.mentioned;
+            // course.value = element.course;
 
             name.value = element.name;
-            year.value = element.year_graduation;
             message.value = element.message;
             date.value = element.graduation_date;
-            mentioned.value = element.mentioned;
-            course.value = element.course;
           });
         })
       }).catch(err => {

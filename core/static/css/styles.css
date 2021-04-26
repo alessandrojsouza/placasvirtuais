@@ -17,7 +17,7 @@ body {
   background-repeat: no-repeat;
   background-position: right;
 }
-main{
+main {
   padding: 0px 40px 0px;
   margin-top: 10px;
 }
@@ -325,7 +325,7 @@ select option {
   clear: both;
   overflow: auto;
   margin-top: -1px;
-  margin-top: 10px; 
+  margin-top: 10px;
 }
 form > div {
   display: inline-block;
@@ -528,11 +528,11 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
-#new{
+#new {
   display: flex;
   flex-direction: column;
 }
-.form{
+.form {
   background-color: #f6f6f6;
   border-bottom: 1px solid #eee;
   border-left: 0 none;
@@ -548,13 +548,13 @@ input[type="number"] {
   width: 100%;
   padding: 10px;
 }
-.form label{
+.form label {
   font-size: 100%;
   margin: 3px 10px 0 5px;
   text-align: right;
   width: 150px;
 }
-.form input{
+.form input {
   width: 80%;
 }
 .box {
@@ -577,3 +577,88 @@ div.photo-circle {
 div.photo-circle + div {
   display: flex;
 }
+
+/*Egressos, mencionados e mensagem*/
+.tabs {
+  border-bottom: 1px solid #666;
+  margin-bottom: 15px;
+  margin-top: 10px;
+  width: 100%;
+}
+.pills,
+.tabs {
+  clear: both;
+  display: inline-block;
+  padding: 0;
+  width: 100%;
+}
+.tabs li.active:hover {
+  background-color: #fff;
+}
+.tabs.with-content li {
+  border-bottom-color: #fff;
+  margin-bottom: 0;
+}
+.tabs li.active {
+  background-color: #fff;
+  border-bottom: 1px solid #fff;
+  border-left: 1px solid #999;
+  border-right: 1px solid #999;
+  border-top: 1px solid #999;
+  font-weight: 900;
+  position: relative;
+  z-index: 2;
+}
+.tabs li:hover {
+  background-color: #eee;
+}
+.tabs li {
+  background-color: #f6f6f6;
+  border: 1px solid #fff;
+  border-bottom-color: #666;
+  border-radius: 10px 10px 0 0;
+  float: left;
+  line-height: 1.2em;
+  margin: 5px 5px -1px 0;
+}
+
+#tab-textarea {
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  width: 100%;
+  padding: 10px;
+}
+
+.card img {
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.15);
+  border: thin solid #292929;
+  border-radius: 50%;
+  max-width: 8rem;
+  width: 8rem;
+  height: 8rem;
+  margin: 2rem;
+  text-align: center;
+}
+
+.card .g-0 {
+  background-color: #eeeeee;
+}
+
+.tabs {
+  border: 1px solid #dee2e6;
+  margin-top: -1px;
+  border-radius: 0 5px 5px 5px;
+  padding: 1rem;
+}
+
+.tabs h5,
+p {
+  font-size: 1.5rem;
+  color: #666666;
+  font-weight: 700;
+}
+.tabs small {
+  font-weight: 500;
+}
+
+/* .tabs {} */
