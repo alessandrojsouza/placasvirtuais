@@ -13,7 +13,7 @@
 
 {% block content %}
   <div id="container">
-    <div id="apresentacao">
+    <div id="apresentacao" class="mt-3">
       <img src="{% static 'assets/avatar-new.png' %}">
       <p>Bem vindo(a), {{ user.get_full_name }}</p>
     </div>
@@ -23,7 +23,7 @@
     </div>
     <div id="inferior">
       <a class="botao" href="{% url 'course:list' %}"><img src="{% static 'assets/cursos.png' %}"></a>
-      <a class="botao"><img src="{% static 'assets/campus.png' %}"></a>
+      <a class="botao" style="cursor: not-allowed;"><img src="{% static 'assets/campus.png' %}"></a>
       <a class="botao" href="{% url 'board:list' %}"><img src="{% static 'assets/placas.png' %}"></a>
     </div>
   </div>

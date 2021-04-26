@@ -37,7 +37,10 @@
     <div id="header">
       <div id="barra">
         <!-- <a href="url 'core:index'"><img src="{% static 'assets/PFV.png' %}"></a> -->
-        <a href="/dashboard"><img src="{% static 'assets/PFV.png' %}"></a>
+        <!-- <a href="/dashboard"><img src="{% static 'assets/PFV.png' %}"></a> -->
+        <a class="navbar-brand" href="{% url 'core:dashboard' %}">
+          <h4>Placas de Formatura Virtual</h4>
+        </a>
         <div> 
           {% if user.is_authenticated %}
             <a href="{% url 'account_logout' %}">Logout</a>
