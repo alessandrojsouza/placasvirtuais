@@ -185,3 +185,15 @@ class PageExtern(BaseBoardView, views.ListView):
 
     queryset = queryset.all().order_by('id', 'name')
     return queryset
+
+
+def suap_login(request):
+  from django.contrib import auth
+  from .oauth2 import OAuth2Response
+  response = OAuth2Response(request)
+  if response.data:
+    user = User.objects.filter(email=response.data.get('email_secundario')).first()
+    if user:
+      auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+      return HttpResponseRedirect('/dashboard/')
+  return response
