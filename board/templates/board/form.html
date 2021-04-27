@@ -55,6 +55,11 @@
           <p id="input2">Nenhuma foto do cadastrada</p>
         {% endif %}
       </div>
+
+      <div class="form">  
+        <label>Foto da placa</label>
+        <input id="input2" type="file" name="photo" accept="image/*">
+      </div>
       
       <div class="form">
         <label>Data da formatura</label>
@@ -69,10 +74,6 @@
             >{{ course.name }}</option>
           {% endfor %}
         </select>
-      </div>
-      <div class="form">  
-        <label>Foto da placa</label>
-        <input id="input2" type="file" name="photo" accept="image/*">
       </div>
       <div class="form">
         <label>Mensagem da turma</label>
