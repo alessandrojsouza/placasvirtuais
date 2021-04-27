@@ -29,6 +29,8 @@ jobs:
           SECRET_KEY: fake^6gf-kok-secret(key
           ALLOWED_HOSTS: 127.0.0.1, .localhost
           WEB_CONCURRENCY: 3
+          CLIENTE_ID: fakeClientId
+          CLIENT_SECRET: fakeClientSecret
         run: |
           yes "yes" | python3 manage.py makemigrations
           yes "yes" | python3 manage.py migrate
