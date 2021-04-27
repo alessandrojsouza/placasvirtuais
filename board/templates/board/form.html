@@ -80,70 +80,74 @@
         <textarea id="input3" cols="100" rows="10" name="message" placeholder="Mensagem"></textarea>
       </div>      
     </div>
-    {% if form.instance.pk %}
-      {% for mentioned in form.instance.mentioned.all %}
-        <div id="new" class="new-mentioneds">
-          <div class="form">
-            <label>Nome do mencionado</label>
-            <input id="input2" type="text" name="name_mentioned_{{ mentioned.id }}" value="{{ mentioned.name }}">
-          </div>
-          <div class="form">
-            <label>Menção</label>
-            <select name="mention_mentioned_{{ mentioned.id }}" id="input3">
-              <option value="" selected="">---------</option>
-              <option {% if mentioned.mention == 0 %} selected {% endif %} value="0">Reitor</option>
-              <option {% if mentioned.mention == 1 %} selected {% endif %} value="1">Paraninfo</option>
-              <option {% if mentioned.mention == 2 %} selected {% endif %} value="2">Patrono</option>
-              <option {% if mentioned.mention == 3 %} selected {% endif %} value="3">DG</option>
-              <option {% if mentioned.mention == 4 %} selected {% endif %} value="4">DE</option>
-              <option {% if mentioned.mention == 5 %} selected {% endif %} value="5">Em memoria</option>
-              <option {% if mentioned.mention == 6 %} selected {% endif %} value="6">Funcionário</option>
-              <option {% if mentioned.mention == 7 %} selected {% endif %} value="7">Homenageado</option>
-              <option {% if mentioned.mention == 8 %} selected {% endif %} value="8">Orador</option>
-            </select>
-          </div>
-          <div>
-            <label>Ações</label>
-            <div id="botoes">
-              {% if forloop.first %}
-                <button onclick="addMentioned(event, '{{ mentioned.id }}')" class="botaocrud">+</button>
-              {% else %}
-                <button onclick="delMentioned(event, '{{ mentioned.id }}')" class="botaocrud2">-</button>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-      {% endfor %}
-    {% else %}
-      <div id="new" class="new-mentioneds">
-        <div>
-          <label>Nome do mencionado</label>
-          <input id="input2" type="text" name="name_mentioned" value="">
-        </div>
-        <div>
-          <label>Menção</label>
-          <select name="mention_mentioned" id="input3">
-            <option value="" selected="">---------</option>
-            <option value="0">Reitor</option>
-            <option value="1">Paraninfo</option>
-            <option value="2">Patrono</option>
-            <option value="3">DG</option>
-            <option value="4">DE</option>
-            <option value="5">Em memoria</option>
-            <option value="6">Funcionário</option>
-            <option value="7">Homenageado</option>
-            <option value="8">Orador</option>
-          </select>
-        </div>
-        <div>
-          <label>Ações</label>      
-          <div id="botoes">
-            <button onclick="addMentioned(event)" class="botaocrud">+</button>
-            <button onclick="delMentioned(event)" class="botaocrud2 hidden">-</button>
-          </div>
-        </div>          
-      </div>
-    {% endif %}
+    <div id="new" class="new-mentioneds mt-3">
+      <table id="result_list">
+        <thead>
+          <tr>
+            <th>Nome mencionado</th>
+            <th>Menção</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if form.instance.pk %}
+            {% for mentioned in form.instance.mentioned.all %}
+              <tr>
+                <td>
+                  <input id="input2" type="text" name="name_mentioned_{{ mentioned.id }}" value="{{ mentioned.name }}">
+                </td>
+                <td>
+                  <select name="mention_mentioned_{{ mentioned.id }}" id="input3">
+                    <option value="" selected="">---------</option>
+                    <option {% if mentioned.mention == 0 %} selected {% endif %} value="0">Reitor</option>
+                    <option {% if mentioned.mention == 1 %} selected {% endif %} value="1">Paraninfo</option>
+                    <option {% if mentioned.mention == 2 %} selected {% endif %} value="2">Patrono</option>
+                    <option {% if mentioned.mention == 3 %} selected {% endif %} value="3">DG</option>
+                    <option {% if mentioned.mention == 4 %} selected {% endif %} value="4">DE</option>
+                    <option {% if mentioned.mention == 5 %} selected {% endif %} value="5">Em memoria</option>
+                    <option {% if mentioned.mention == 6 %} selected {% endif %} value="6">Funcionário</option>
+                    <option {% if mentioned.mention == 7 %} selected {% endif %} value="7">Homenageado</option>
+                    <option {% if mentioned.mention == 8 %} selected {% endif %} value="8">Orador</option>
+                  </select>
+                </td>
+                <td>
+                  {% if forloop.first %}
+                    <button onclick="addMentioned(event, '{{ mentioned.id }}')" class="botaocrud button-add-circle">+</button>
+                    <button onclick="delMentioned(event, '{{ mentioned.id }}')" class="botaocrud2 button-circle hidden">-</button>
+                  {% else %}
+                    <button onclick="delMentioned(event, '{{ mentioned.id }}')" class="botaocrud2 button-circle">-</button>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td>
+                <input id="input2" type="text" name="name_mentioned" value="">
+              </td>
+              <td>
+                <select name="mention_mentioned_{{ mentioned.id }}" id="input3">
+                  <option value="" selected="">---------</option>
+                  <option {% if mentioned.mention == 0 %} selected {% endif %} value="0">Reitor</option>
+                  <option {% if mentioned.mention == 1 %} selected {% endif %} value="1">Paraninfo</option>
+                  <option {% if mentioned.mention == 2 %} selected {% endif %} value="2">Patrono</option>
+                  <option {% if mentioned.mention == 3 %} selected {% endif %} value="3">DG</option>
+                  <option {% if mentioned.mention == 4 %} selected {% endif %} value="4">DE</option>
+                  <option {% if mentioned.mention == 5 %} selected {% endif %} value="5">Em memoria</option>
+                  <option {% if mentioned.mention == 6 %} selected {% endif %} value="6">Funcionário</option>
+                  <option {% if mentioned.mention == 7 %} selected {% endif %} value="7">Homenageado</option>
+                  <option {% if mentioned.mention == 8 %} selected {% endif %} value="8">Orador</option>
+                </select>
+              </td>
+              <td>
+                <button onclick="addMentioned(event, '{{ mentioned.id }}')" class="botaocrud button-add-circle">+</button>
+                <button onclick="delMentioned(event)" class="botaocrud2 button-circle hidden">-</button>
+              </td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
     <div id="botoes">
       <a class="botaocrud2" href="{% url 'board:list' %}">Cancelar</a>
       <button type="submit" class="botaocrud">Confirmar</button>
@@ -236,35 +240,37 @@
 
     function addMentioned(e, pk) {
       e.preventDefault();
-      // let qnt = document.querySelectorAll('.new-mentioneds > input').length - 1;
-      let qnt = document.querySelectorAll('.new-mentioneds > input').length;
-      const mentionedElem = document.querySelector('.new-mentioneds');
+
+      console.log("e.target", (e.target).parentNode.parentNode);
+      let qnt = document.querySelectorAll('table > tbody > tr').length * -1;
+      console.log("qnt", qnt);
+
+      const mentionedElem = (e.target).parentNode.parentNode;
       let cloneMentioned = mentionedElem.cloneNode(true);
       
-      cloneMentioned.querySelector('[name="name_mentioned_'+ pk +'"]').name = "name_mentioned_"+ qnt;
-      cloneMentioned.querySelector('[name="mention_mentioned_'+ pk +'"]').name = "mention_mentioned_"+ qnt;
-
-      cloneMentioned.querySelector('[name="name_mentioned_'+qnt+'"]').value = "Nome do mencionado";
-      cloneMentioned.querySelector(' > .botaocrud2').classList.remove('hidden');
+      cloneMentioned.querySelector('[name="name_mentioned_'+ pk +'"]').value = "";
+      cloneMentioned.querySelector('[name="name_mentioned_'+ pk +'"]').name = "name_mentioned_";
+      cloneMentioned.querySelector('[name="mention_mentioned_'+ pk +'"]').name = "mention_mentioned_";
+      cloneMentioned.querySelector('.botaocrud2').classList.remove('hidden');
+      cloneMentioned.querySelector('.botaocrud2').setAttribute( "onClick", "onclick='addMentioned(event, '-1')';");
       cloneMentioned.querySelector('.botaocrud').remove();
       mentionedElem.after(cloneMentioned);
     }
 
-    // FIXME: delete mentioned by obj
     function delMentioned(e, pk) {
       e.preventDefault();
-      let pkMentioned = parseInt((e.target).parentNode.parentNode.parentNode.querySelector('#input2').getAttribute("name").slice(-1));
 
       if (pk === undefined) {
         (e.target).parentNode.parentNode.parentNode.remove();
       } else {
-        fetch("/boards/mentioned/api/" + pkMentioned + "/", {
+        fetch("/boards/mentioned/api/" + pk + "/", {
           method: "DELETE",
           headers: {
             'X-CSRFToken': '{{ csrf_token }}',
           }
         }).then(res => {
           (e.target).parentNode.parentNode.parentNode.remove();
+          document.location.reload(true);
         }).catch(err => {
           console.log("ERROR: " + err);
         });

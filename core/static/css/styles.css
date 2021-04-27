@@ -667,3 +667,14 @@ p {
 }
 
 /* .tabs {} */
+
+.button-circle {
+  border-radius: 50%;
+  width: 30%;
+}
+
+.button-add-circle {
+  border-radius: 50%;
+  width: 30%;
+  background-color: #25a25a;
+}
