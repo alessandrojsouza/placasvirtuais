@@ -19,6 +19,7 @@
     </div>
     <div>
       <a class="botaocrud" href="{{ user.get_create_url }}">Novo</a>
+      <a class="botaocrud btn-import" id="import" data-bs-toggle="modal" data-bs-target="#importModal">Importar</a>
     </div>  
   </div>  
 </div>
@@ -83,8 +84,61 @@
 {% endblock header %}
 
 
+{% block content %}
+  <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="importModalLabel">Importar usuário via SUAP</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!--1 <p>Adicione abaixo a matricula do usuário</p> -->
+          <div class="search-and-filters row pt-0" style="background-color: white;">
+            <form action="">
+              <div>
+                <label>Siape do usuário:</label>
+                <input type="text" name="siape" placeholder="" value="" />
+              </div>
+              <div class="submit-button col-1">            
+                <button id="button_filter" style="margin: 1rem !important" type="submit" onclick="queryDataImport(event)">Filtrar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-success" onclick="importBoard(event)">Importar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+
 {% block extra_js %}
   <script type="text/javascript">
+    function queryDataImport(e) {
+      e.preventDefault();
+      
+      // queryselector input
+      let pk = 1;
+      console.log("pk", pk);
+
+      fetch("http://placas-virtuais.suapdevs.ifrn.edu.br/edu/api/dados_servidor/?matricula=" + pk, {
+        method: "GET",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer',
+        }
+      }).then(res => {
+        window.location.href = "/boards";
+      }).catch(err => {
+        console.log("ERROR: " + err);
+      });
+    }
+
     // fetch("/users/api/", {
     //   method: "GET",
     //   headers: {
