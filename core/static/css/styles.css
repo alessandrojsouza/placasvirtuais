@@ -288,7 +288,7 @@ button[type="submit"] {
   float: left;
   width: auto;
 }
-.search-and-filters input[type="text"] {
+.search-and-filters input {
   max-width: 100%;
   padding: 4px;
   width: 100%;

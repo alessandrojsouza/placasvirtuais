@@ -93,18 +93,22 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <!--1 <p>Adicione abaixo a matricula do usuário</p> -->
           <div class="search-and-filters row pt-0" style="background-color: white;">
-            <form action="">
+            <form onsubmit="queryDataImport(event)">
               <div>
                 <label>Siape do usuário:</label>
-                <input type="text" name="siape" placeholder="" value="" />
+                <input type="number" name="search_siape" placeholder="" value="" required />
               </div>
               <div class="submit-button col-1">            
-                <button id="button_filter" style="margin: 1rem !important" type="submit" onclick="queryDataImport(event)">Filtrar</button>
+                <button type="submit" id="button_filter" style="margin: 1rem !important">Filtrar</button>
               </div>
             </form>
           </div>
+
+          <div class="container">
+            <ul id="search_list"></ul>
+          </div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -121,64 +125,26 @@
     function queryDataImport(e) {
       e.preventDefault();
       
-      // queryselector input
-      let pk = 1;
-      console.log("pk", pk);
+      let pk = document.querySelector('[name="search_siape"]').value;
+      const ul = document.querySelector('#search_list');
 
       fetch("http://placas-virtuais.suapdevs.ifrn.edu.br/edu/api/dados_servidor/?matricula=" + pk, {
         method: "GET",
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer',
-        }
-      }).then(res => {
-        window.location.href = "/boards";
-      }).catch(err => {
-        console.log("ERROR: " + err);
-      });
+          'Authorization': 'Token {{TOKEN_SUAP_SECRET}}'
+        }}).then((response) => {
+            return response.json().then((data) => {
+              // console.log(data);
+              
+              let li = document.createElement("li");
+              li.appendChild(document.createTextNode(`${data.nome}`));
+              ul.appendChild(li);
+            }).catch((err) => {
+              console.log("err", err);
+            }) 
+        });
     }
-
-    // fetch("/users/api/", {
-    //   method: "GET",
-    //   headers: {
-    //     'X-CSRFToken': '{{ csrf_token }}',
-    //   }
-    // }).then(res => {
-    //   const table = document.querySelector('#table > table');
-
-    //   res.json().then(item => {
-    //     item.forEach(element => {
-    //       console.log("element", element);
-    //       let pk = element.pk;
-    //       let name = element.first_name + " " + element.last_name;
-    //       let siape = element.username;
-    //       let email = element.email;
-          
-    //       let newRow = table.insertRow(-1);
-    //       let cellName = newRow.insertCell(0);
-    //       let infoName = document.createTextNode(`${name}`);
-
-    //       let cellSiape = newRow.insertCell(1);
-    //       let infoSiape = document.createTextNode(`${siape}`);
-
-    //       let cellEmail = newRow.insertCell(2);
-    //       let infoEmail = document.createTextNode(`${email}`);
-
-    //       // let cellOptions = newRow.insertCell(3);
-    //       // let infoOptions = document.createTextNode(`
-    //       //   <a class="botaocrud2" href="editusuario.html">EDITAR</a>
-    //       //   <a class="botaocrud2" href="viewusuario.html">VISUALIZAR</a>
-    //       // `);
-
-    //       cellName.appendChild(infoName);
-    //       cellSiape.appendChild(infoSiape);
-    //       cellEmail.appendChild(infoEmail);
-    //       // cellOptions.appendChild(infoOptions);
-    //     });
-    //   })
-    // }).catch(err => {
-    //   console.log("ERROR: " + err);
-    // });
   </script>
 {% endblock extra_js %}

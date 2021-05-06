@@ -3,6 +3,7 @@ from django.shortcuts import render
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.conf import settings
 
 from rest_framework import generics
 
@@ -75,13 +76,13 @@ class UserList(BaseUserView, views.ListView):
   def get_context_data(self, **kwargs):
     context = super(UserList, self).get_context_data(**kwargs)
     context.update(name=self.request.GET.get('name', ''))
+    context.update(TOKEN_SUAP_SECRET=settings.TOKEN_SUAP_SECRET)
     return context
 
   def get_queryset(self):
     queryset = super(UserList, self).get_queryset()
     # queryset = queryset.all().order_by('id', 'username')
     queryset = queryset.filter(is_staff=False).order_by('id', 'username')
-
     return queryset
 
 
