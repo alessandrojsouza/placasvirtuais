@@ -112,7 +112,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-success" onclick="importBoard(event)">Importar</button>
+          <button type="button" class="btn btn-success" onclick="importUser(event)">Importar</button>
         </div>
       </div>
     </div>
@@ -121,6 +121,7 @@
 
 
 {% block extra_js %}
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script type="text/javascript">
     function queryDataImport(e) {
       e.preventDefault();
@@ -133,11 +134,22 @@
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': 'Token {{TOKEN_SUAP_SECRET}}'
+          'Authorization': 'Token {{ TOKEN_SUAP_SECRET }}'
         }}).then((response) => {
+            // remove all childs
+            ul.innerHTML = '';
+
+            window.localStorage.removeItem('user');
+
             return response.json().then((data) => {
-              // console.log(data);
-              
+              const user = {
+                username: data.matricula,
+                firstname: data.nome,
+                email: data.email,
+                avatar: data.foto
+              }
+              window.localStorage.setItem('user', JSON.stringify(user));
+
               let li = document.createElement("li");
               li.appendChild(document.createTextNode(`${data.nome}`));
               ul.appendChild(li);
@@ -145,6 +157,58 @@
               console.log("err", err);
             }) 
         });
+    }
+
+    function importUser(e) {
+      e.preventDefault();
+
+      let userData = window.localStorage.getItem('user');
+      fetch("/users/api/", {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: JSON.stringify(userData)
+      }).then(res => {
+        if (res.status === 200) {
+          swal({
+            title: "Usuário Salvo!",
+            text: "Usuário foi importado via SUAP com sucesso!",
+            icon: "success",
+            buttons: {
+              cancel: {
+                text: "Cancel",
+                className: "btn btn-secondary waves-effect waves-light"
+              },
+              confirm: {
+                text: "OK",
+                className: "btn btn-primary btn-gradient waves-effect waves-light",
+              }
+            }
+          });
+        } else {
+            swal({
+              title: "Usuário Não Salvo!",
+              text: "Usuário não foi importado via SUAP!",
+              icon: "error",
+              buttons: {
+                cancel: {
+                  text: "Cancel",
+                  className: "btn btn-secondary waves-effect waves-light"
+                },
+                confirm: {
+                  text: "OK",
+                  className: "btn btn-primary btn-gradient waves-effect waves-light",
+                }
+              }
+            });
+        }
+      }).catch(err => {
+        console.log("ERROR: " + err);
+      });
+
     }
   </script>
 {% endblock extra_js %}

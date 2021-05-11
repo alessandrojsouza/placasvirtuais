@@ -1,3 +1,6 @@
+import json
+
+from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 
@@ -48,7 +51,7 @@ class BaseBoardView(object):
 class DashboardView(LoginRequiredMixin, TemplateView):
   template_name = 'dashboard.html'
 
-# LoginRequiredMixin
+
 class UserApiView(generics.ListAPIView, generics.RetrieveAPIView,
                   generics.CreateAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
   queryset = User.objects.all()
@@ -67,6 +70,18 @@ class UserApiView(generics.ListAPIView, generics.RetrieveAPIView,
 
     queryset = queryset.order_by('username')
     return queryset
+
+  def post(self, request):
+    data = json.loads(request.data)
+
+    try:
+      user = User.objects.create_user(data['username'], data['email'], 'admin2@ifrn')
+      user.first_name = data['firstname']
+      user.save()
+    except Exception:
+      return Response(status=400)
+    else:
+      return Response(status=200)
 
 
 class UserList(BaseUserView, views.ListView):
