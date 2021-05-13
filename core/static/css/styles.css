@@ -205,6 +205,7 @@ button[type="submit"] {
   color: #ffffff;
   font-size: 15px;
   cursor: pointer;
+  margin-right: 0.5rem;
 }
 .botaocrud2 {
   background-color: #292929;
@@ -214,6 +215,14 @@ button[type="submit"] {
   font-size: 15px;
   cursor: pointer;
   margin-right: 15px;
+}
+.botaocrud3 {
+  background-color: #6c757d;
+  border-radius: 5px;
+  padding: 10px 10px;
+  color: #ffffff;
+  font-size: 15px;
+  cursor: pointer;
 }
 /*Cabeçalho*/
 #position {
@@ -243,7 +252,10 @@ button[type="submit"] {
   background: #e23030;
   color: #fff;
 }
-
+#cabecalho .btn-import {
+  background-color: #6c757d;
+  color: #fff;
+}
 #cabecalho p {
   font-weight: 700;
   font-size: 2rem;
@@ -276,7 +288,7 @@ button[type="submit"] {
   float: left;
   width: auto;
 }
-.search-and-filters input[type="text"] {
+.search-and-filters input {
   max-width: 100%;
   padding: 4px;
   width: 100%;

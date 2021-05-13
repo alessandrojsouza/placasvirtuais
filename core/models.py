@@ -1,13 +1,14 @@
 from django.db import models
 
+from django.utils.translation import ugettext as _
 from django.urls import reverse
 
 from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-  # siape = models.CharField('Siape', max_length=300, null=False, blank=False)
-  
+  avatar = models.ImageField(_('Avatar'), upload_to='user/', null=True, blank=True)
+
   class Meta(AbstractUser.Meta):
     swappable = 'AUTH_USER_MODEL'
 

@@ -1,8 +1,12 @@
+import json
+
+from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.conf import settings
 
 from rest_framework import generics
 
@@ -47,7 +51,7 @@ class BaseBoardView(object):
 class DashboardView(LoginRequiredMixin, TemplateView):
   template_name = 'dashboard.html'
 
-# LoginRequiredMixin
+
 class UserApiView(generics.ListAPIView, generics.RetrieveAPIView,
                   generics.CreateAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
   queryset = User.objects.all()
@@ -67,6 +71,18 @@ class UserApiView(generics.ListAPIView, generics.RetrieveAPIView,
     queryset = queryset.order_by('username')
     return queryset
 
+  def post(self, request):
+    data = json.loads(request.data)
+
+    try:
+      user = User.objects.create_user(data['username'], data['email'], 'admin2@ifrn')
+      user.first_name = data['firstname']
+      user.save()
+    except Exception:
+      return Response(status=400)
+    else:
+      return Response(status=200)
+
 
 class UserList(BaseUserView, views.ListView):
   template_name = 'list.html'
@@ -75,13 +91,13 @@ class UserList(BaseUserView, views.ListView):
   def get_context_data(self, **kwargs):
     context = super(UserList, self).get_context_data(**kwargs)
     context.update(name=self.request.GET.get('name', ''))
+    context.update(TOKEN_SUAP_SECRET=settings.TOKEN_SUAP_SECRET)
     return context
 
   def get_queryset(self):
     queryset = super(UserList, self).get_queryset()
     # queryset = queryset.all().order_by('id', 'username')
     queryset = queryset.filter(is_staff=False).order_by('id', 'username')
-
     return queryset
 
 

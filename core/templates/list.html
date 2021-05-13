@@ -19,6 +19,7 @@
     </div>
     <div>
       <a class="botaocrud" href="{{ user.get_create_url }}">Novo</a>
+      <a class="botaocrud btn-import" id="import" data-bs-toggle="modal" data-bs-target="#importModal">Importar</a>
     </div>  
   </div>  
 </div>
@@ -83,48 +84,131 @@
 {% endblock header %}
 
 
+{% block content %}
+  <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="importModalLabel">Importar usuário via SUAP</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="search-and-filters row pt-0" style="background-color: white;">
+            <form onsubmit="queryDataImport(event)">
+              <div>
+                <label>Siape do usuário:</label>
+                <input type="number" name="search_siape" placeholder="" value="" required />
+              </div>
+              <div class="submit-button col-1">            
+                <button type="submit" id="button_filter" style="margin: 1rem !important">Filtrar</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="container">
+            <ul id="search_list"></ul>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-success" onclick="importUser(event)">Importar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+
 {% block extra_js %}
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script type="text/javascript">
-    // fetch("/users/api/", {
-    //   method: "GET",
-    //   headers: {
-    //     'X-CSRFToken': '{{ csrf_token }}',
-    //   }
-    // }).then(res => {
-    //   const table = document.querySelector('#table > table');
+    function queryDataImport(e) {
+      e.preventDefault();
+      
+      let pk = document.querySelector('[name="search_siape"]').value;
+      const ul = document.querySelector('#search_list');
 
-    //   res.json().then(item => {
-    //     item.forEach(element => {
-    //       console.log("element", element);
-    //       let pk = element.pk;
-    //       let name = element.first_name + " " + element.last_name;
-    //       let siape = element.username;
-    //       let email = element.email;
-          
-    //       let newRow = table.insertRow(-1);
-    //       let cellName = newRow.insertCell(0);
-    //       let infoName = document.createTextNode(`${name}`);
+      fetch("http://placas-virtuais.suapdevs.ifrn.edu.br/edu/api/dados_servidor/?matricula=" + pk, {
+        method: "GET",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Token {{ TOKEN_SUAP_SECRET }}'
+        }}).then((response) => {
+            // remove all childs
+            ul.innerHTML = '';
 
-    //       let cellSiape = newRow.insertCell(1);
-    //       let infoSiape = document.createTextNode(`${siape}`);
+            window.localStorage.removeItem('user');
 
-    //       let cellEmail = newRow.insertCell(2);
-    //       let infoEmail = document.createTextNode(`${email}`);
+            return response.json().then((data) => {
+              const user = {
+                username: data.matricula,
+                firstname: data.nome,
+                email: data.email,
+                avatar: data.foto
+              }
+              window.localStorage.setItem('user', JSON.stringify(user));
 
-    //       // let cellOptions = newRow.insertCell(3);
-    //       // let infoOptions = document.createTextNode(`
-    //       //   <a class="botaocrud2" href="editusuario.html">EDITAR</a>
-    //       //   <a class="botaocrud2" href="viewusuario.html">VISUALIZAR</a>
-    //       // `);
+              let li = document.createElement("li");
+              li.appendChild(document.createTextNode(`${data.nome}`));
+              ul.appendChild(li);
+            }).catch((err) => {
+              console.log("err", err);
+            }) 
+        });
+    }
 
-    //       cellName.appendChild(infoName);
-    //       cellSiape.appendChild(infoSiape);
-    //       cellEmail.appendChild(infoEmail);
-    //       // cellOptions.appendChild(infoOptions);
-    //     });
-    //   })
-    // }).catch(err => {
-    //   console.log("ERROR: " + err);
-    // });
+    function importUser(e) {
+      e.preventDefault();
+
+      let userData = window.localStorage.getItem('user');
+      fetch("/users/api/", {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: JSON.stringify(userData)
+      }).then(res => {
+        if (res.status === 200) {
+          swal({
+            title: "Usuário Salvo!",
+            text: "Usuário foi importado via SUAP com sucesso!",
+            icon: "success",
+            buttons: {
+              cancel: {
+                text: "Cancel",
+                className: "btn btn-secondary waves-effect waves-light"
+              },
+              confirm: {
+                text: "OK",
+                className: "btn btn-primary btn-gradient waves-effect waves-light",
+              }
+            }
+          });
+        } else {
+            swal({
+              title: "Usuário Não Salvo!",
+              text: "Usuário não foi importado via SUAP!",
+              icon: "error",
+              buttons: {
+                cancel: {
+                  text: "Cancel",
+                  className: "btn btn-secondary waves-effect waves-light"
+                },
+                confirm: {
+                  text: "OK",
+                  className: "btn btn-primary btn-gradient waves-effect waves-light",
+                }
+              }
+            });
+        }
+      }).catch(err => {
+        console.log("ERROR: " + err);
+      });
+
+    }
   </script>
 {% endblock extra_js %}
