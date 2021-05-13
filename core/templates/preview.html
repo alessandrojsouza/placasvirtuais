@@ -8,12 +8,38 @@
 
 
 {% block header %}
-  <div id="cabecalho">
-    <div>
-      <p>Visualizar Usuário</p>
-    </div>
+<main>
+  <div id="position">
+    <div id="cabecalho">
+      <div>
+        <p>Usuário</p>            
+      </div> 
+      <div class="action-bar-container">
+        <ul class="action-bar">
+          <li><a href="{% url 'core:list' %}" style="background-color: #292929;">Cancelar</a></li>
+          <li><a href="{{ user.get_update_url }}">Editar</a></li>
+          <li>
+            <a class="botaocrud btn-delete" id="deleteA" data-bs-toggle="modal" data-bs-target="#deleteModal">Excluir</a>
+          </li>
+        </ul>    
+      </div> 
+    </div>  
   </div>
-  <form method="POST" onsubmit="submitFormUser();" id="formUser">
+  <div class="box">
+    <table class="info">
+      <tr>
+        <td>Nome</td>
+        <td><input type="text" name="name" id="input1" alue="Nome usuário" disabled></td>
+        <td>Siape</td>
+        <td><input type="text" name="username" id="input2" value="SIAPE" disabled></td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td><input type="email" name="email" id="input3" value="Email" disabled></td>        
+      </tr>
+    </table>
+  </div>
+  <!--<form method="POST" onsubmit="submitFormUser();" id="formUser">
     {% csrf_token %}
     <div id="new">   
       <div>
@@ -32,19 +58,28 @@
     <div id="botoes">
       <a class="botaocrud" href="{% url 'core:list' %}">Voltar</a>
     </div>
-  </form>
+  </form>-->
+</main>
 {% endblock header %}
 
 
 {% block content %}
-  <div class="modalcontainer">
-    <div class="modal">
-      <button class="fechar" onclick="modal()">X</button>
-      <h3>AVISO</h3>
-      <p>Deseja realmente excluir o usuário?</p>
-      <button class="botaocrud2" href="{% url 'core:list' %}">Cancelar</button>
-      <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
-    </div>        
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Excluir usuário</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Deseja realmente excluir o usuário?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" onclick="deleteUser(event)">Excluir</button>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock content %}
 
@@ -61,8 +96,8 @@
     }  
 
     const deleteInput = document.querySelector('#cabecalho #deleteA');
-    const siape = document.querySelector('#input1');
-    const nomeusuario = document.querySelector('#input2');
+    const nomeusuario = document.querySelector('#input1');
+    const siape = document.querySelector('#input2');
     const email = document.querySelector('#input3');
     let userName = (nomeusuario.value).split(" ");
     let pk = parseInt(window.location.pathname.split('/')[2]);

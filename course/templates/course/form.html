@@ -11,20 +11,23 @@
 
 
 {% block header %}
+<main>
   <div id="cabecalho">
     <div>
       <p id="title">Editar Curso</p>
-      <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
+    </div>
+    <div>
+      <a class="botaocrud btn-delete" id="deleteA" data-bs-toggle="modal" data-bs-target="#deleteModal">Excluir</a>
     </div>
   </div>
   <form method="POST" onsubmit="submitFormUser();" id="formUser">
     {% csrf_token %}
     <div id="new">   
-      <div>
+      <div class="form">
         <label>Código</label>
         <input id="input1" type="number" name="code" value="">
       </div>       
-      <div>
+      <div class="form">
         <label>Nome Curso</label>
         <input id="input2" type="text" name="name" value="">
       </div> 
@@ -34,33 +37,33 @@
       <button type="submit" class="botaocrud">Confirmar</button>
     </div>
   </form>
+</main>
 {% endblock header %}
 
 
 {% block content %}
-  <div class="modalcontainer">
-    <div class="modal">
-      <button class="fechar" onclick="modal()">X</button>
-      <h3>AVISO</h3>
-      <p>Deseja realmente excluir o curso?</p>
-      <button class="botaocrud2" onclick="modal()">Cancelar</button>      
-      <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
-    </div>        
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Excluir curso</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Deseja realmente excluir o curso?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" onclick="deleteCourse(event)">Excluir</button>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock content %}
 
 
 {% block extra_js %}
   <script type="text/javascript">
-    function modal() {
-      if(document.querySelector('.modalcontainer').classList.contains('show')){
-        document.querySelector('.modalcontainer').classList.remove('show')
-      }
-      else{
-        document.querySelector('.modalcontainer').classList.add('show')
-      }
-    }  
-
     const deleteInput = document.querySelector('#cabecalho #deleteA');
     const titleText = document.querySelector('#cabecalho #title');
     const codigo = document.querySelector('#input1');
@@ -84,7 +87,7 @@
         console.log("ERROR: " + err);
       });
 
-      function deleteUser(e) {
+      function deleteCourse(e) {
         e.preventDefault();
 
         fetch("/courses/api/" + pk + "/", {

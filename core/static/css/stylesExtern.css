@@ -88,8 +88,6 @@ a {
   align-items: center;
   align-content: flex-start;
   flex-direction: column;
-  margin-top: 10%;
-  margin-bottom: 10%;
 }
 #teste {
   width: 100%;
@@ -118,8 +116,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-top: 10%;
-  margin-bottom: 2%;
+  margin-top: 5%;
 }
 #end-content img {
   width: 15%;
@@ -133,15 +130,6 @@ a {
 main h1 {
   font-size: 70px;
   text-align: center;
-}
-main {
-  background-color: #fff;
-  grid-area: main;
-  height: auto;
-  overflow: auto;
-  padding: 0px 40px 80px 50px;
-  position: relative;
-  width: 100%;
 }
 .search-and-filters {
   background-color: #f6f6f6;

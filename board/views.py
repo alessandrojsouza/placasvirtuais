@@ -184,6 +184,8 @@ class BoardPreview(BaseBoardView, views.UpdateView):
     context.update({'courses': course})
     mentioned = Mentioned.objects.all()
     context.update({'mentioneds': mentioned})
+    egress = Egress.objects.filter(board=self.kwargs.get('pk'))
+    context.update({'egress': egress})
     return context
 
 

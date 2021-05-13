@@ -33,21 +33,23 @@
     </div> -->
 
     <header class="container-fluid">
-      <div class="row">
+      <div class="row m-0">
         <div class="col-md-12">
           <nav class="navbar navbar-light">
             <div class="container-fluid">
               <!-- <a class="navbar-brand" href="url 'core:index'"> -->
               <a class="navbar-brand" href="/">
-                <img src="{% static 'assets/PFV.png' %}" class="d-inline-block align-top" style="width: 4rem;">
+                <!-- <img src="{% static 'assets/PFV.png' %}" class="d-inline-block align-top" style="width: 4rem;"> -->
+                Placas de Formatura Virtual
               </a>
               <div>
                 {% if user.is_authenticated %}
-                <a href="{% url 'account_logout' %}">Logout</a>
-                <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
+                  <a href="{% url 'account_logout' %}">Logout</a>
+                  <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
                 {% else %}
-                  <img src="{% static 'assets/login.png' %}" style="width: 2rem;">
                   <a href="/suap_login/">Login</a>
+                  <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
+                  <!-- <img src="{% static 'assets/login.png' %}" style="width: 2rem;"> -->
                 {% endif %}
               </div>
             </div>
@@ -70,6 +72,7 @@
           <img src="{% static 'assets/imagem-2.svg' %}" style="width: 15%;">
           <p>Récem-formandos</p>
         </div>        
+
         <!--Carrosel-->
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-indicators">
@@ -78,18 +81,29 @@
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
           </div>
           <div class="carousel-inner">
-            <div class="carousel-item active">
-              <!-- <img src="{% static 'assets/teste-carrosel/gris.png' %}" class="d-block w-100" alt="..."> -->
-              <img src="https://i.pinimg.com/originals/d1/a2/0c/d1a20c76ac4b7a77d906581f6bf3ecaf.jpg" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-              <!-- <img src="{% static 'assets/teste-carrosel/gris4.png' %}" class="d-block w-100" alt="..."> -->
-              <img src="https://i.pinimg.com/originals/93/8f/51/938f51313579266c0dd63623eeca037d.jpg" class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-              <!-- <img src="{% static 'assets/teste-carrosel/gris7.png' %}" class="d-block w-100" alt="..."> -->
-              <img src="https://i.pinimg.com/originals/78/d8/35/78d835939efbbe6873894007126fac01.jpg" class="d-block w-100" alt="...">
-            </div>
+            <!-- create on view board as 3 itens -->
+            {% if object_list %}
+              {% for board in object_list|slice:":3" %}
+                <!-- forloop.first -->
+                <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}" data-interval="100">
+                  <img src="{{ board.photo.url }}" class="d-block w-100" alt="{{ board.name }}">
+                </div>
+
+                <!-- <div class="carousel-item active">
+                  <img src="https://i.pinimg.com/originals/d1/a2/0c/d1a20c76ac4b7a77d906581f6bf3ecaf.jpg" class="d-block w-100" alt="...">
+                </div> 
+                <div class="carousel-item">
+                  <img src="https://i.pinimg.com/originals/93/8f/51/938f51313579266c0dd63623eeca037d.jpg" class="d-block w-100" alt="...">
+                </div> 
+                <div class="carousel-item">
+                  <img src="https://i.pinimg.com/originals/78/d8/35/78d835939efbbe6873894007126fac01.jpg" class="d-block w-100" alt="...">
+                </div> -->
+              {% endfor %}
+            {% else %}
+              <div class="carousel-item active">
+                <img src="https://i.pinimg.com/originals/d1/a2/0c/d1a20c76ac4b7a77d906581f6bf3ecaf.jpg" class="d-block w-100" alt="...">
+              </div> 
+            {% endif %}  
           </div>
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -101,11 +115,13 @@
           </button>
         </div>
         <!--Fim Carrosel-->
-      </div>
-      <div id="end-content">
-        <img src="{% static 'assets/imagem-3.svg' %}">
-        <p>Encontre sua turma</p>
-      </div>
+
+      </div>      
+      <div class="container">
+        <div id="end-content">
+          <img src="{% static 'assets/imagem-3.svg' %}">
+          <p>Encontre sua turma</p>
+        </div>      
       <div class="search-and-filters row">
         <form method="GET" action="." style="justify-content: flex-start; display: flex;">
           <div class="filter">
@@ -158,9 +174,8 @@
         </form> 
       </div>
       
-      <!--<div id="table" class="row">-->
+      {% if object_list %}
       <div class="results" class="row">
-        <!--<table id="result_list" class="table table-bordered border-gray">-->
         <table id="result_list">
           <thead>
             <tr>
@@ -177,7 +192,6 @@
           <!-- search by egress and board to visit board -->
           
           <tbody>
-          {% if object_list %}
             {% for board in object_list %}
               <tr>
                 <th class="field-show_list_display_icons">
@@ -197,10 +211,14 @@
                 <td>{{ board.course }}</td>
               </tr>             
             {% endfor %}
-          {% endif %}          
-        </tbody> 
+          </tbody> 
         </table>
       </div>
+      {% else %}
+      <div class="alert alert-danger" role="alert">
+        <p>Por enquanto ainda não há placa cadastrada na base de dados!</p>        
+      </div>
+    {% endif %}          
     </main>
   </body>
 

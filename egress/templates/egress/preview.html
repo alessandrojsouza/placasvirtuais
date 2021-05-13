@@ -3,103 +3,104 @@
 
 {% block extra_css %}
   <style type="text/css">
-    img {
+    /* img {
       width: 20% !important;
-    }
+    } */
   </style>
 {% endblock extra_css %}
 
 
 {% block header %}
-  <div id="cabecalho">
-    <div>
-      <p>Visualizar Egresso</p>
-    </div>
+<main>
+  <div id="position">
+    <div id="cabecalho">
+      <div>
+        <p>Egresso</p>            
+      </div> 
+      <div class="action-bar-container">
+        <ul class="action-bar">
+          <li><a href="{% url 'egress:list' %}" style="background-color: #292929;">Cancelar</a></li>
+          <li><a href="{{ egress.get_update_url }}">Editar</a></li>
+          <li>
+            <a class="botaocrud btn-delete" id="deleteA" data-bs-toggle="modal" data-bs-target="#deleteModal">Excluir</a>
+          </li>
+        </ul>    
+      </div> 
+    </div>  
   </div>
   <form method="POST" onsubmit="submitFormUser();" id="formUser">
     {% csrf_token %}
-    <div id="new">    
-      <div>
-        <label>Matrícula</label>
-        <input id="input1" type="number" name="enrollment" value="Matricula">
-      </div>
-      <div>
-          <label>Nome egresso</label>
-          <input id="input4" type="text" name="name" value="Nome do egresso">
-      </div>
-      <div>
-        <label>Email</label>
-        <input id="input3" type="email" name="email" value="Email">
-      </div>
-    </div>        
-    <div id="new"> 
-      <div>
-        <label>Foto Egresso</label>
+    <div id="box"> 
+      <div class="photo-circle big" style="border: 1px solid black;">
         {% if form.instance.pk %}
-          {% if form.instance.photo %}
-            <img id="input2" src="{{ form.instance.photo.url }}" alt="Foto do Egresso">
-          {% else %}
-            <p id="input2">Nenhuma foto do cadastrada</p>
+            {% if form.instance.photo %}
+              <a href="#" class="pop">
+                <img src="{{ form.instance.photo.url }}" alt="Foto do Egresso" style="height: 100%; width: 100%;">
+              </a>
+            {% else %}
+              <p>Nenhuma foto do cadastrada</p>
+            {% endif %}
           {% endif %}
-          <!-- <input id="input2" type="file" name="photo" accept="image/*"> -->
-        {% else %}
-          <!-- <input id="input2" type="file" name="photo" accept="image/*"> -->
-        {% endif %}
-      </div>    
-    </div>
-    <div id="new">
-      <div>
-        <label>Rede social</label>
-        <input id="input4" type="text" name="socialNetwork" value="Rede social">
       </div> 
       <div>
-        <label>Currículo lattes</label>
-        <input id="input3" type="text" name="lattes" value="Lattes">
+        <table class="info">
+          <tr>
+            <td>Matrícula</td>
+            <td><input type="number" name="enrollment" value="Código" disabled></td>
+            <td>Nome egresso</td>
+            <td><input type="text" name="name" value="SIAPE" disabled></td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td><input type="email" name="email" value="Código" disabled></td>
+            <td>Rede social</td>
+            <td><input type="text" name="socialNetwork" value="Código" disabled></td>
+          </tr>
+          <tr>
+            <td>Currículo lattes</td>
+            <td><input type="email" name="lattes" value="Código" disabled></td>
+            <td>Placa</td>
+            <td>
+              <select name="board" id="input4" disabled>
+                {% for board in boards %}
+                  <option 
+                    value="{{ board.id }}"
+                  >{{ board.name }}</option>
+                {% endfor %}
+              </select>
+          </td>
+          </tr>
+        </table>
       </div>
-    </div>
-    <div id="new">
-      <div>
-        <label>Placa</label>
-        <select name="board" id="input4">
-          {% for board in boards %}
-            <option 
-              value="{{ board.id }}"
-            >{{ board.name }}</option>
-          {% endfor %}
-        </select>
-      </div>
-    </div>     
-    <div id="botoes">
-      <a class="botaocrud2" href="{% url 'egress:list' %}">Voltar</a>
-    </div>
+    </div> 
   </form>
+</main>
 {% endblock header %}
 
 
 {% block content %}
-  <div class="modalcontainer">
-    <div class="modal">
-      <button class="fechar" onclick="modal()">X</button>
-      <h3>AVISO</h3>
-      <p>Deseja realmente excluir o usuário?</p>
-      <button class="botaocrud2" href="{% url 'egress:list' %}">Cancelar</button>
-      <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
-    </div>        
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Excluir egresso</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Deseja realmente excluir o egresso?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" onclick="deleteEgress(event)">Excluir</button>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock content %}
 
 
 {% block extra_js %}
   <script type="text/javascript">
-    function modal() {
-      if(document.querySelector('.modalcontainer').classList.contains('show')){
-        document.querySelector('.modalcontainer').classList.remove('show')
-      }
-      else{
-        document.querySelector('.modalcontainer').classList.add('show')
-      }
-    }  
-
     const deleteInput = document.querySelector('#cabecalho #deleteA');
     const titleText = document.querySelector('#cabecalho #title');
     
@@ -136,6 +137,21 @@
       });
     } else {
       deleteInput.style.visibility = "hidden";
+    }
+
+    function deleteEgress(e) {
+      e.preventDefault();
+
+      fetch("/egress/api/" + pk + "/", {
+        method: "DELETE",
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+        }
+      }).then(res => {
+        window.location.href = "/egress";
+      }).catch(err => {
+        console.log("ERROR: " + err);
+      });
     }
   </script>
 {% endblock extra_js %}

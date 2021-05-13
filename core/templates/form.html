@@ -11,25 +11,28 @@
 
 
 {% block header %}
+<main>
   <div id="cabecalho">
     <div>
       <p id="title">Editar Usuário</p>
+    </div>
+    <div>
       <!-- <a class="botaocrud" href="newusuario.html">Novo</a> -->
-      <a class="botaocrud" id="deleteA" onclick="modal()">EXCLUIR</a>
+      <a class="botaocrud btn-delete" id="deleteA" data-bs-toggle="modal" data-bs-target="#deleteModal">Excluir</a>
     </div>
   </div>
   <form method="POST" onsubmit="submitFormUser();" id="formUser">
     {% csrf_token %}
     <div id="new">   
-      <div>
+      <div class="form">
         <label>SIAPE</label>
         <input id="input1" type="text" name="username" value="">
       </div>       
-      <div>
+      <div class="form">
         <label>Nome Usuário</label>
         <input id="input2" type="text" name="name" value="">
       </div>
-      <div>
+      <div class="form">
         <label>Email</label>
         <input id="input3" type="email" name="email" value="">
       </div>  
@@ -39,18 +42,27 @@
       <button type="submit" class="botaocrud">Confirmar</button>
     </div>
   </form>
+</main>
 {% endblock header %}
 
 
 {% block content %}
-  <div class="modalcontainer">
-    <div class="modal">
-      <button class="fechar" onclick="modal()">X</button>
-      <h3>AVISO</h3>
-      <p>Deseja realmente excluir o usuário?</p>
-      <button class="botaocrud2" onclick="modal()">Cancelar</button>      
-      <button class="botaocrud" onclick="deleteUser(event)">Excluir</button>
-    </div>        
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Excluir usuário</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Deseja realmente excluir o usuário?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" onclick="deleteUser(event)">Excluir</button>
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock content %}
 
