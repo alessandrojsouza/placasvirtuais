@@ -19,6 +19,7 @@
       </div>
       <div>
         <a class="botaocrud" href="create">Novo</a>
+        <a class="botaocrud btn-import" id="import" data-bs-toggle="modal" data-bs-target="#importModal">Importar</a>
       </div>  
     </div>  
   </div>
@@ -67,7 +68,144 @@
 {% endblock header %}
 
 
+{% block content %}
+  <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="importModalLabel">Importar curso via SUAP</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="search-and-filters row pt-0" style="background-color: white;">
+            <form onsubmit="queryDataImport(event)">
+              <div>
+                <label>Código do curso:</label>
+                <input type="number" name="search_code" placeholder="" value="" required />
+              </div>
+              <div class="submit-button col-1">            
+                <button type="submit" id="button_filter" style="margin: 1rem !important">Filtrar</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="container">
+            <ul id="search_list"></ul>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-success" onclick="importCourse(event)">Importar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+
 {% block extra_js %}
   <script type="text/javascript">
+    function queryDataImport(e) {
+      e.preventDefault();
+      
+      let pk = document.querySelector('[name="search_code"]').value;
+      const ul = document.querySelector('#search_list');
+
+      fetch("http://placas-virtuais.suapdevs.ifrn.edu.br/edu/api/listar_cursos/?codigo=" + pk, {
+        method: "GET",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Token {{ TOKEN_SUAP_SECRET }}'
+        }}).then((response) => {
+            // remove all childs
+            ul.innerHTML = '';
+
+            window.localStorage.removeItem('course');
+
+            return response.json().then((data) => {
+              if (data.length !== 0) {
+                const course = {
+                  code: data[0].codigo,
+                  name: data[0].descricao
+                }
+                window.localStorage.setItem('course', JSON.stringify(course));
+  
+                let li = document.createElement("li");
+                li.appendChild(document.createTextNode(`${data[0].descricao}`));
+                ul.appendChild(li);
+              } else {
+                let li = document.createElement("li");
+                li.appendChild(document.createTextNode("Código não válido."));
+                ul.appendChild(li);
+              }
+            }).catch((err) => {
+              console.log("err", err);
+            }) 
+        });
+    }
+
+    function importCourse(e) {
+      e.preventDefault();
+
+      let courseData = window.localStorage.getItem('course');
+      fetch("/courses/api/", {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: JSON.stringify(courseData)
+      }).then(res => {
+        if (res.status === 200) {
+          swal({
+            title: "Curso Salvo!",
+            text: "Curso foi importado via SUAP com sucesso!",
+            icon: "success",
+            buttons: {
+              cancel: {
+                text: "Cancel",
+                className: "btn btn-secondary waves-effect waves-light"
+              },
+              confirm: {
+                text: "OK",
+                className: "btn btn-primary btn-gradient waves-effect waves-light",
+              }
+            }
+          });
+
+          setTimeout(()=> {
+            location.reload();
+          }, 2000);
+        } else {
+            swal({
+              title: "Curso Não Salvo!",
+              text: "Curso não foi importado via SUAP!",
+              icon: "error",
+              buttons: {
+                cancel: {
+                  text: "Cancel",
+                  className: "btn btn-secondary waves-effect waves-light"
+                },
+                confirm: {
+                  text: "OK",
+                  className: "btn btn-primary btn-gradient waves-effect waves-light",
+                }
+              }
+            });
+          
+          setTimeout(()=> {
+            location.reload();
+          }, 2000);
+        }
+
+        window.localStorage.removeItem('course');
+      }).catch(err => {
+        console.log("ERROR: " + err);
+      });
+
+    }
   </script>
 {% endblock extra_js %}
