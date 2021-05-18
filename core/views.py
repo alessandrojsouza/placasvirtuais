@@ -73,6 +73,8 @@ class UserApiView(generics.ListAPIView, generics.RetrieveAPIView,
 
   def post(self, request):
     data = json.loads(request.data)
+    # https://stackoverflow.com/questions/16381241/django-save-image-from-url-and-connect-with-imagefield
+    # print(data['avatar'])
 
     try:
       user = User.objects.create_user(data['username'], data['email'], 'admin2@ifrn')

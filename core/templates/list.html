@@ -121,7 +121,6 @@
 
 
 {% block extra_js %}
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script type="text/javascript">
     function queryDataImport(e) {
       e.preventDefault();
@@ -142,17 +141,24 @@
             window.localStorage.removeItem('user');
 
             return response.json().then((data) => {
-              const user = {
-                username: data.matricula,
-                firstname: data.nome,
-                email: data.email,
-                avatar: data.foto
+              if (data.matricula !== undefined) {
+                const user = {
+                  username: data.matricula,
+                  firstname: data.nome,
+                  email: data.email,
+                  avatar: data.foto
+                }
+                window.localStorage.setItem('user', JSON.stringify(user));
+  
+                let li = document.createElement("li");
+                li.appendChild(document.createTextNode(`${data.nome}`));
+                ul.appendChild(li);
+              } else {
+                let li = document.createElement("li");
+                li.appendChild(document.createTextNode("Matricula não válida"));
+                ul.appendChild(li);                
               }
-              window.localStorage.setItem('user', JSON.stringify(user));
 
-              let li = document.createElement("li");
-              li.appendChild(document.createTextNode(`${data.nome}`));
-              ul.appendChild(li);
             }).catch((err) => {
               console.log("err", err);
             }) 
@@ -188,6 +194,10 @@
               }
             }
           });
+
+          setTimeout(()=> {
+            location.reload();
+          }, 2000);
         } else {
             swal({
               title: "Usuário Não Salvo!",
@@ -204,7 +214,13 @@
                 }
               }
             });
+          
+          setTimeout(()=> {
+            location.reload();
+          }, 2000);
         }
+
+        window.localStorage.removeItem('user');
       }).catch(err => {
         console.log("ERROR: " + err);
       });
