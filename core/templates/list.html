@@ -142,11 +142,18 @@
 
             return response.json().then((data) => {
               if (data.matricula !== undefined) {
+                let avatar;
+                if (data.foto === "") {
+                  avatar = "";
+                } else {
+                  avatar = `https://suap.ifrn.edu.br/media/${data.foto}`
+                }
+
                 const user = {
                   username: data.matricula,
                   firstname: data.nome,
                   email: data.email,
-                  avatar: data.foto
+                  avatar: avatar
                 }
                 window.localStorage.setItem('user', JSON.stringify(user));
   
@@ -158,7 +165,6 @@
                 li.appendChild(document.createTextNode("Matricula não válida"));
                 ul.appendChild(li);                
               }
-
             }).catch((err) => {
               console.log("err", err);
             }) 

@@ -10,6 +10,10 @@ from django.conf import settings
 
 from rest_framework import generics
 
+from django.core.files import File
+from django.core.files.temp import NamedTemporaryFile
+from urllib.request import urlopen
+
 from vanilla import TemplateView
 from vanilla import model_views as views
 from django.utils.translation import ugettext as _
@@ -73,12 +77,19 @@ class UserApiView(generics.ListAPIView, generics.RetrieveAPIView,
 
   def post(self, request):
     data = json.loads(request.data)
-    # https://stackoverflow.com/questions/16381241/django-save-image-from-url-and-connect-with-imagefield
-    # print(data['avatar'])
 
     try:
       user = User.objects.create_user(data['username'], data['email'], 'admin2@ifrn')
       user.first_name = data['firstname']
+      
+      if data['avatar'] != "":
+        avatar_url = data['avatar']
+        img_temp = NamedTemporaryFile(delete=True)
+        img_temp.write(urlopen(avatar_url).read())
+        img_temp.flush()
+
+        user.avatar.save("avatar_%s.png" % user.pk, File(img_temp))
+        user.save()
       user.save()
     except Exception:
       return Response(status=400)

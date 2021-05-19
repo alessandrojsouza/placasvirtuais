@@ -1,8 +1,18 @@
+import json
+
 from django.shortcuts import render
+
+from django.conf import settings
 
 from django.contrib.auth.decorators import login_required
 
 from rest_framework import generics
+
+from rest_framework.response import Response
+
+from django.core.files import File
+from django.core.files.temp import NamedTemporaryFile
+from urllib.request import urlopen
 
 from vanilla import TemplateView
 from vanilla import model_views as views
@@ -49,6 +59,34 @@ class EgressApiView(generics.ListAPIView, generics.RetrieveAPIView,
 
     queryset = queryset.order_by('name')
     return queryset
+    
+  def post(self, request):
+    data = json.loads(request.data)
+
+    try:
+      board_obj = Board.objects.get(pk=data['board'])
+
+      egress = Egress.objects.create(
+        name=data['name'],
+        enrollment=data['enrollment'],
+        lattes=data['lattes'],
+        email=data['email'],
+        board=board_obj
+      )
+      
+      if data['photo'] != "":
+        photo_url = data['photo']
+        img_temp = NamedTemporaryFile(delete=True)
+        img_temp.write(urlopen(photo_url).read())
+        img_temp.flush()
+
+        egress.photo.save("egress_%s.png" % egress.pk, File(img_temp))
+        egress.save()
+      egress.save()
+    except Exception:
+      return Response(status=400)
+    else:
+      return Response(status=200)
 
 
 class EgressList(BaseEgressView, views.ListView):
@@ -58,6 +96,9 @@ class EgressList(BaseEgressView, views.ListView):
   def get_context_data(self, **kwargs):
     context = super(EgressList, self).get_context_data(**kwargs)
     context.update(name=self.request.GET.get('name', ''))
+    context.update(TOKEN_SUAP_SECRET=settings.TOKEN_SUAP_SECRET)
+    board = Board.objects.all().order_by('id')
+    context.update({'boards': board})
     return context
 
   def get_queryset(self):

@@ -13,12 +13,11 @@ class Egress(models.Model):
   created_at = models.DateTimeField(auto_now_add=True)
   name = models.CharField(_('Nome'), max_length=300)
   enrollment = models.CharField(_('Matricula'), max_length=300)
-  lattes = models.CharField(_('Lattes'), max_length=300)
+  lattes = models.CharField(_('Lattes'), max_length=300, blank=True, null=True)
   email = models.CharField(_('Email'), max_length=300)
-  social_network = models.CharField(_('Rede social'), max_length=300)
+  social_network = models.CharField(_('Rede social'), max_length=300, blank=True, null=True)
   board = models.ForeignKey(Board, on_delete=models.CASCADE)
   photo = models.ImageField(_('Imagem'), upload_to='egress/', blank=True, null=True)  
-  image = Base64ImageField(max_length=None, use_url=True)
 
   class Meta:
     verbose_name = _(u'Egresso')
