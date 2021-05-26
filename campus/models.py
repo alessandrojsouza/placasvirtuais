@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.urls import reverse
+
 from django.utils.translation import ugettext as _
 
 
@@ -14,3 +16,15 @@ class Campus(models.Model):
 
   def __str__(self):
     return '{0.name}'.format(self)
+
+  def get_create_url(self):
+    return reverse('campus:create')
+    
+  def get_update_url(self):
+    return reverse('campus:update', kwargs={'pk': self.pk})
+  
+  def get_preview_url(self):
+    return reverse('campus:preview', kwargs={'pk': self.pk})
+
+  def get_absolute_url(self):
+    return reverse('campus:list')

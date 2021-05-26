@@ -1,6 +1,5 @@
 import json
 
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 from rest_framework import generics
@@ -96,7 +95,7 @@ class CourseCreate(BaseCourseView, views.CreateView):
     )
   
   def post(self, request):
-    course_obj = Course.objects.create(code=request.POST['code'], name=request.POST['name'])
+    Course.objects.create(code=request.POST['code'], name=request.POST['name'])
     return redirect('/courses')
 
 
