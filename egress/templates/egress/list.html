@@ -6,6 +6,14 @@
     button[type="submit"] {
       width: 15%;
     }
+    input[type="select-one"] {
+      width: 50%;
+      height: 50%;
+    }
+    .selectize-input input {
+      width: 100%;
+      height: 100%;
+    }
   </style>
 {% endblock extra_css %}
 
@@ -84,7 +92,7 @@
               <div style="padding-right: 1rem;">
                 <label>Placa:</label>
                 <!-- <input type="number" name="search_enrollment" placeholder="" value="" required /> -->
-                <select name="board" required>
+                <select name="board" placeholder="Selecione a placa" class="select" required>
                   <option
                       value=""
                     >----------</option>
