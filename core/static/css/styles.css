@@ -690,3 +690,9 @@ p {
   width: 30%;
   background-color: #25a25a;
 }
+
+.selectize-input {
+  width: 200px !important;
+  min-width: 100px;
+  max-width: 200px;
+}
