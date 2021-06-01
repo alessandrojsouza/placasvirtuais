@@ -98,6 +98,9 @@ input {
   padding: 10px;
   background-color: #ffffff;
 }
+input[type="radio"] {
+  width: 50px;
+}
 
 button[type="submit"] {
   color: #ffffff;

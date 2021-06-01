@@ -68,7 +68,6 @@
           <td>{{ egress.enrollment }}</td>
           <td>{{ egress.name }}</td>
           <td>{{ egress.email }}</td>
-          
         </tr>
       {% endfor %}
     </tbody>
@@ -87,8 +86,16 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+          <h4>Filtrar:</h4>
+          <div>
+            <input type="radio" name="myradio" id="myradio1" value="1" onclick="toggle('form1');">
+            <label for="myradio1">Por matricula</label> <br>
+            <input type="radio" name="myradio" id="myradio2" value="2" onclick="toggle('form2');">
+            <label for="myradio2">Por ano de conclusão e código de curso</label>
+          </div>
+
           <div class="search-and-filters row pt-0" style="background-color: white;">
-            <form onsubmit="queryDataImport(event)">
+            <form onsubmit="queryDataImport(event)" name="form1" id='form1'>
               <div style="padding-right: 1rem;">
                 <label>Placa:</label>
                 <!-- <input type="number" name="search_enrollment" placeholder="" value="" required /> -->
@@ -111,6 +118,12 @@
                 <button type="submit" id="button_filter" style="margin: 1rem !important">Filtrar</button>
               </div>
             </form>
+
+            <form name="form2" id="form2" action="..." method="post" style="display: none;">     
+              <input />
+              <input type ="submit"/>
+            </form>
+          
           </div>
 
           <div class="container">
@@ -130,6 +143,12 @@
 
 {% block extra_js %}
   <script type="text/javascript">
+    function toggle(form) { 
+      document.getElementById("form1").style.display = "none"; 
+      document.getElementById("form2").style.display = "none"; 
+      document.getElementById(form).style.display = "block"; 
+    }  
+
     function queryDataImport(e) {
       e.preventDefault();
       
