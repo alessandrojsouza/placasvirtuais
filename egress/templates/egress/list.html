@@ -88,7 +88,7 @@
         <div class="modal-body">
           <h4>Filtrar:</h4>
           <div>
-            <input type="radio" name="myradio" id="myradio1" value="1" onclick="toggle('form1');">
+            <input type="radio" name="myradio" id="myradio1" value="1" onclick="toggle('form1');" checked>
             <label for="myradio1">Por matricula</label> <br>
             <input type="radio" name="myradio" id="myradio2" value="2" onclick="toggle('form2');">
             <label for="myradio2">Por ano de conclusão e código de curso</label>
@@ -101,8 +101,8 @@
                 <!-- <input type="number" name="search_enrollment" placeholder="" value="" required /> -->
                 <select name="board" placeholder="Selecione a placa" class="select" required>
                   <option
-                      value=""
-                    >----------</option>
+                    value=""
+                  >----------</option>
                   {% for board in boards %}
                     <option
                       value="{{ board.id }}"
@@ -119,9 +119,30 @@
               </div>
             </form>
 
-            <form name="form2" id="form2" action="..." method="post" style="display: none;">     
-              <input />
-              <input type ="submit"/>
+            <form onsubmit="queryDatasImport(event)" name="form2" id="form2" action="..." method="post" style="display: none;">
+              <div style="padding-right: 1rem;">
+                <label>Placa:</label>
+                <select name="board" placeholder="Selecione a placa" class="select" required>
+                  <option
+                    value=""
+                  >----------</option>
+                  {% for board in boards %}
+                  <option
+                    value="{{ board.id }}"
+                  >{{ board.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div>
+                <label>Ano de conclusão:</label>
+                <input type="number" name="search_year" placeholder="" value="" required />
+
+                <label>Código do curso:</label>
+                <input type="number" name="search_code" placeholder="" value="" required />
+              </div>
+              <div class="submit-button col-1">            
+                <button type="submit" id="button_filter" style="margin: 1rem !important">Filtrar</button>
+              </div>
             </form>
           
           </div>
@@ -151,11 +172,65 @@
 
     function queryDataImport(e) {
       e.preventDefault();
-      
+
       let pk = document.querySelector('[name="search_enrollment"]').value;
       const ul = document.querySelector('#search_list');
 
       fetch("http://placas-virtuais.suapdevs.ifrn.edu.br/edu/api/dados_aluno/?matricula=" + pk, {
+        method: "GET",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Token {{ TOKEN_SUAP_SECRET }}'
+        }}).then((response) => {
+          ul.innerHTML = '';
+
+          window.localStorage.removeItem('egress');
+
+          return response.json().then((data) => {
+            console.log("data ---", data.aluno);
+            let board_pk = document.querySelector('[name="board"]').value;
+            
+            if (data.aluno !== undefined) {
+              let avatar;
+              if (data.aluno.foto === "") {
+                avatar = "";
+              } else {
+                avatar = `https://suap.ifrn.edu.br${data.aluno.foto}`;
+              }
+
+              const egress = {
+                name: data.aluno.nome,
+                enrollment: data.aluno.matricula,
+                lattes: data.aluno.lattes,
+                email: data.aluno.email_academico,
+                board: board_pk,
+                photo: avatar
+              }
+              window.localStorage.setItem('egress', JSON.stringify(egress));
+
+              let li = document.createElement("li");
+              li.appendChild(document.createTextNode(`${data.aluno.nome}`));
+              ul.appendChild(li);
+            } else {
+              let li = document.createElement("li");
+              li.appendChild(document.createTextNode("Matricula não válida"));
+              ul.appendChild(li);                
+            }
+          }).catch((err) => {
+            console.log("err", err);
+          }) 
+        });
+    }
+
+    function queryDatasImport(e) {
+      e.preventDefault();
+
+      let year = document.querySelector('[name="search_year"]').value;
+      let code = document.querySelector('[name="search_code"]').value;
+      const ul = document.querySelector('#search_list');
+
+      fetch(`http://placas-virtuais.suapdevs.ifrn.edu.br/edu/api/dados_aluno/?ano_conclusao=${year}&codigo_curso=${code}`, {
         method: "GET",
         headers: {
           'Accept': 'application/json',
