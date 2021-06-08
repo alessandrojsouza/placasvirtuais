@@ -3,6 +3,9 @@
 
 {% block extra_css %}
   <style type="text/css">
+    img {
+      width: 20%;
+    }
   </style>
 {% endblock extra_css %}
 
@@ -35,7 +38,11 @@
       </tr>
       <tr>
         <td>Email</td>
-        <td><input type="email" name="email" id="input3" value="Email" disabled></td>        
+        <td><input type="email" name="email" id="input3" value="Email" disabled></td>
+        <td>Foto</td>
+        <td>
+          <img src="" alt="" id="avatar">
+        </td>        
       </tr>
     </table>
   </div>
@@ -99,6 +106,7 @@
     const nomeusuario = document.querySelector('#input1');
     const siape = document.querySelector('#input2');
     const email = document.querySelector('#input3');
+    const avatar = document.querySelector('#avatar');
     let userName = (nomeusuario.value).split(" ");
     let pk = parseInt(window.location.pathname.split('/')[2]);
 
@@ -114,6 +122,7 @@
             siape.value = element.username;
             nomeusuario.value = element.first_name +" "+ element.last_name;
             email.value = element.email;
+            avatar.src = element.avatar;
           });
         })
       }).catch(err => {

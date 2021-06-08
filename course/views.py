@@ -1,8 +1,9 @@
-from django.shortcuts import render
+import json
 
 from django.contrib.auth.decorators import login_required
 
 from rest_framework import generics
+from django.conf import settings
 
 from vanilla import TemplateView
 from vanilla import model_views as views
@@ -12,6 +13,7 @@ from course.serializers import CourseSerializer
 from course.models import Course
 from course.forms import CourseForm
 
+from rest_framework.response import Response
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 
@@ -50,6 +52,19 @@ class CourseApiView(generics.ListAPIView, generics.RetrieveAPIView,
     queryset = queryset.order_by('name')
     return queryset
 
+  def post(self, request):
+    data = json.loads(request.data)
+    try:
+      if len(Course.objects.filter(code=data['code'])) > 1:
+        return Response(status=400)
+      else:
+        course = Course.objects.create(code=data['code'], name=data['name'])
+        course.save()
+    except Exception:
+      return Response(status=400)
+    else:
+      return Response(status=200)
+
 
 class CourseList(BaseCourseView, views.ListView):
   template_name = 'course/list.html'
@@ -58,6 +73,7 @@ class CourseList(BaseCourseView, views.ListView):
   def get_context_data(self, **kwargs):
     context = super(CourseList, self).get_context_data(**kwargs)
     context.update(name=self.request.GET.get('name', ''))
+    context.update(TOKEN_SUAP_SECRET=settings.TOKEN_SUAP_SECRET)
     return context
 
   def get_queryset(self):
@@ -79,7 +95,7 @@ class CourseCreate(BaseCourseView, views.CreateView):
     )
   
   def post(self, request):
-    course_obj = Course.objects.create(code=request.POST['code'], name=request.POST['name'])
+    Course.objects.create(code=request.POST['code'], name=request.POST['name'])
     return redirect('/courses')
 
 

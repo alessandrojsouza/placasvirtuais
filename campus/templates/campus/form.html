@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load static humanize %}
+
+{% block extra_css %}
+  <style type="text/css">
+    button[type="submit"] {
+      width: 7%;
+    }
+  </style>
+{% endblock extra_css %}
+
+
+{% block header %}
+<main>
+  <div id="cabecalho">
+    <div>
+      <p id="title">Editar Curso</p>
+    </div>
+    <div>
+      <a class="botaocrud btn-delete" id="deleteA" data-bs-toggle="modal" data-bs-target="#deleteModal">Excluir</a>
+    </div>
+  </div>
+  <form method="POST" onsubmit="submitFormUser();" id="formUser">
+    {% csrf_token %}
+    <div id="new">   
+      <div class="form">
+        <label>Sigla</label>
+        <input id="input1" type="text" name="abbreviation" value="">
+      </div>       
+      <div class="form">
+        <label>Nome</label>
+        <input id="input2" type="text" name="name" value="">
+      </div> 
+    </div>    
+    <div id="botoes">
+      <a class="botaocrud2" href="{% url 'campus:list' %}">Cancelar</a>
+      <button type="submit" class="botaocrud">Confirmar</button>
+    </div>
+  </form>
+</main>
+{% endblock header %}
+
+
+{% block content %}
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Excluir campus</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Deseja realmente excluir o campus?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" onclick="deleteCampus(event)">Excluir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+
+{% block extra_js %}
+  <script type="text/javascript">
+    const deleteInput = document.querySelector('#cabecalho #deleteA');
+    const titleText = document.querySelector('#cabecalho #title');
+    const sigla = document.querySelector('#input1');
+    const nome = document.querySelector('#input2');
+    let pk = parseInt(window.location.pathname.split('/')[2]);
+
+    if (pk) {
+      fetch("/campus/api/" + pk, {
+        method: "GET",
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}',
+        }
+      }).then(res => {
+        res.json().then(item => {
+          item.forEach(element => {
+            sigla.value = element.abbreviation;
+            nome.value = element.name;
+          });
+        })
+      }).catch(err => {
+        console.log("ERROR: " + err);
+      });
+
+      function deleteCampus(e) {
+        e.preventDefault();
+
+        fetch("/campus/api/" + pk + "/", {
+          method: "DELETE",
+          headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+          }
+        }).then(res => {
+          window.location.href = "/campus";
+        }).catch(err => {
+          console.log("ERROR: " + err);
+        });
+      }
+      
+      function submitFormUser() {
+        let sigla = document.querySelector('#input1').value;
+        let nome = document.querySelector('#input2').value;
+
+        fetch("/campus/api/" + pk + "/", {
+          method: "PUT",
+          headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Accept': 'application/json, text/plain',
+            'Content-Type': 'application/json;charset=UTF-8',
+          },
+          body: JSON.stringify({
+            abbreviation: sigla,
+            name: nome,
+          }),
+        }).then(res => {
+          res.json().then(item => {
+            item.forEach(element => {
+              sigla.value = element.abbreviation;
+              nome.value = element.name;
+            });
+          })
+        }).catch(err => {
+          console.log("ERROR: " + err);
+        });
+      }
+    } else {
+      titleText.innerHTML = "Novo Campus";
+      deleteInput.style.visibility = "hidden";
+    }
+  </script>
+{% endblock extra_js %}

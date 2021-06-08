@@ -1,10 +1,10 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from course.models import Course
+from campus.models import Campus
 
 
-class CourseForm(forms.ModelForm):
+class CampusForm(forms.ModelForm):
     class Meta:
-        model = Course
+        model = Campus
         fields = '__all__'

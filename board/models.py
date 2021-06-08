@@ -59,7 +59,7 @@ class Board(models.Model):
   graduation_date = models.DateField(_('Data da formatura'))
   
   course = models.ForeignKey(Course, on_delete=models.CASCADE)
-  # campus = models.ForeignKey(Campus, on_delete=models.CASCADE)
+  campus = models.ForeignKey(Campus, on_delete=models.CASCADE, null=True, blank=True)
 
   # mentioned = models.ManyToManyField(Mentioned)
   mentioned = models.ManyToManyField(

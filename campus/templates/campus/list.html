@@ -15,18 +15,18 @@
   <div id="position">
     <div id="cabecalho">
       <div>
-        <p>Cursos do sistema</p>  
+        <p>Campus do sistema</p>  
       </div>
       <div>
         <a class="botaocrud" href="create">Novo</a>
-        <a class="botaocrud btn-import" id="import" data-bs-toggle="modal" data-bs-target="#importModal">Importar</a>
+        <!-- <a class="botaocrud btn-import" id="import" data-bs-toggle="modal" data-bs-target="#importModal">Importar</a> -->
       </div>  
     </div>  
   </div>
   <div class="search-and-filters row m-0">
     <form method="GET" action="{% url 'account_login' %}" style="justify-content: flex-start; display: flex;">
       <div class="filter">
-        <label>Nome Curso:</label>
+        <label>Nome Campi:</label>
         <input type="text" name="name" placeholder="" value="" />
       </div>
       <div class="submit-button col-1">            
@@ -39,25 +39,19 @@
       <thead>
         <tr>
           <th class="col-sm-1">#</th>
-          <th>Código</th>
+          <th>Sigla</th>
           <th>Nome</th>
         </tr>
       </thead>
 
       <tbody>
-        {% for course in object_list %}
+        {% for campus in object_list %}
           <tr>
             <th class="field-show_list_display_icons">
-              <a class="icon icon-view" href="{{ course.get_preview_url }}"><img src="{% static 'assets/lupa.png' %}"></a>
+              <a class="icon icon-view" href="{{ campus.get_preview_url }}"><img src="{% static 'assets/lupa.png' %}"></a>
             </th>
-            <!--
-            <td>
-              <a class="botaocrud2" href="{{ course.get_update_url }}">Editar</a>
-              <a class="botaocrud2" href="{{ course.get_preview_url }}">Visualizar</a>
-            </td>
-            -->
-            <td>{{ course.code }}</td>
-            <td>{{ course.name }}</td>            
+            <td>{{ campus.abbreviation }}</td>
+            <td>{{ campus.name }}</td>            
           </tr>
         {% endfor %}
       </tbody>
@@ -73,14 +67,14 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="importModalLabel">Importar curso via SUAP</h5>
+          <h5 class="modal-title" id="importModalLabel">Importar campus via SUAP</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="search-and-filters row pt-0" style="background-color: white;">
             <form onsubmit="queryDataImport(event)">
               <div>
-                <label>Código do curso:</label>
+                <label>Código do campus:</label>
                 <input type="number" name="search_code" placeholder="" value="" required />
               </div>
               <div class="submit-button col-1">            
@@ -106,13 +100,14 @@
 
 {% block extra_js %}
   <script type="text/javascript">
+    // FIXME: need update endpoint
     function queryDataImport(e) {
       e.preventDefault();
       
       let pk = document.querySelector('[name="search_code"]').value;
       const ul = document.querySelector('#search_list');
 
-      fetch("http://placas-virtuais.suapdevs.ifrn.edu.br/edu/api/listar_cursos/?codigo=" + pk, {
+      fetch("http://placas-virtuais.suapdevs.ifrn.edu.br/api/campi/?codigo=" + pk, {
         method: "GET",
         headers: {
           'Accept': 'application/json',
@@ -150,7 +145,7 @@
       e.preventDefault();
 
       let courseData = window.localStorage.getItem('course');
-      fetch("/courses/api/", {
+      fetch("/campus/api/", {
         method: "POST",
         headers: {
           'Accept': 'application/json',
@@ -161,8 +156,8 @@
       }).then(res => {
         if (res.status === 200) {
           swal({
-            title: "Curso Salvo!",
-            text: "Curso foi importado via SUAP com sucesso!",
+            title: "Campus Salvo!",
+            text: "Campus foi importado via SUAP com sucesso!",
             icon: "success",
             buttons: {
               cancel: {
@@ -181,8 +176,8 @@
           }, 2000);
         } else {
             swal({
-              title: "Curso Não Salvo!",
-              text: "Curso não foi importado via SUAP!",
+              title: "Campus Não Salvo!",
+              text: "Campus não foi importado via SUAP!",
               icon: "error",
               buttons: {
                 cancel: {
@@ -205,7 +200,6 @@
       }).catch(err => {
         console.log("ERROR: " + err);
       });
-
     }
   </script>
 {% endblock extra_js %}

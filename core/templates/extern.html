@@ -101,7 +101,7 @@
               {% endfor %}
             {% else %}
               <div class="carousel-item active">
-                <img src="https://i.pinimg.com/originals/d1/a2/0c/d1a20c76ac4b7a77d906581f6bf3ecaf.jpg" class="d-block w-100" alt="...">
+                <!-- <img src="https://i.pinimg.com/originals/d1/a2/0c/d1a20c76ac4b7a77d906581f6bf3ecaf.jpg" class="d-block w-100" alt="..."> -->
               </div> 
             {% endif %}  
           </div>
@@ -159,7 +159,7 @@
           
           <div class="filter" >
             <label>Curso:</label>
-            <select name="course" class="select">
+            <select name="course" class="select" placeholder="Selecione o curso">
               <option value=""></option>
               {% for course in courses %}
                 <option
@@ -175,13 +175,13 @@
       </div>
       
       {% if object_list %}
-      <div class="results" class="row">
+      <div class="results mb-5" class="row">
         <table id="result_list">
           <thead>
             <tr>
               <th class="col-sm-1">#</th>
               <th>Foto</th>
-              <th>Nome do egresso ou placa</th>
+              <th>Nome da placa</th>
               <th>Ano</th>
               <th>Período</th>
               <!--<th>Campi</th>-->
@@ -222,7 +222,16 @@
     </main>
   </body>
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
   <script type="text/javascript">
+    $(document).ready(function () {
+      $('select').selectize({
+        sortField: 'text'
+      });
+    });
+
     function checkParams(field) {
       var url = window.location.href;
       if (url.indexOf('?' + field + '=') != -1)
@@ -243,6 +252,7 @@
     period.value = urlParams.get('period') === null ? "" : urlParams.get('period');
     course.value = urlParams.get('course') === null ? "" : urlParams.get('course');
   </script>
+
   <!-- Option 1: Bootstrap Bundle with Popper -->
   <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </html>

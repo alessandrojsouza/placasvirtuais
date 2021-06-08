@@ -86,7 +86,11 @@
           </tr>
           <tr>
             <td>Campus</td>
-            <td>-------</td>
+            <td>
+              {% if form.instance %}
+                <input type="text" name="name" value="{{ form.instance.campus }}" disabled>
+              {% endif %}
+            </td>
             <td>Curso</td>
             <td>
               {% if form.instance %}

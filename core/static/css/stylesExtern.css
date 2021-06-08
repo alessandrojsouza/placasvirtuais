@@ -282,3 +282,9 @@ th .icon {
 .rounded-circle {
   max-width: 8rem;
 }
+
+.selectize-input {
+  width: 200px !important;
+  min-width: 100px;
+  max-width: 200px;
+}

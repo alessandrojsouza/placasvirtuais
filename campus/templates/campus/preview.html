@@ -12,12 +12,12 @@
   <div id="position">
     <div id="cabecalho">
       <div>
-        <p>Curso</p>            
+        <p>Campus</p>            
       </div> 
       <div class="action-bar-container">
         <ul class="action-bar">
-          <li><a href="{% url 'course:list' %}" style="background-color: #292929;">Cancelar</a></li>
-          <li><a href="{{ course.get_update_url }}">Editar</a></li>
+          <li><a href="{% url 'campus:list' %}" style="background-color: #292929;">Cancelar</a></li>
+          <li><a href="{{ campus.get_update_url }}">Editar</a></li>
           <li>
             <a class="botaocrud btn-delete" id="deleteA" data-bs-toggle="modal" data-bs-target="#deleteModal">Excluir</a>
           </li>
@@ -30,12 +30,12 @@
     <div class="box">
       <table class="info">
         <tr>
-          <td>Código</td>
-          <td><input type="number" id="input1" name="codigo" value="Código" disabled></td>
+          <td>Sigla</td>
+          <td><input type="text" id="input1" name="codigo" value="Sigla" disabled></td>
         </tr>
         <tr>
           <td>Nome</td>
-          <td><input type="text" id="input2" name="name" value="SIAPE" disabled></td>
+          <td><input type="text" id="input2" name="name" value="Nome" disabled></td>
         </tr>
       </table>
     </div>  
@@ -49,15 +49,15 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Excluir curso</h5>
+          <h5 class="modal-title" id="deleteModalLabel">Excluir campus</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p>Deseja realmente excluir o curso?</p>
+          <p>Deseja realmente excluir o campus?</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-danger" onclick="deleteCourse(event)">Excluir</button>
+          <button type="button" class="btn btn-danger" onclick="deleteCampus(event)">Excluir</button>
         </div>
       </div>
     </div>
@@ -68,12 +68,12 @@
 {% block extra_js %}
   <script type="text/javascript">
     const deleteInput = document.querySelector('#cabecalho #deleteA');
-    const codigo = document.querySelector('#input1');
+    const sigla = document.querySelector('#input1');
     const nome = document.querySelector('#input2');
     let pk = parseInt(window.location.pathname.split('/')[2]);
 
     if (pk) {  
-      fetch("/courses/api/" + pk, {
+      fetch("/campus/api/" + pk, {
         method: "GET",
         headers: {
           'X-CSRFToken': '{{ csrf_token }}',
@@ -81,7 +81,7 @@
       }).then(res => {
         res.json().then(item => {
           item.forEach(element => {
-            codigo.value = element.code;
+            sigla.value = element.abbreviation;
             nome.value = element.name;
           });
         })
@@ -92,16 +92,16 @@
       deleteInput.style.visibility = "hidden";
     }
 
-    function deleteCourse(e) {
+    function deleteCampus(e) {
       e.preventDefault();
 
-      fetch("/courses/api/" + pk + "/", {
+      fetch("/campus/api/" + pk + "/", {
         method: "DELETE",
         headers: {
           'X-CSRFToken': '{{ csrf_token }}',
         }
       }).then(res => {
-        window.location.href = "/courses";
+        window.location.href = "/campus";
       }).catch(err => {
         console.log("ERROR: " + err);
       });
