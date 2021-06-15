@@ -1,3 +1,5 @@
+from django.http import HttpResponseRedirect
+
 from django.shortcuts import render
 from django.db import models
 
@@ -12,6 +14,7 @@ from board.serializers import BoardSerializer, MentionedSerializer
 from board.models import Board, Mentioned
 from course.models import Course
 from egress.models import Egress
+from campus.models import Campus
 
 from board.forms import BoardForm
 
@@ -110,6 +113,7 @@ class BoardCreate(BaseBoardView, views.CreateView):
   
   def post(self, request):
     course_obj = Course.objects.get(pk=request.POST['course'])
+    campus_obj = Campus.objects.get(pk=request.POST['campus'])
   
     board_obj = Board.objects.create(
       name=request.POST['name'],
@@ -118,6 +122,7 @@ class BoardCreate(BaseBoardView, views.CreateView):
       photo=self.request.FILES['photo'],
       graduation_date=request.POST['graduation_date'],
       course=course_obj,
+      campus=campus_obj,
     )
 
     values = [value for name, value in self.request.POST.items()
@@ -136,6 +141,8 @@ class BoardCreate(BaseBoardView, views.CreateView):
     context.update(egress_food_form=BoardForm())
     course = Course.objects.all().order_by('id')
     context.update({'courses': course})
+    campus = Campus.objects.all().order_by('id')
+    context.update({'campus': campus})
     mentioned = Mentioned.objects.all()
     context.update({'mentioneds': mentioned})
     return context
@@ -165,7 +172,9 @@ class BoardUpdate(BaseBoardView, views.UpdateView):
     context.update(name=self.request.GET.get('name', ''))
     course = Course.objects.all().order_by('id')
     context.update({'courses': course})
-    board_obj = Board.objects.get(pk=self.kwargs.get('pk'))
+    campus = Campus.objects.all().order_by('id')
+    context.update({'campus': campus})
+    Board.objects.get(pk=self.kwargs.get('pk'))
     return context
 
   def get_queryset(self):
@@ -186,6 +195,8 @@ class BoardPreview(BaseBoardView, views.UpdateView):
     context.update({'mentioneds': mentioned})
     egress = Egress.objects.filter(board=self.kwargs.get('pk'))
     context.update({'egress': egress})
+    campus = Campus.objects.filter(board=self.kwargs.get('pk'))
+    context.update({'campus': campus})
     return context
 
 

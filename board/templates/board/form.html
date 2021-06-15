@@ -76,6 +76,16 @@
         </select>
       </div>
       <div class="form">
+        <label>Selecione o campus</label>
+        <select name="campus" id="input4">
+          {% for campus in campus %}
+            <option 
+              value="{{ campus.id }}"
+            >{{ campus.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form">
         <label>Mensagem da turma</label>
         <textarea id="input3" cols="100" rows="10" name="message" placeholder="Mensagem"></textarea>
       </div>      
@@ -197,6 +207,7 @@
     const message = document.querySelector('[name="message"]');
     const date = document.querySelector('[name="graduation_date"]');
     const course = document.querySelector('[name="course"]');
+    const campus = document.querySelector('[name="campus"]');
     
     let pk = parseInt(window.location.pathname.split('/')[2]);
     if (pk) {
@@ -213,6 +224,7 @@
             message.value = element.message;
             date.value = element.graduation_date;
             course.value = element.course;
+            campus.value = element.campus;
           });
         })
       }).catch(err => {
