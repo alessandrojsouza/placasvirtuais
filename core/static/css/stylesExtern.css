@@ -76,6 +76,10 @@ a {
   width: 2%;
 }
 
+#loginimg {
+  border-radius: 45%;
+}
+
 /*middle*/
 #middle-content {
   background-image: url("../assets/middle.png");

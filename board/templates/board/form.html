@@ -78,6 +78,7 @@
       <div class="form">
         <label>Selecione o campus</label>
         <select name="campus" id="input4">
+          <!-- FIXME: Verify user.campus and block change -->
           {% for campus in campus %}
             <option 
               value="{{ campus.id }}"

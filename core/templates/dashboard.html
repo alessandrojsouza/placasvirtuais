@@ -17,7 +17,12 @@
 {% block content %}
   <div id="container">
     <div id="apresentacao" class="mt-3">
-      <img src="{% static 'assets/avatar-new.png' %}">
+      <!-- <img src="{% static 'assets/avatar-new.png' %}"> -->
+      {% if user.avatar %}
+        <img id="loginimg" src="{{ request.user.get_avatar }}">
+      {% else %}
+        <img id="loginimg" src="{% static 'assets/avatar-new.png' %}">
+      {% endif %}
       <p>Bem vindo(a), {{ user.get_full_name }}</p>
     </div>
     <div class="row">

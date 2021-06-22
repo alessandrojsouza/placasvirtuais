@@ -23,11 +23,16 @@
           </a>
           <div>
             {% if user.is_authenticated %}
-            <a href="{% url 'account_logout' %}">Logout</a>
-            <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
+              <a href="{% url 'account_logout' %}">Logout</a>
+
+              {% if user.avatar %}
+                <img id="loginimg" src="{{ request.user.get_avatar }}">
+              {% else %}
+                <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
+              {% endif %}
             {% else %}
-            <a href="{% url 'account_login' %}">Login</a>
-            <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
+              <a href="{% url 'account_login' %}">Login</a>
+              <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
             {% endif %}
           </div>
         </div>
