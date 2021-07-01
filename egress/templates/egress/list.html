@@ -235,7 +235,9 @@
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': 'Token {{ TOKEN_SUAP_SECRET }}'
+          'Authorization': 'Token {{ TOKEN_SUAP_SECRET }}',
+          'Access-Control-Allow-Origin': '*',
+          'mode':'no-cors',
         }}).then((response) => {
           ul.innerHTML = '';
 

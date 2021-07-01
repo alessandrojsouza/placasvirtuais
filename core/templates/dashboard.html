@@ -17,14 +17,19 @@
 {% block content %}
   <div id="container">
     <div id="apresentacao" class="mt-3">
-      <img src="{% static 'assets/avatar-new.png' %}">
+      <!-- <img src="{% static 'assets/avatar-new.png' %}"> -->
+      {% if user.avatar %}
+        <img id="loginimg" src="{{ request.user.get_avatar }}">
+      {% else %}
+        <img id="loginimg" src="{% static 'assets/avatar-new.png' %}">
+      {% endif %}
       <p>Bem vindo(a), {{ user.get_full_name }}</p>
     </div>
     <div class="row">
-      <a class="botao" href="{% url 'egress:list' %}"><img src="{% static 'assets/egresso.png' %}"></a>
       <a class="botao" href="{% url 'core:list' %}"><img src="{% static 'assets/usuario.png' %}"></a>
-      <a class="botao" href="{% url 'course:list' %}"><img src="{% static 'assets/cursos.png' %}"></a>
       <a class="botao" href="{% url 'campus:list' %}"><img src="{% static 'assets/campus.png' %}"></a>
+      <a class="botao" href="{% url 'course:list' %}"><img src="{% static 'assets/cursos.png' %}"></a>
+      <a class="botao" href="{% url 'egress:list' %}"><img src="{% static 'assets/egresso.png' %}"></a>
       <a class="botao" href="{% url 'board:list' %}"><img src="{% static 'assets/placas.png' %}"></a>
     </div>
 

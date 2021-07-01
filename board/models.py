@@ -73,7 +73,7 @@ class Board(models.Model):
     return self.year_graduation
 
   class Meta:
-    verbose_name = _(u'PLaca')
+    verbose_name = _(u'Placa')
     verbose_name_plural = _(u'Placas')
 
   def __str__(self):

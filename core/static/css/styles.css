@@ -60,6 +60,9 @@ a:hover {
 }
 
 /* tela login */
+#loginimg {
+  border-radius: 45%;
+}
 #login {
   background-color: #dddddd;
   box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.15);
