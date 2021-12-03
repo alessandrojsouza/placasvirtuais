@@ -19,7 +19,7 @@
       </div>
       <div>
         <a class="botaocrud" href="create">Novo</a>
-        <!-- <a class="botaocrud btn-import" id="import" data-bs-toggle="modal" data-bs-target="#importModal">Importar</a> -->
+        <a class="botaocrud btn-import" id="import" data-bs-toggle="modal" data-bs-target="#importModal">Importar</a>
       </div>  
     </div>  
   </div>
@@ -75,7 +75,7 @@
             <form onsubmit="queryDataImport(event)">
               <div>
                 <label>Código do campus:</label>
-                <input type="number" name="search_code" placeholder="" value="" required />
+                <input type="text" name="search_code" placeholder="" value="" required />
               </div>
               <div class="submit-button col-1">            
                 <button type="submit" id="button_filter" style="margin: 1rem !important">Filtrar</button>
@@ -107,7 +107,7 @@
       let pk = document.querySelector('[name="search_code"]').value;
       const ul = document.querySelector('#search_list');
 
-      fetch("http://placas-virtuais.suapdevs.ifrn.edu.br/api/campi/?codigo=" + pk, {
+      fetch("http://placas-virtuais.suapdevs.ifrn.edu.br/api/campi/?sigla=" + pk, {
         method: "GET",
         headers: {
           'Accept': 'application/json',
@@ -120,21 +120,24 @@
             window.localStorage.removeItem('course');
 
             return response.json().then((data) => {
-              if (data.length !== 0) {
-                const course = {
-                  code: data[0].codigo,
-                  name: data[0].descricao
-                }
-                window.localStorage.setItem('course', JSON.stringify(course));
+              console.log("data ----", data);
+
+              // if (data.length !== 0) {
+              //   const course = {
+              //     code: data[0].codigo,
+              //     code: data[0].sigla,
+              //     name: data[0].descricao
+              //   }
+              //   window.localStorage.setItem('course', JSON.stringify(course));
   
-                let li = document.createElement("li");
-                li.appendChild(document.createTextNode(`${data[0].descricao}`));
-                ul.appendChild(li);
-              } else {
-                let li = document.createElement("li");
-                li.appendChild(document.createTextNode("Código não válido."));
-                ul.appendChild(li);
-              }
+              //   let li = document.createElement("li");
+              //   li.appendChild(document.createTextNode(`${data[0].descricao}`));
+              //   ul.appendChild(li);
+              // } else {
+              //   let li = document.createElement("li");
+              //   li.appendChild(document.createTextNode("Código não válido."));
+              //   ul.appendChild(li);
+              // }
             }).catch((err) => {
               console.log("err", err);
             }) 

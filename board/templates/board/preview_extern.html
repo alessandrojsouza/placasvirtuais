@@ -23,11 +23,16 @@
           </a>
           <div>
             {% if user.is_authenticated %}
-            <a href="{% url 'account_logout' %}">Logout</a>
-            <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
+              <a href="{% url 'account_logout' %}">Logout</a>
+
+              {% if user.avatar %}
+                <img id="loginimg" src="{{ request.user.get_avatar }}">
+              {% else %}
+                <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
+              {% endif %}
             {% else %}
-            <a href="{% url 'account_login' %}">Login</a>
-            <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
+              <a href="{% url 'account_login' %}">Login</a>
+              <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
             {% endif %}
           </div>
         </div>
@@ -142,7 +147,7 @@
                     <div class="col-md-8 mt-5">
                       <div class="card-body">
                         <h5 class="card-title">{{ egress.name }}</h5>
-                        <p class="card-text"><small class="text-muted">Matricula:</small> 329803183</p>
+                        <p class="card-text"><small class="text-muted">Matricula:</small> {{ egress.enrollment }}</p>
                       </div>
                     </div>
                   </div>
