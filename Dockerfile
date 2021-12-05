@@ -1,9 +1,8 @@
-FROM python:3.8.6
+FROM python:3
+ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-
-RUN mkdir /root/placasvirtuais
-WORKDIR /root/placasvirtuais
-COPY requirements.txt /root/placasvirtuais/
-EXPOSE 5699
+RUN mkdir /code
+WORKDIR /code
+COPY requirements.txt /code/
 RUN pip install -r requirements.txt
-COPY . /root/placasvirtuais/
+COPY . /code/
