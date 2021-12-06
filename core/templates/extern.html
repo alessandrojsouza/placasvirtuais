@@ -74,7 +74,7 @@
                   <img src="{{ board.photo.url }}" class="d-block w-100" alt="{{ board.name }}">
                 </div>
 
-                <!-- <div class="carousel-item active">
+                <div class="carousel-item active">
                   <img src="https://i.pinimg.com/originals/d1/a2/0c/d1a20c76ac4b7a77d906581f6bf3ecaf.jpg" class="d-block w-100" alt="...">
                 </div> 
                 <div class="carousel-item">
@@ -82,11 +82,11 @@
                 </div> 
                 <div class="carousel-item">
                   <img src="https://i.pinimg.com/originals/78/d8/35/78d835939efbbe6873894007126fac01.jpg" class="d-block w-100" alt="...">
-                </div> -->
+                </div>
               {% endfor %}
             {% else %}
               <div class="carousel-item active">
-                <!-- <img src="https://i.pinimg.com/originals/d1/a2/0c/d1a20c76ac4b7a77d906581f6bf3ecaf.jpg" class="d-block w-100" alt="..."> -->
+                <img src="https://i.pinimg.com/originals/d1/a2/0c/d1a20c76ac4b7a77d906581f6bf3ecaf.jpg" class="d-block w-100" alt="...">
               </div> 
             {% endif %}  
           </div>
@@ -104,15 +104,6 @@
           <img src="{% static 'assets/scroll.svg' %}">
         </div>
       </section>
-      
-      <!-- <div id="begin-content">
-        <img src="{% static 'assets/barra.png' %}" style="width: 1.5%;">
-        <p>Plataforma dedicada a placas de formatura do campus Natal Central - IFRN</p>
-        <img src="{% static 'assets/imagem-1.svg' %}">
-      </div>
-      <div id="row">
-        <img src="{% static 'assets/scroll.svg' %}">
-      </div> -->
 
       <section id="search" class="bg-content-search">
         <div class="container">
@@ -165,59 +156,19 @@
             </form> 
           </div>
 
-          <div class="container" class="row">
-            <div class="d-flex result-item">
-              <img src="https://i.pinimg.com/originals/d1/a2/0c/d1a20c76ac4b7a77d906581f6bf3ecaf.jpg" class="result-image rounded-circle" alt="Foto do egresso">
-              <div class="d-flex flex-column justify-content-center align-items-start" style="margin-left: 4rem;">
-                <h4>Nome da turma</h4>
-                <span>Nome do curso, Nome do campus - ano.periodo</span>
-              </div>
-            </div>
-          </div>
-
           {% if object_list %}
-          <div class="results mb-5 pb-5" class="row">
-            <table id="result_list">
-              <thead>
-                <tr>
-                  <th class="col-sm-1">#</th>
-                  <th>Foto</th>
-                  <th>Nome da placa</th>
-                  <th>Ano</th>
-                  <th>Período</th>
-                  <!--<th>Campi</th>-->
-                  <th>Curso</th>
-                </tr>
-              </thead>          
-              <!-- search by egress and board to visit board -->
-              <tbody>
-                {% for board in object_list %}
-                  <tr>
-                    <th class="field-show_list_display_icons">
-                      <a class="icon icon-view" href="{{ board.get_preview_extern_url }}"><img src="{% static 'assets/lupa.png' %}"></a>
-                    </th>
-                    <!-- <td class="field-get_foto">
-                      <div class="photo-circle">
-                        <img src="{{ board.photo.url }}">
-                      </div>
-                    </td> -->
-                    <td>
-                      <img src="{{ board.photo.url }}" class="rounded-circle" alt="Foto do egresso">
-                    </td>
-                    <td>{{ board.name }}</td>
-                    <td>{{ board.get_year }}</td>
-                    <td>{{ board.period_graduation }}</td>
-                    <td>{{ board.course }}</td>
-                  </tr>             
-                {% endfor %}
-              </tbody> 
-            </table>
+          <div class="container" class="row">
+            {% for board in object_list %}
+            <a href="{{ board.get_preview_extern_url }}" class="d-flex result-item">
+              <img src="{{ board.photo.url }}" class="result-image rounded-circle" alt="Foto do egresso">
+              <div class="d-flex flex-column justify-content-center align-items-start" style="margin-left: 4rem;">
+                <h4>{{ board.name|capfirst }}</h4>
+                <span>{{ board.course }} / {{ board.campus }} - {{ board.get_year }}.{{ board.period_graduation }}</span>
+              </div>
+            </a>
+            {% endfor %}
           </div>
-          {% else %}
-          <div class="alert alert-danger" role="alert">
-            <p>Por enquanto ainda não há placa cadastrada na base de dados!</p>        
-          </div>
-        {% endif %}          
+          {% endif %}
         </div>
       </section>
 
@@ -228,7 +179,7 @@
             <div class="info">
               <h4>Encontre a sua diretoria</h4>
               <ul>
-                <li><a href="#">DIATINF</a></li>
+                <li><a href="/cnat/diatinf">DIATINF</a></li>
                 <li><a href="#">DIAC</a></li>
                 <li><a href="#">DIACON</a></li>
                 <li><a href="#">DIAREN</a></li>

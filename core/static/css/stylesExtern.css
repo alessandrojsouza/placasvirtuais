@@ -70,7 +70,6 @@ a {
   display: flex;
   justify-content: center;
   margin-top: 5%;
-  margin-bottom: 10%;
 }
 #row img {
   width: 2%;
@@ -83,7 +82,7 @@ a {
 /*middle*/
 .middle-content {
   /* background-image: url("../assets/middle.png"); */
-  padding: 8rem 1rem !important;
+  padding-top: 6rem !important;
   background-repeat: no-repeat;
   background-position: center top;
   background-size: cover;
@@ -92,7 +91,6 @@ a {
   align-items: center;
   align-content: flex-start;
   flex-direction: column;
-  height: 80vh;
 }
 .bg-content-search {
   background-image: url("../assets/middle.png");
@@ -105,6 +103,7 @@ a {
   align-items: center;
   align-content: flex-start;
   flex-direction: column;
+  min-height: 80vh;
 }
 #teste {
   width: 100%;
@@ -305,6 +304,7 @@ th .icon {
   transition: all 0.2s linear;
   overflow: hidden;
   justify-content: center;
+  height: 8rem;
 }
 
 .result-item:focus,
@@ -312,6 +312,7 @@ th .icon {
   cursor: pointer;
   box-shadow: 2px 8px 100px rgba(0, 0, 0, 0.15);
   transform: translate3D(0, -2px, 0);
+  color: #292b2c;
 }
 
 .result-item h4 {
