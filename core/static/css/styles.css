@@ -509,9 +509,8 @@ table.info td {
 }
 /*modal*/
 .modal-content {
-  width: 150% !important;
-  margin: -3rem !important;
-  margin-left: -7rem !important;
+  width: 230% !important;
+  margin-left: -21rem !important;
 }
 .modalcontainer {
   width: 100vw;

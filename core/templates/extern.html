@@ -26,12 +26,26 @@
     <header class="container-fluid">
       <div class="row m-0">
         <div class="col-md-12">
-          <nav class="navbar fixed-top navbar-dark bg-dark" style="box-shadow: 0 0px 0px rgb(0 0 0 / 20%), 0 0px 0px rgb(0 0 0 / 14%), 0 2px 10px -2px rgb(0 0 0 / 12%);">
+          <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark" style="box-shadow: 0 0px 0px rgb(0 0 0 / 20%), 0 0px 0px rgb(0 0 0 / 14%), 0 2px 10px -2px rgb(0 0 0 / 12%);">
             <div class="container-fluid">
               <a class="navbar-brand" href="/" style="font-size: 1.5rem;">
                 Placas de Formatura Virtual
               </a>
-              <div>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarText" style="flex-grow: 0 !important;">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0"style="padding-right: 5rem;">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#graduates">Récem-formandos</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#search">Turmas</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#infos">Informações</a>
+                  </li>
+                </ul>
                 {% if user.is_authenticated %}
                   <a href="{% url 'account_logout' %}">Logout</a>
                   
@@ -203,8 +217,9 @@
           <svg viewBox="0 0 508 29.21"><g transform="translate(133.27 -145.43)"><path d="m-133.27 174.64h508v-19.577s-24.536-9.2467-56.268-9.6266c-31.732-0.37986-59.03 15.343-105.39 18.24-59.245 3.7018-85.195-13.433-118.84-13.015-30.695 0.38115-37.826 25.86-89.397 11.495-41.761-11.632-52.309 2.0176-81.572 2.5333-29.263 0.51572-56.537-9.6266-56.537-9.6266z" fill="#4c566a" stroke-width="1.804"></path></g></svg>
         </div>
         <div class="footer-text p-5">
-          <div class="container text-center">
+          <div class="container text-center d-flex flex-column justify-content-center align-items-center">
             © 2021 Copyright - IFRN/CNAT - Todos os direitos reservados.
+            <img class="w-25 mt-2" src="{% static 'assets/ifrn-cnat.jpeg' %}" alt="IFRN - CNAT">
           </div>
         </div>
       </section>
