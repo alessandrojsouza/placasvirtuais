@@ -82,7 +82,7 @@ a {
 /*middle*/
 .middle-content {
   /* background-image: url("../assets/middle.png"); */
-  padding-top: 6rem !important;
+  padding-top: 5rem !important;
   background-repeat: no-repeat;
   background-position: center top;
   background-size: cover;
