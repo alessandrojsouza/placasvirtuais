@@ -199,11 +199,15 @@
               <div class="filter" >
                 <label>Ano:</label>
                 <select name="year" id="setoruo_select">
-                  {% for year in years %}
-                    <option
-                      value="{{ year.get_year }}"
-                    >{{ year.get_year }}</option>
-                  {% endfor %}
+                  {% if board_list %}
+                    {% for year in board_list %}
+                      <option
+                        value="{{ year.get_year }}"
+                      >{{ year.get_year }}</option>
+                    {% endfor %}
+                  {% else %}
+                    <option value="0">Sem opções cadastradas</option>
+                  {% endif %}
                 </select>
               </div>            
               <div class="filter" >

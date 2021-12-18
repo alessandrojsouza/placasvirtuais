@@ -173,8 +173,6 @@ class PageExtern(BaseBoardView, views.ListView):
     context = super(PageExtern, self).get_context_data(**kwargs)
     course = Course.objects.all().order_by('id')
     context.update({'courses': course})
-    year = Board.objects.all()
-    context.update({'years': year})
     context.update(name=self.request.GET.get('name', ''))
     return context
 
