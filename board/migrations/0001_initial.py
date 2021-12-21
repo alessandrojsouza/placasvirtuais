@@ -10,7 +10,6 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('campus', '0001_initial'),
         ('course', '0001_initial'),
     ]
 
@@ -39,7 +38,6 @@ class Migration(migrations.Migration):
                 ('year_graduation', models.IntegerField(verbose_name='Ano do período')),
                 ('period_graduation', models.PositiveIntegerField(default=1, validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(2)], verbose_name='Período')),
                 ('graduation_date', models.DateField(verbose_name='Data da formatura')),
-                ('campus', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='campus.campus')),
                 ('course', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='course.course')),
                 ('mentioned', models.ManyToManyField(blank=True, related_name='mentioneds', to='board.Mentioned', verbose_name='Mencionado')),
             ],

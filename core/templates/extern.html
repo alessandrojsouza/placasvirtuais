@@ -64,7 +64,7 @@
       .swiper-slide img {
         display: block;
         width: 100%;
-        height: 800px;
+        height: 40rem;
         object-fit: cover;
       }
     </style>
@@ -88,7 +88,7 @@
                     <a class="nav-link active" aria-current="page" href="#graduates">Récem-formandos</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#search">Turmas</a>
+                    <a class="nav-link" href="#search">Pesquisar</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#infos">Informações</a>
@@ -193,11 +193,24 @@
           <div class="search-and-filters row">
             <form method="GET" action=".#search" style="display: flex; justify-content: space-between;">
               <div class="filter">
-                <label>Nome Formando:</label>
+                <label>Nome Formando</label>
                 <input type="text" name="name" placeholder="" value="" />
               </div>
-              <div class="filter" >
-                <label>Ano:</label>
+
+              <div class="filter">
+                <label>Curso</label>
+                <select name="course" class="select" placeholder="Selecione o curso">
+                  <option value=""></option>
+                  {% for course in courses %}
+                    <option
+                      value="{{ course.id }}"
+                    >{{ course.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div class="filter">
+                <label>Ano</label>
                 <select name="year" id="setoruo_select">
                   {% if board_list %}
                     {% for year in board_list %}
@@ -209,27 +222,17 @@
                     <option value="0">Sem opções cadastradas</option>
                   {% endif %}
                 </select>
-              </div>            
-              <div class="filter" >
-                <label>Período:</label>  
+              </div>
+
+              <div class="filter">
+                <label>Período</label>  
                   <select name="period" class="select">
                     <option value=""></option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                   </select>
               </div>
-              
-              <div class="filter" >
-                <label>Curso:</label>
-                <select name="course" class="select" placeholder="Selecione o curso">
-                  <option value=""></option>
-                  {% for course in courses %}
-                    <option
-                      value="{{ course.id }}"
-                    >{{ course.name }}</option>
-                  {% endfor %}
-                </select>
-              </div>  
+               
               <div class="mt-1">
                 <button type="submit" class="btn btn-success">
                   <i aria-hidden="true" role="presentation" class="cursor-pointer material-icons q-icon notranslate text-white mt-2">search</i>
@@ -237,7 +240,8 @@
               </div>
             </form> 
           </div>
-
+          
+          <!-- FIXME: verify if to data of search is defined -->
           {% if object_list %}
           <div class="container" class="row">
             {% for board in object_list %}

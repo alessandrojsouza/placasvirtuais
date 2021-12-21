@@ -251,6 +251,15 @@ table.info td {
   background-color: #eeeeee;
 }
 
+@media (max-width: 1400px) {
+  .card .row {
+    flex-flow: inherit;
+  }
+  .card .row .col-md-8 {
+    margin-top: 0px !important;
+  }
+}
+
 .tabs {
   border: 1px solid #dee2e6;
   margin-top: -1px;

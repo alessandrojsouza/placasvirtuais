@@ -126,7 +126,7 @@
         <button class="nav-link" id="mentioned-tab" data-bs-toggle="tab" data-bs-target="#mentioned" type="button" role="tab" aria-controls="mentioned" aria-selected="false">Mencionados</button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="message-tab" data-bs-toggle="tab" data-bs-target="#message" type="button" role="tab" aria-controls="message" aria-selected="false">Mensagem</button>
+        <button class="nav-link" id="message-tab" data-bs-toggle="tab" data-bs-target="#message" type="button" role="tab" aria-controls="message" aria-selected="false">Mensagem da turma</button>
       </li>
     </ul>
     <div class="tab-content" id="myTabContent">
@@ -161,7 +161,7 @@
             <p id="input2">Nenhum mencionado cadastrado na placa</p>
           {% else %}
             {% for mentioned in form.instance.mentioned.all %}
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <div class="card mt-3">
                   <div class="row g-0">
                     <div class="col-md-4">

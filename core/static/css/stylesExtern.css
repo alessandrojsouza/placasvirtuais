@@ -105,6 +105,11 @@ a {
   flex-direction: column;
   min-height: 80vh;
 }
+
+.bg-content-search p {
+  font-size: 1rem;
+}
+
 #teste {
   width: 100%;
   display: flex;
@@ -163,21 +168,20 @@ main h1 {
   width: auto;
 }
 .search-and-filters input[type="text"] {
-  max-width: 100%;
+  width: 121%;
   padding: 4px;
-  width: 100%;
+  height: 34px;
+  font-size: 1rem;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 5px;
-  font-size: 100%;
-  height: 38px;
 }
 .search-and-filters label,
 .search-and-filters form div.form-row label {
   color: #666;
   display: block;
   float: none;
-  font-size: 90%;
+  font-size: 1rem;
   margin: 0;
   max-width: 158px;
   text-align: left !important;
@@ -185,6 +189,11 @@ main h1 {
 }
 .search-and-filters .submit-button {
   margin-top: 15px;
+}
+.selectize-input {
+  width: 100% !important;
+  min-width: 100px;
+  max-width: 200px;
 }
 #button_filter {
   background-color: #25a25a;
@@ -287,12 +296,6 @@ th .icon {
   max-width: 8rem;
 }
 
-.selectize-input {
-  width: 200px !important;
-  min-width: 100px;
-  max-width: 200px;
-}
-
 .result-item {
   text-align: center;
   margin: 1rem 10rem;
@@ -344,4 +347,8 @@ th .icon {
 .footer-text {
   color: #fff;
   background-color: #4d566a;
+}
+
+li.nav-item {
+  font-size: 1rem !important;
 }
