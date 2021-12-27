@@ -33,6 +33,9 @@ from board.forms import BoardForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 
+from django.contrib import auth
+from .oauth2 import OAuth2Response
+
 
 class LoginRequiredMixin(object):
   @classmethod
@@ -109,7 +112,6 @@ class UserList(BaseUserView, views.ListView):
 
   def get_queryset(self):
     queryset = super(UserList, self).get_queryset()
-    # queryset = queryset.all().order_by('id', 'username')
     queryset = queryset.filter(is_staff=False).order_by('id', 'username')
     return queryset
 
@@ -164,7 +166,6 @@ class UserPreview(BaseUserView, views.UpdateView):
     return context
 
 
-# class PageExtern(TemplateView, views.ListView):
 class PageExtern(BaseBoardView, views.ListView):
   template_name = 'extern.html'
   paginate_by = 25
@@ -215,12 +216,40 @@ class PageExtern(BaseBoardView, views.ListView):
 
 
 def suap_login(request):
-  from django.contrib import auth
-  from .oauth2 import OAuth2Response
   response = OAuth2Response(request)
   if response.data:
     user = User.objects.filter(email=response.data.get('email_secundario')).first()
     if user:
       auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
       return HttpResponseRedirect('/dashboard/')
+    else:
+      return HttpResponseRedirect('/?status=error')
   return response
+
+
+class PageExternDiretory(BaseBoardView, views.ListView):
+  template_name = 'diretory.html'
+
+  def get_context_data(self, **kwargs):
+    context = super(PageExternDiretory, self).get_context_data(**kwargs)
+    context.update(name=self.kwargs.get('diretory').capitalize())
+    return context
+
+  def get_queryset(self):
+    queryset = super(PageExternDiretory, self).get_queryset()
+    diretory_name = self.request.GET.get('diretory', None)
+
+    if diretory_name is not None:
+      egress = Egress.objects.filter(name__icontains=diretory_name)
+      if egress:
+        for item in egress:
+          queryset = queryset.filter(
+            models.Q(name__icontains=item.board)
+          )
+      else:
+        queryset = queryset.filter(
+          models.Q(name__icontains='@')
+        )
+
+    queryset = queryset.all().order_by('id', 'name')
+    return queryset

@@ -28,6 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 CLIENTE_ID = config('CLIENTE_ID')
 CLIENT_SECRET = config('CLIENT_SECRET')
 TOKEN_SUAP_SECRET = config('TOKEN_SUAP_SECRET')
+HOST = config('HOST')
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
