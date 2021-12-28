@@ -95,7 +95,9 @@
                   {% if user.avatar %}
                     <img id="loginimg" src="{{ request.user.get_avatar }}">
                   {% else %}
+                  <a href="{% url 'core:dashboard' %}">
                     <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
+                  </a>
                   {% endif %}
                 {% else %}
                   <a href="/suap_login/" class="btn btn-success m-3" style="width: 5rem;">Entrar</a>
@@ -110,9 +112,15 @@
     <main>
       <div id="graduates" class="container middle-content">        
         <!-- Swiper -->
+        {% if object_list %}
         <div class="swiper mySwiper">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
+            {% for board in object_list %}
+              <div class="swiper-slide">
+                <img src="{{ board.photo.url }}" alt="{{ board.name }}">
+              </div>
+            {% endfor %}
+            <!-- <div class="swiper-slide">
               <img src="https://i.pinimg.com/originals/d1/a2/0c/d1a20c76ac4b7a77d906581f6bf3ecaf.jpg" alt="...">
             </div>
             <div class="swiper-slide">
@@ -120,12 +128,18 @@
             </div>
             <div class="swiper-slide">
               <img src="https://yata.ostr.locaweb.com.br/4b440d5f1049352bc182d8781b7bc08d226c98ef793ed335204069ff9e30e1cd" alt="...">
-            </div>
+            </div> -->
           </div>
           <div class="swiper-button-next"></div>
           <div class="swiper-button-prev"></div>
           <div class="swiper-pagination"></div>
         </div>
+        {% else %}
+          <div class="alert alert-warning alert-dismissible fade show col-md-12 m-3" role="alert">
+            <strong>Nenhuma placa cadastrada nesta respectiva diretoria!</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endif %}
 
         <!--Carrosel-->
         <!-- <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">

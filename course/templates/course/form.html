@@ -30,6 +30,10 @@
       <div class="form">
         <label>Nome Curso</label>
         <input id="input2" type="text" name="name" value="">
+      </div>
+      <div class="form">
+        <label>Diretoria</label>
+        <input id="input3" type="text" name="directorship" value="">
       </div> 
     </div>    
     <div id="botoes">
@@ -68,6 +72,7 @@
     const titleText = document.querySelector('#cabecalho #title');
     const codigo = document.querySelector('#input1');
     const nome = document.querySelector('#input2');
+    const directorship = document.querySelector('#input3');
     let pk = parseInt(window.location.pathname.split('/')[2]);
 
     if (pk) {
@@ -81,6 +86,7 @@
           item.forEach(element => {
             codigo.value = element.code;
             nome.value = element.name;
+            directorship.value = element.directorship_name;
           });
         })
       }).catch(err => {
@@ -105,6 +111,7 @@
       function submitFormUser() {
         let codigo = document.querySelector('#input1').value;
         let nome = document.querySelector('#input2').value;
+        let directorship = document.querySelector('#input3').value;
 
         fetch("/courses/api/" + pk + "/", {
           method: "PUT",
@@ -116,12 +123,14 @@
           body: JSON.stringify({
             code: codigo,
             name: nome,
+            directorship: directorship,
           }),
         }).then(res => {
           res.json().then(item => {
             item.forEach(element => {
               codigo.value = element.code;
               nome.value = element.name;
+              directorship.value = element.directorship_name;
             });
           })
         }).catch(err => {

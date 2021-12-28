@@ -100,7 +100,9 @@
                   {% if user.avatar %}
                     <img id="loginimg" src="{{ request.user.get_avatar }}">
                   {% else %}
-                    <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
+                    <a href="{% url 'core:dashboard' %}">
+                      <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
+                    </a>
                   {% endif %}
                 {% else %}
                   <a href="/suap_login/" class="btn btn-success m-3" style="width: 5rem;">Entrar</a>
@@ -129,61 +131,18 @@
         <!-- Swiper -->
         <div class="swiper mySwiper">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="https://i.pinimg.com/originals/d1/a2/0c/d1a20c76ac4b7a77d906581f6bf3ecaf.jpg" alt="...">
-            </div>
-            <div class="swiper-slide">
-              <img src="https://i.pinimg.com/originals/df/ee/e3/dfeee3883978e1ede8aaacd857e94230.jpg" alt="...">
-            </div>
-            <div class="swiper-slide">
-              <img src="https://yata.ostr.locaweb.com.br/4b440d5f1049352bc182d8781b7bc08d226c98ef793ed335204069ff9e30e1cd" alt="...">
-            </div>
+            {% if boards %}
+              {% for board in boards|slice:":3" %}
+                <div class="swiper-slide">
+                  <img src="{{ board.photo.url }}" alt="{{ board.name }}">
+                </div>
+              {% endfor %}
+            {% endif %}
           </div>
           <div class="swiper-button-next"></div>
           <div class="swiper-button-prev"></div>
           <div class="swiper-pagination"></div>
         </div>
-
-        <!--Carrosel-->
-        <!-- <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-          </div>
-          <div class="carousel-inner">
-            {% if object_list %}
-              {% for board in object_list|slice:":3" %}
-                <div class="carousel-item {% if forloop.counter0 == 0 %}active{% endif %}" data-interval="100">
-                  <img src="{{ board.photo.url }}" class="d-block w-100" alt="{{ board.name }}">
-                </div>
-
-                <div class="carousel-item active">
-                  <img src="https://i.pinimg.com/originals/d1/a2/0c/d1a20c76ac4b7a77d906581f6bf3ecaf.jpg" class="d-block w-100" alt="...">
-                </div> 
-                <div class="carousel-item">
-                  <img src="https://i.pinimg.com/originals/93/8f/51/938f51313579266c0dd63623eeca037d.jpg" class="d-block w-100" alt="...">
-                </div> 
-                <div class="carousel-item">
-                  <img src="https://i.pinimg.com/originals/78/d8/35/78d835939efbbe6873894007126fac01.jpg" class="d-block w-100" alt="...">
-                </div>
-              {% endfor %}
-            {% else %}
-              <div class="carousel-item active">
-                <img src="https://i.pinimg.com/originals/d1/a2/0c/d1a20c76ac4b7a77d906581f6bf3ecaf.jpg" class="d-block w-100" alt="...">
-              </div> 
-            {% endif %}  
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div> -->
-        <!--Fim Carrosel-->
         <div id="row">
           <img src="{% static 'assets/scroll.svg' %}">
         </div>
@@ -207,19 +166,23 @@
                 <label>Curso</label>
                 <select name="course" class="select" placeholder="Selecione o curso">
                   <option value=""></option>
-                  {% for course in courses %}
-                    <option
-                      value="{{ course.id }}"
-                    >{{ course.name }}</option>
-                  {% endfor %}
+                  {% if courses %}
+                    {% for course in courses %}
+                      <option
+                        value="{{ course.id }}"
+                      >{{ course.name }}</option>
+                    {% endfor %}
+                  {% else %}
+                    <option value="0">Sem opções cadastradas</option>
+                  {% endif %}
                 </select>
               </div>
 
               <div class="filter">
                 <label>Ano</label>
                 <select name="year" id="setoruo_select">
-                  {% if board_list %}
-                    {% for year in board_list %}
+                  {% if boards %}
+                    {% for year in boards %}
                       <option
                         value="{{ year.get_year }}"
                       >{{ year.get_year }}</option>

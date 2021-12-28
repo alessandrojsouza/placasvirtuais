@@ -191,8 +191,8 @@ main h1 {
   margin-top: 15px;
 }
 .selectize-input {
-  width: 100% !important;
-  min-width: 100px;
+  width: 110% !important;
+  min-width: 110px;
   max-width: 200px;
 }
 #button_filter {

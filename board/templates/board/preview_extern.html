@@ -27,7 +27,9 @@
               {% if user.avatar %}
                 <img id="loginimg" src="{{ request.user.get_avatar }}">
               {% else %}
-                <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
+                <a href="{% url 'core:dashboard' %}">
+                  <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
+                </a>
               {% endif %}
             {% else %}
               <a href="/suap_login/" class="btn btn-success m-3" style="width: 5rem;">Entrar</a>

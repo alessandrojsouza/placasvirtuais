@@ -41,6 +41,7 @@
           <th class="col-sm-1">#</th>
           <th>Código</th>
           <th>Nome</th>
+          <th>Diretoria</th>
         </tr>
       </thead>
 
@@ -57,7 +58,8 @@
             </td>
             -->
             <td>{{ course.code }}</td>
-            <td>{{ course.name }}</td>            
+            <td>{{ course.name }}</td>           
+            <td>{{ course.directorship.name }}</td>           
           </tr>
         {% endfor %}
       </tbody>

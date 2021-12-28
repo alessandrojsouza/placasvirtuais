@@ -50,7 +50,7 @@ class Board(models.Model):
   name = models.CharField(_('Nome'), max_length=300)
   photo = models.ImageField(_('Imagem'), upload_to='board/')
   message = models.TextField(
-    _('Mensagem'), null=True, blank=True)
+    _('Mensagem da turma'), null=True, blank=True)
   # year_graduation = models.DateField(_('Ano do período'))
   # year_graduation = models.IntegerField(_('Ano do período'), default=current_year)
   year_graduation = models.CharField(_('Ano do período'), max_length=5, default=current_year)
