@@ -33,7 +33,13 @@
       </div>
       <div class="form">
         <label>Diretoria</label>
-        <input id="input3" type="text" name="directorship" value="">
+        <select name="directorship" id="input3">
+          {% for directorship in directorships %}
+            <option
+              value="{{ directorship.id }}"
+            >{{ directorship.name }}</option>
+          {% endfor %}
+        </select>
       </div> 
     </div>    
     <div id="botoes">
@@ -86,7 +92,7 @@
           item.forEach(element => {
             codigo.value = element.code;
             nome.value = element.name;
-            directorship.value = element.directorship_name;
+            directorship.selectize.setValue(element.directorship);
           });
         })
       }).catch(err => {
@@ -108,35 +114,35 @@
         });
       }
       
-      function submitFormUser() {
-        let codigo = document.querySelector('#input1').value;
-        let nome = document.querySelector('#input2').value;
-        let directorship = document.querySelector('#input3').value;
+      // function submitFormUser() {
+      //   let codigo = document.querySelector('#input1').value;
+      //   let nome = document.querySelector('#input2').value;
+      //   let directorship = document.querySelector('#input3').value;
 
-        fetch("/courses/api/" + pk + "/", {
-          method: "PUT",
-          headers: {
-            'X-CSRFToken': '{{ csrf_token }}',
-            'Accept': 'application/json, text/plain',
-            'Content-Type': 'application/json;charset=UTF-8',
-          },
-          body: JSON.stringify({
-            code: codigo,
-            name: nome,
-            directorship: directorship,
-          }),
-        }).then(res => {
-          res.json().then(item => {
-            item.forEach(element => {
-              codigo.value = element.code;
-              nome.value = element.name;
-              directorship.value = element.directorship_name;
-            });
-          })
-        }).catch(err => {
-          console.log("ERROR: " + err);
-        });
-      }
+      //   fetch("/courses/api/" + pk + "/", {
+      //     method: "PUT",
+      //     headers: {
+      //       'X-CSRFToken': '{{ csrf_token }}',
+      //       'Accept': 'application/json, text/plain',
+      //       'Content-Type': 'application/json;charset=UTF-8',
+      //     },
+      //     body: JSON.stringify({
+      //       code: codigo,
+      //       name: nome,
+      //       directorship: directorship,
+      //     }),
+      //   }).then(res => {
+      //     res.json().then(item => {
+      //       item.forEach(element => {
+      //         codigo.value = element.code;
+      //         nome.value = element.name;
+      //         directorship.value = element.directorship_name;
+      //       });
+      //     })
+      //   }).catch(err => {
+      //     console.log("ERROR: " + err);
+      //   });
+      // }
     } else {
       titleText.innerHTML = "Novo Curso";
       deleteInput.style.visibility = "hidden";

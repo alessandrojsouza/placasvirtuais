@@ -8,11 +8,11 @@ Toda parte de documentação do projeto se encontra na pasta docs no diretório 
 
 ### Externamente
 
-- [ ] Visualização das últimas placas de formaturas;
-- [ ] Pesquisa pelas placas de formaturas;
-- [ ] Visualização detalhada das placas pesquisadas;
-- [ ] Visualização das placas por diretória do campus CNAT;
-- [ ] Login para usuários autenticados na plataforma.
+- [x] Visualização das últimas placas de formaturas;
+- [x] Pesquisa pelas placas de formaturas;
+- [x] Visualização detalhada das placas pesquisadas;
+- [x] Visualização das placas por diretória do campus CNAT;
+- [x] Login para usuários autenticados na plataforma.
 
 ### Internamente
 
@@ -27,8 +27,6 @@ Toda parte de documentação do projeto se encontra na pasta docs no diretório 
 
 Desenvolvimento se dá através do host http://localhost:8000/.
 
-As credentials do SUAP são provenientes da criação e configuração no site da https://suap.ifrn.edu.br/api/applications/ promovida pelo SUAP.
-
 ```console
 ❯ git clone https://github.com/alessandrojsouza/placasvirtuais.git
 ❯ cd placasvirtuais/
@@ -41,6 +39,18 @@ As credentials do SUAP são provenientes da criação e configuração no site d
 ❯ python3 manage.py migrate
 ❯ python3 manage.py runserver
 ```
+
+### Configurações SUAP
+
+As credentials do SUAP são provenientes da criação e configuração no site da https://suap.ifrn.edu.br/api/applications/ promovida via SUAP.
+Onde após a criação da aplicação, são providas os dados:
+
+- CLIENTE_ID
+- CLIENT_SECRET
+- TOKEN_SUAP_SECRET
+
+\*Obs: lembrar de adicionar no campo `redirect_uris` a informação {host}/suap_login/.
+Ex: http://localhost:8000/suap_login/.
 
 ## Como realizar build?
 
