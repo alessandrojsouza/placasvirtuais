@@ -1,0 +1,336 @@
+{% extends "base.html" %}
+{% load static humanize %}
+
+{% block extra_css %}
+  <style type="text/css">
+    button[type="submit"] {
+      width: 15%;
+    }
+    input[type="select-one"] {
+      width: 50%;
+      height: 50%;
+    }
+    .selectize-input input {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+{% endblock extra_css %}
+
+
+{% block header %}
+<main>
+  <div id="position">
+    <div id="cabecalho">
+      <div>
+        <p>Emails do sistema</p>  
+      </div>
+      <div>
+        <a class="botaocrud" href="create">Novo</a>
+      </div>  
+    </div>  
+  </div>  
+  <div class="search-and-filters row m-0">
+    <form method="GET" action="{% url 'account_login' %}" style="justify-content: flex-start; display: flex;">
+      {% csrf_token %}
+      <div class="filter">
+        <label>Nome Egresso:</label>
+        <input type="text" name="name" placeholder="" value="" />
+      </div>
+      <div class="submit-button col-1">            
+        <button id="button_filter" type="submit">Filtrar</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="results" class="row">
+    <table id="result_list">
+      <thead>
+        <tr>
+          <th class="col-sm-1">#</th>
+          <th>Assunto</th>
+          <th>Remetente</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for egress in object_list %}
+      <tr>
+        <th class="field-show_list_display_icons">
+          <a class="icon icon-view" href="{{ egress.get_preview_url }}"><img src="{% static 'assets/lupa.png' %}"></a>
+        </th>
+          <td>{{ egress.enrollment }}</td>
+          <td>{{ egress.name }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+  </div> 
+</main>
+{% endblock header %}
+
+
+{% block content %}
+  <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="importModalLabel">Importar egresso via SUAP</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h4>Filtrar:</h4>
+          <div>
+            <input type="radio" name="myradio" id="myradio1" value="1" onclick="toggle('form1');" checked>
+            <label for="myradio1">Por matricula</label> <br>
+            <input type="radio" name="myradio" id="myradio2" value="2" onclick="toggle('form2');">
+            <label for="myradio2">Por ano de conclusão e código de curso</label>
+          </div>
+
+          <div class="search-and-filters row pt-0" style="background-color: white;">
+            <form onsubmit="queryDataImport(event)" name="form1" id='form1'>
+              <div style="padding-right: 1rem;">
+                <label>Placa:</label>
+                <!-- <input type="number" name="search_enrollment" placeholder="" value="" required /> -->
+                <select name="board" placeholder="Selecione a placa" class="select" required>
+                  <option
+                    value=""
+                  >----------</option>
+                  {% for board in boards %}
+                    <option
+                      value="{{ board.id }}"
+                    >{{ board.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div>
+                <label>Matricula:</label>
+                <input type="number" name="search_enrollment" placeholder="" value="" required />
+              </div>
+              <div class="submit-button col-1">            
+                <button type="submit" id="button_filter" style="margin: 1rem !important">Filtrar</button>
+              </div>
+            </form>
+
+            <form onsubmit="queryDatasImport(event)" name="form2" id="form2" action="..." method="post" style="display: none;">
+              <div style="padding-right: 1rem;">
+                <label>Placa:</label>
+                <select name="board" placeholder="Selecione a placa" class="select" required>
+                  <option
+                    value=""
+                  >----------</option>
+                  {% for board in boards %}
+                  <option
+                    value="{{ board.id }}"
+                  >{{ board.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div>
+                <label>Ano de conclusão:</label>
+                <input type="number" name="search_year" placeholder="" value="" required />
+
+                <label>Código do curso:</label>
+                <input type="number" name="search_code" placeholder="" value="" required />
+              </div>
+              <div class="submit-button col-1">            
+                <button type="submit" id="button_filter" style="margin: 1rem !important">Filtrar</button>
+              </div>
+            </form>
+          
+          </div>
+
+          <div class="container">
+            <ul id="search_list"></ul>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-success" onclick="importEgress(event)">Importar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+
+{% block extra_js %}
+  <script type="text/javascript">
+    function toggle(form) { 
+      document.getElementById("form1").style.display = "none"; 
+      document.getElementById("form2").style.display = "none"; 
+      document.getElementById(form).style.display = "block"; 
+    }  
+
+    function queryDataImport(e) {
+      e.preventDefault();
+
+      let pk = document.querySelector('[name="search_enrollment"]').value;
+      const ul = document.querySelector('#search_list');
+
+      fetch("http://placas-virtuais.suapdevs.ifrn.edu.br/edu/api/dados_aluno/?matricula=" + pk, {
+        method: "GET",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Token {{ TOKEN_SUAP_SECRET }}'
+        }}).then((response) => {
+          ul.innerHTML = '';
+
+          window.localStorage.removeItem('egress');
+
+          return response.json().then((data) => {
+            console.log("data ---", data.aluno);
+            let board_pk = document.querySelector('[name="board"]').value;
+            
+            if (data.aluno !== undefined) {
+              let avatar;
+              if (data.aluno.foto === "") {
+                avatar = "";
+              } else {
+                avatar = `https://suap.ifrn.edu.br${data.aluno.foto}`;
+              }
+
+              const egress = {
+                name: data.aluno.nome,
+                enrollment: data.aluno.matricula,
+                lattes: data.aluno.lattes,
+                email: data.aluno.email_academico,
+                board: board_pk,
+                photo: avatar
+              }
+              window.localStorage.setItem('egress', JSON.stringify(egress));
+
+              let li = document.createElement("li");
+              li.appendChild(document.createTextNode(`${data.aluno.nome}`));
+              ul.appendChild(li);
+            } else {
+              let li = document.createElement("li");
+              li.appendChild(document.createTextNode("Matricula não válida"));
+              ul.appendChild(li);                
+            }
+          }).catch((err) => {
+            console.log("err", err);
+          }) 
+        });
+    }
+
+    function queryDatasImport(e) {
+      e.preventDefault();
+
+      let year = document.querySelector('[name="search_year"]').value;
+      let code = document.querySelector('[name="search_code"]').value;
+      const ul = document.querySelector('#search_list');
+
+      fetch(`http://placas-virtuais.suapdevs.ifrn.edu.br/edu/api/dados_aluno/?ano_conclusao=${year}&codigo_curso=${code}`, {
+        method: "GET",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Token {{ TOKEN_SUAP_SECRET }}',
+          'Access-Control-Allow-Origin': '*',
+          'mode':'no-cors',
+        }}).then((response) => {
+          ul.innerHTML = '';
+
+          window.localStorage.removeItem('egress');
+
+          return response.json().then((data) => {
+            console.log("data ---", data.aluno);
+            let board_pk = document.querySelector('[name="board"]').value;
+            
+            if (data.aluno !== undefined) {
+              let avatar;
+              if (data.aluno.foto === "") {
+                avatar = "";
+              } else {
+                avatar = `https://suap.ifrn.edu.br${data.aluno.foto}`;
+              }
+
+              const egress = {
+                name: data.aluno.nome,
+                enrollment: data.aluno.matricula,
+                lattes: data.aluno.lattes,
+                email: data.aluno.email_academico,
+                board: board_pk,
+                photo: avatar
+              }
+              window.localStorage.setItem('egress', JSON.stringify(egress));
+
+              let li = document.createElement("li");
+              li.appendChild(document.createTextNode(`${data.aluno.nome}`));
+              ul.appendChild(li);
+            } else {
+              let li = document.createElement("li");
+              li.appendChild(document.createTextNode("Matricula não válida"));
+              ul.appendChild(li);                
+            }
+          }).catch((err) => {
+            console.log("err", err);
+          }) 
+        });
+    }
+
+    function importEgress(e) {
+      e.preventDefault();
+
+      let egressData = window.localStorage.getItem('egress');
+      fetch("/egress/api/", {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: JSON.stringify(egressData)
+      }).then(res => {
+        if (res.status === 200) {
+          swal({
+            title: "Egresso Salvo!",
+            text: "Egresso foi importado via SUAP com sucesso!",
+            icon: "success",
+            buttons: {
+              cancel: {
+                text: "Cancel",
+                className: "btn btn-secondary waves-effect waves-light"
+              },
+              confirm: {
+                text: "OK",
+                className: "btn btn-primary btn-gradient waves-effect waves-light",
+              }
+            }
+          });
+
+          setTimeout(()=> {
+            location.reload();
+          }, 2000);
+        } else {
+            swal({
+              title: "Egresso Não Salvo!",
+              text: "Egresso não foi importado via SUAP!",
+              icon: "error",
+              buttons: {
+                cancel: {
+                  text: "Cancel",
+                  className: "btn btn-secondary waves-effect waves-light"
+                },
+                confirm: {
+                  text: "OK",
+                  className: "btn btn-primary btn-gradient waves-effect waves-light",
+                }
+              }
+            });
+          
+          setTimeout(()=> {
+            location.reload();
+          }, 2000);
+        }
+
+        window.localStorage.removeItem('egress');
+      }).catch(err => {
+        console.log("ERROR: " + err);
+      });
+
+    }
+  </script>
+{% endblock extra_js %}

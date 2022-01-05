@@ -155,7 +155,7 @@ button[type="submit"] {
 }
 #apresentacao {
   width: 300px;
-  padding: 50px;
+  /* padding: 50px; */
   display: flex;
   border-radius: 10px;
   text-align: center;

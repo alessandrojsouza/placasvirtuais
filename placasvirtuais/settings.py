@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'course',
     'campus',
     'egress',
+    'emails',
     'rest_framework',
     # more packages
     'django.contrib.humanize',
