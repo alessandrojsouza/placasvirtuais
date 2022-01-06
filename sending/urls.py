@@ -1,13 +1,13 @@
 from django.urls import path
 
-from emails import views
+from sending import views
 
 
-app_name = 'emails'
+app_name = 'sending'
 urlpatterns = [
     path(
         '',
-        views.EmailList.as_view(),
+        views.SendingList.as_view(),
         name='list'
     ),
 ]

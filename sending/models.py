@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext as _
 
 
-class Email(models.Model):
+class Sending(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     sender = models.EmailField(_('Email'), max_length=100) # remetente - usuario ou instituicao
@@ -24,13 +24,13 @@ class Email(models.Model):
         return '{0.subject}'.format(self)
 
     def get_create_url(self):
-        return reverse('emails:create')
+        return reverse('sending:create')
         
     def get_update_url(self):
-        return reverse('emails:update', kwargs={'pk': self.pk})
+        return reverse('sending:update', kwargs={'pk': self.pk})
     
     def get_preview_url(self):
-        return reverse('emails:preview', kwargs={'pk': self.pk})
+        return reverse('sending:preview', kwargs={'pk': self.pk})
 
     def get_absolute_url(self):
-        return reverse('emails:list')
+        return reverse('sending:list')
