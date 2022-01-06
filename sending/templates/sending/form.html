@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static humanize %}
+
+{% block extra_css %}
+  <style type="text/css">
+    button[type="submit"] {
+      width: 7%;
+    }
+    .tox-tinymce {
+      min-height: 300px !important;
+      width: 80% !important;
+    }
+  </style>
+{% endblock extra_css %}
+
+
+{% block header %}
+<main>
+  <div id="cabecalho">
+      <div>
+        <p id="title">Enviar Email</p>
+      </div>
+  </div>
+
+  <form method="POST" id="formUser" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div id="new">    
+      <div class="form">
+        <label>Remetente</label>
+        <input id="input1" type="number" name="sender" value="">
+      </div>
+      <div class="form">
+        <label>Destinatário</label>
+        <input id="input2" type="text" name="recipient" value="">
+      </div>
+      <div class="form">
+        <label>Assunto</label>
+        <input id="input3" type="text" name="subject" value="">
+      </div>
+      <div class="form">
+        <label>Mensagem</label>
+        <textarea id="mytextarea" name="message"></textarea>
+      </div>
+    </div>        
+    <div id="botoes">
+      <a class="botaocrud2" href="{% url 'egress:list' %}">Cancelar</a>
+      <button type="submit" class="botaocrud">Confirmar</button>
+    </div>
+  </form>
+</main>
+{% endblock header %}
+
+
+{% block content %}
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Excluir egresso</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Deseja realmente excluir o egresso?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" onclick="deleteEgress(event)">Excluir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

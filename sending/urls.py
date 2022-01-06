@@ -10,4 +10,9 @@ urlpatterns = [
         views.SendingList.as_view(),
         name='list'
     ),
+    path(
+        'create/',
+        views.SendingCreate.as_view(),
+        name='create'
+  ),
 ]
