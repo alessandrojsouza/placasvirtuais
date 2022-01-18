@@ -34,7 +34,7 @@ Desenvolvimento se dá através do host http://localhost:8000/.
 ❯ source .wnea/bin/activate ou .wnea\Scripts\activate (windows)
 ❯ sudo apt-get install libpq-dev python3-dev python3-venv
 ❯ pip3 install -r requirements.txt
-❯ cp contrib/env-sample .env
+❯ cp .env-sample .env
 ❯ python3 manage.py makemigrations
 ❯ python3 manage.py migrate
 ❯ python3 manage.py runserver

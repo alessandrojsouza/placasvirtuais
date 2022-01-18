@@ -94,15 +94,29 @@ form > div {
   display: flex;
   margin-top: 20px;
 }
+form span {
+  margin: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
 
 input {
   width: 100%;
   border-radius: 5px;
   padding: 10px;
   background-color: #ffffff;
+  border: 1px solid #ccc;
 }
 input[type="radio"] {
   width: 50px;
+}
+
+input[type="email"]:disabled {
+  cursor: not-allowed;
+}
+
+div:disabled {
+  cursor: not-allowed;
 }
 
 button[type="submit"] {
@@ -339,9 +353,6 @@ button[type="submit"] {
   border-radius: 5px;
   font-size: 100%;
   height: 38px;
-}
-select option {
-  padding: 3px 5px;
 }
 /*Table*/
 .results {
