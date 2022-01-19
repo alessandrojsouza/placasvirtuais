@@ -115,8 +115,8 @@ input[type="email"]:disabled {
   cursor: not-allowed;
 }
 
-div:disabled {
-  cursor: not-allowed;
+.selectize-input.disabled {
+  cursor: not-allowed !important;
 }
 
 button[type="submit"] {
