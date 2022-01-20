@@ -7,4 +7,4 @@ class SendingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Sending
-        fields = ('sender', 'subject', 'message')
+        fields = '__all__'

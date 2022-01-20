@@ -7,14 +7,10 @@ from django.utils.translation import ugettext as _
 
 class Sending(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
-    
-    sender = models.EmailField(_('Email'), max_length=100) # remetente - usuario ou instituicao
-    # destinatario - curso(s), egressos
-    # recipient_course =
-    # recipient_course_period =
-    # recipient_egress =
+    sender = models.EmailField(_('Email'), max_length=100)
+    recipient = models.CharField(_('Emails dos Destinatarios'), max_length=100000)
     subject = models.CharField(_('Assunto'), max_length=100)
-    message = models.CharField(_('Mensagem'), max_length=50000)
+    message = models.CharField(_('Mensagem'), max_length=100000)
 
     class Meta:
         verbose_name = _(u'Email')
