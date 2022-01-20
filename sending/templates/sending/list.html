@@ -53,11 +53,16 @@
         </tr>
       </thead>
       <tbody>
-      {% for emails in object_list %}
-        <tr>
-          <td>{{ emails.subject }}</td>
-          <td>{{ emails.sender }}</td>
-        </tr>
+      {% for email in object_list %}
+        {% if email %}
+          <tr>
+            <th class="field-show_list_display_icons">
+              <a class="icon icon-view" href="{{ email.get_preview_url }}"><img src="{% static 'assets/lupa.png' %}"></a>
+            </th>
+            <td>{{ email.subject }}</td>
+            <td>{{ email.sender }}</td>
+          </tr>
+        {% endif %}
       {% endfor %}
     </tbody>
     </table>
