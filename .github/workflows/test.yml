@@ -33,6 +33,9 @@ jobs:
           CLIENTE_ID: fakeClientId
           CLIENT_SECRET: fakeClientSecret
           TOKEN_SUAP_SECRET: fakeTokenSuapSecret
+          EMAIL_HOST: smtp.sendgrid.net
+          EMAIL_PORT: 2525
+          EMAIL_HOST_USER: faekEmailHostUser
         run: |
           yes "yes" | python3 manage.py makemigrations
           yes "yes" | python3 manage.py migrate

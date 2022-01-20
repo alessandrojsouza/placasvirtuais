@@ -19,22 +19,6 @@
     {% block extra_css %}{% endblock extra_css %}
   </head>
   <body>
-
-    <!-- <div class="container-fluid">
-      <div class="row">
-        { include "includes/sidebar.html" }
-        
-        <div class="right-column">
-          { include "includes/navbar.html" }
-          <main class="main-content p-5" role="main" >
-            { block content }{ endblock content }
-          </main>
-        </div>
-
-        { block modal_block }{ endblock modal_block }
-      </div>
-    </div> -->
-
     <div id="header">
       <div id="barra">
         <!-- <a href="url 'core:index'"><img src="{% static 'assets/PFV.png' %}"></a> -->
@@ -69,14 +53,6 @@
     <!-- TinyMCE -->
     <script src='https://cdn.tiny.cloud/1/sz5zv3yugjzz6hy20a3lwwdhia1h77hk764l4lgmldh4qwdj/tinymce/5/tinymce.min.js' referrerpolicy="origin"></script>
     <script>
-      // tinymce.init({
-      //   selector: '#mytextarea',
-      //   plugins: 'a11ychecker advcode casechange export formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
-      //   toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter pageembed permanentpen table',
-      //   toolbar_mode: 'floating',
-      //   tinycomments_mode: 'embedded',
-      //   tinycomments_author: 'Author name',
-      // });
       var useDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
       tinymce.init({
