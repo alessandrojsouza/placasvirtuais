@@ -63,7 +63,7 @@
       </div>
   </div>
 
-  <form method="POST">
+  <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div id="new">    
       <div class="form">
@@ -141,6 +141,10 @@
       <div class="form">
         <label>Mensagem</label>
         <textarea id="mytextarea" name="message"></textarea>
+      </div>
+      <div class="form">
+        <label>Anexo</label>
+        <input id="input2" type="file" name="file" accept="image/*, .pdf, .doc, .docx">
       </div>
     </div>        
     <div id="botoes">

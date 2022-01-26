@@ -144,32 +144,12 @@
       </div>
     </div>        
     <div id="botoes">
-      <a class="botaocrud2" href="{% url 'egress:list' %}">Voltar</a>
+      <a class="botaocrud2" href="{% url 'sending:list' %}">Voltar</a>
     </div>
   </form>
 </main>
 {% endblock header %}
 
-
-{% block content %}
-  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Excluir egresso</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Deseja realmente excluir o egresso?</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-danger" onclick="deleteEgress(event)">Excluir</button>
-        </div>
-      </div>
-    </div>
-  </div>
-{% endblock content %}
 
 {% block extra_js %}
   <script type="text/javascript">
@@ -197,6 +177,20 @@
               tinymce.activeEditor.setContent(element.message, {format: 'raw'});
               sender.value = element.sender;
               subject.value = element.subject;
+              recipient_year.selectize.setValue(element.recipient_year);
+              recipient_period.selectize.setValue(element.recipient_period);
+              
+              element.recipient_directorship.map(directorship => {
+                recipient_directorship.selectize.setValue(directorship);
+              });
+
+              element.recipient_board.map(board => {
+                recipient_board.selectize.setValue(board);
+              });
+
+              element.recipient_course.map(course => {
+                recipient_course.selectize.setValue(course);
+              });
             });
           })
         }).catch(err => {
