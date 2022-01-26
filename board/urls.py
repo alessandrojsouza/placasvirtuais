@@ -45,4 +45,9 @@ urlpatterns = [
     views.BoardPreviewExtern.as_view(),
     name='extern'
   ),
+  path(
+    'cnat/diretoria/<str:academic>',
+    views.BoardAcademicPreviewExtern.as_view(),
+    name='extern_academic_board'
+  ),
 ]

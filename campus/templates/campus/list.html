@@ -107,7 +107,7 @@
       let pk = document.querySelector('[name="search_code"]').value;
       const ul = document.querySelector('#search_list');
 
-      fetch("http://placas-virtuais.suapdevs.ifrn.edu.br/api/campi/?sigla=" + pk, {
+      fetch("https://suap.ifrn.edu.br/api/campi/?sigla=" + pk, {
         method: "GET",
         headers: {
           'Accept': 'application/json',

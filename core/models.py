@@ -6,11 +6,12 @@ from django.utils.translation import ugettext as _
 from django.urls import reverse
 
 from django.contrib.auth.models import AbstractUser
+from campus.models import Campus
 
 
 class User(AbstractUser):
   avatar = models.ImageField(_('Avatar'), upload_to='user/', null=True, blank=True)
-  campus = models.CharField(_('Campus'), null=True, blank=True, max_length=10)
+  campus = models.ForeignKey(Campus, on_delete=models.CASCADE, null=True, blank=True)
   
   class Meta(AbstractUser.Meta):
     swappable = 'AUTH_USER_MODEL'

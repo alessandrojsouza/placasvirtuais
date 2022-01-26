@@ -4,7 +4,7 @@
 {% block extra_css %}
   <style type="text/css">
     #apresentacao img {
-      width: 5rem;
+      width: 7rem;
       margin: 0.3rem;
     }
     .botao {
@@ -15,33 +15,32 @@
 
 
 {% block content %}
-  <div id="container">
+  <div id="container" style="margin-top: 6rem;">
     <div id="apresentacao" class="mt-3">
-      <!-- <img src="{% static 'assets/avatar-new.png' %}"> -->
       {% if user.avatar %}
         <img id="loginimg" src="{{ request.user.get_avatar }}">
       {% else %}
         <img id="loginimg" src="{% static 'assets/avatar-new.png' %}">
       {% endif %}
-      <p>Bem vindo(a), {{ user.get_full_name }}</p>
+      <p>Bem vindo(a),
+        {% if user.get_full_name %}
+          {{ user.get_full_name }}
+        {% else %}
+          Administrador
+        {% endif %}
+      </p>
     </div>
+
     <div class="row">
       <a class="botao" href="{% url 'core:list' %}"><img src="{% static 'assets/usuario.png' %}"></a>
       <a class="botao" href="{% url 'campus:list' %}"><img src="{% static 'assets/campus.png' %}"></a>
       <a class="botao" href="{% url 'course:list' %}"><img src="{% static 'assets/cursos.png' %}"></a>
+    </div>
+    <div class="row">
+      <a class="botao" href="{% url 'sending:list' %}"><img src="{% static 'assets/emails.png' %}"></a>
       <a class="botao" href="{% url 'egress:list' %}"><img src="{% static 'assets/egresso.png' %}"></a>
       <a class="botao" href="{% url 'board:list' %}"><img src="{% static 'assets/placas.png' %}"></a>
     </div>
-
-    <!-- <div id="superior">
-      <a class="botao" href="{% url 'egress:list' %}"><img src="{% static 'assets/egresso.png' %}"></a>
-      <a class="botao" href="{% url 'core:list' %}"><img src="{% static 'assets/usuario.png' %}"></a>
-    </div>
-    <div id="inferior">
-      <a class="botao" href="{% url 'course:list' %}"><img src="{% static 'assets/cursos.png' %}"></a>
-      <a class="botao" style="cursor: not-allowed; opacity: 0.7;"><img src="{% static 'assets/campus.png' %}"></a>
-      <a class="botao" href="{% url 'board:list' %}"><img src="{% static 'assets/placas.png' %}"></a>
-    </div> -->
   </div>
 {% endblock content %}
 

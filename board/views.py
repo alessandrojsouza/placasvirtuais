@@ -213,3 +213,14 @@ class BoardPreviewExtern(BaseBoardView, views.UpdateView):
     egress = Egress.objects.filter(board=self.kwargs.get('pk'))
     context.update({'egress': egress})
     return context
+
+# FIXME: para adicionar carousel por diretorias  -> tem que existir uma entidade diretoria!
+# a hierarquia é campus -> uma diretoria -> varios cursos!
+class BoardAcademicPreviewExtern(BaseBoardView, views.UpdateView):
+  template_name = 'board/preview_academic_extern.html'
+
+  def get_context_data(self, **kwargs):
+    context = super(BoardAcademicPreviewExtern, self).get_context_data(**kwargs)
+    egress = Egress.objects.filter(board=self.kwargs.get('academic'))
+    context.update({'egress': egress})
+    return context

@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% load static humanize %}
+
+{% block extra_css %}
+  <style type="text/css">
+    button[type="submit"] {
+      width: 7%;
+    }
+
+    form {
+      background-color: #f6f6f6;
+    }
+
+    .tox-tinymce {
+      min-height: 300px !important;
+      width: 80% !important;
+    }
+    .custom-form {
+      display: flex;
+      flex-direction: column;
+    }
+    .custom-form input {
+      margin-bottom: 1rem;
+    }
+    .custom-form > div {
+      display: flex;
+      width: 100%;
+    }
+    
+    .multi {
+      width: 80%;
+    }
+
+    .multiInputs > .multi {
+      width: 51%;
+    }
+    
+    @media (max-width: 1400px) {
+      .multiInputs > .multi {
+        width: 40%;
+      }
+    }
+
+    .multiInputs > .single {
+      width: 5%;
+    }
+
+    .selectize-input {
+      width: 100% !important;
+      height: 40px;
+      max-width: unset;
+      min-width: 100px;
+    }
+  </style>
+{% endblock extra_css %}
+
+
+{% block header %}
+<main>
+  <div id="cabecalho">
+      <div>
+        <p id="title">Enviar Email</p>
+      </div>
+  </div>
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div id="new">    
+      <div class="form">
+        <label>Remetente</label>
+        <input id="input1" type="email" name="sender" value="{{ request.user.email }}" disabled>
+      </div>
+      <span>Filtros de Destinatários</span>
+      <div class="form custom-form">
+        <div>
+          <label>Diretoria</label>
+          <select id="recipient_directorship" name="recipient_directorship" name="state[]" multiple="multiple">
+            {% if directories %}
+              {% for directorship in directories %}
+                <option
+                  value="{{ directorship.id }}"
+                >{{ directorship.name }}</option>
+              {% endfor %}
+            {% else %}
+              <option value="0">Sem opções cadastradas</option>
+            {% endif %}
+          </select>
+        </div>
+        <div>
+          <label>Placa</label>
+          <select id="input4" name="recipient_board" multiple>
+            {% if boards %}
+              {% for board in boards %}
+                <option
+                  value="{{ board.id }}"
+                >{{ board.name }}</option>
+              {% endfor %}
+            {% else %}
+              <option value="0">Sem opções cadastradas</option>
+            {% endif %}
+          </select>
+        </div>
+        <div class="multiInputs">
+          <label>Curso</label>
+          <select id="input5" name="recipient_course" multiple>
+            {% if courses %}
+              {% for course in courses %}
+                <option
+                  value="{{ course.id }}"
+                >{{ course.name }}</option>
+              {% endfor %}
+            {% else %}
+              <option value="0">Sem opções cadastradas</option>
+            {% endif %}
+          </select>
+          <label>Ano</label>
+          <select id="input5" name="recipient_year">
+            {% if boards %}
+              <option value=""></option>
+              {% for year in boards %}
+                <option
+                  value="{{ year.get_year }}"
+                >{{ year.get_year }}</option>
+              {% endfor %}
+            {% else %}
+              <option value="0">Sem opções cadastradas</option>
+            {% endif %}
+          </select>
+          <label>Periodo</label>
+          <select class="select" name="recipient_period">
+            <option value=""></option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+          </select>
+        </div>
+      </div>
+      <div class="form">
+        <label>Assunto</label>
+        <input id="input3" type="text" name="subject" value="">
+      </div>
+      <div class="form">
+        <label>Mensagem</label>
+        <textarea id="mytextarea" name="message"></textarea>
+      </div>
+      <div class="form">
+        <label>Anexo</label>
+        <input id="input2" type="file" name="file" accept="image/*, .pdf, .doc, .docx">
+      </div>
+    </div>        
+    <div id="botoes">
+      <a class="botaocrud2" href="{% url 'egress:list' %}">Cancelar</a>
+      <button type="submit" class="botaocrud">Confirmar</button>
+    </div>
+  </form>
+</main>
+{% endblock header %}
+
+
+{% block content %}
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Excluir egresso</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Deseja realmente excluir o egresso?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" onclick="deleteEgress(event)">Excluir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block extra_js %}
+  <script type="text/javascript">
+    document.querySelector('select[name="recipient_directorship"]').onchange = function () {
+      document.querySelector('select[name="recipient_board"]').selectize.enable();      
+      document.querySelector('select[name="recipient_course"]').selectize.enable();
+      if (this.value) {
+        document.querySelector('select[name="recipient_board"]').selectize.disable();
+        document.querySelector('select[name="recipient_course"]').selectize.disable();
+      }
+    };
+
+    document.querySelector('select[name="recipient_board"]').onchange = function () {
+      document.querySelector('select[name="recipient_directorship"]').selectize.enable();      
+      document.querySelector('select[name="recipient_course"]').selectize.enable();
+      document.querySelector('select[name="recipient_year"]').selectize.enable();
+        document.querySelector('select[name="recipient_period"]').selectize.enable();
+      if (this.value) {
+        document.querySelector('select[name="recipient_directorship"]').selectize.disable();
+        document.querySelector('select[name="recipient_course"]').selectize.disable();
+        document.querySelector('select[name="recipient_year"]').selectize.disable();
+        document.querySelector('select[name="recipient_period"]').selectize.disable();
+      }
+    };
+
+    document.querySelector('select[name="recipient_course"]').onchange = function () {
+      document.querySelector('select[name="recipient_directorship"]').selectize.enable();      
+      document.querySelector('select[name="recipient_board"]').selectize.enable();
+      if (this.value) {
+        document.querySelector('select[name="recipient_directorship"]').selectize.disable();
+        document.querySelector('select[name="recipient_board"]').selectize.disable();
+      }
+    };
+  </script>
+{% endblock extra_js %}

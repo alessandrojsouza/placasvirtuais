@@ -28,10 +28,14 @@ jobs:
         env:
           SECRET_KEY: fake^6gf-kok-secret(key
           ALLOWED_HOSTS: 127.0.0.1, .localhost
+          HOST: http://localhost:8000/
           WEB_CONCURRENCY: 3
           CLIENTE_ID: fakeClientId
           CLIENT_SECRET: fakeClientSecret
           TOKEN_SUAP_SECRET: fakeTokenSuapSecret
+          EMAIL_HOST: smtp.sendgrid.net
+          EMAIL_PORT: 2525
+          EMAIL_HOST_USER: faekEmailHostUser
         run: |
           yes "yes" | python3 manage.py makemigrations
           yes "yes" | python3 manage.py migrate
