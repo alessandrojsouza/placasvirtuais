@@ -1,4 +1,4 @@
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.utils.html import strip_tags
 from sending.models import Sending
 from sending.forms import SendingForm
@@ -79,22 +79,53 @@ class SendingCreate(BaseSendingView, views.CreateView):
         message = request.POST['message']
 
         egress_list = get_recipient_list(recipient_directorship, recipient_board, recipient_course, recipient_year, recipient_period)
-        try:
-            send_mail(
-                subject=subject,
-                message=strip_tags(message),
-                from_email=sender,
-                recipient_list=egress_list,
-                fail_silently=False,
-                html_message=message
-            )
+        egress_list_count = len(egress_list)
 
-            Sending.objects.create(
+        try:
+            email = EmailMessage(
+                subject=subject,
+                body=message,
+                from_email=sender,
+                to=egress_list
+            )
+            email.content_subtype = "html"
+            
+            if self.request.FILES:
+                file = self.request.FILES['file']
+                email.attach(file.name, file.read(), file.content_type)
+            email.send()
+
+            sending_obj = Sending.objects.create(
                 sender=sender,
-                recipient=egress_list,
+                recipient_year=recipient_year,
+                recipient_period=recipient_period,
+                recipient_count=egress_list_count,
                 subject=subject,
                 message=message,
             )
+            if recipient_directorship:
+                for directorship in recipient_directorship:
+                    directorship_obj = Directorship.objects.get(
+                        pk=directorship
+                    )
+                    sending_obj.recipient_directorship.add(directorship_obj)
+
+            if recipient_board:
+                for board in recipient_board:
+                    board_obj = Board.objects.get(
+                        pk=board
+                    )
+                    sending_obj.recipient_board.add(board_obj)
+
+            if recipient_course:
+                for course in recipient_course:
+                    course_obj = Course.objects.get(
+                        pk=course
+                    )
+                    sending_obj.recipient_course.add(course_obj)
+
+            if self.request.FILES:
+                sending_obj.file = self.request.FILES['file']
             return redirect('/sending')
         except:
             print('Erro ao enviar email!')
