@@ -30,6 +30,7 @@ urlpatterns = [
     path('courses/', include('course.urls')),
     path('campus/', include('campus.urls')),
     path('egress/', include('egress.urls')),
+    path('sending/', include('sending.urls')),
     path('users/', include('core.urls', namespace='v1')),
     path('admin/', admin.site.urls),
     path(

@@ -5,10 +5,23 @@ from django.urls import reverse
 from django.utils.translation import ugettext as _
 
 
+class Directorship(models.Model):
+  created_at = models.DateTimeField(auto_now_add=True)
+  name = models.CharField(_('Nome'), max_length=300)
+
+  class Meta:
+    verbose_name = _(u'Diretoria')
+    verbose_name_plural = _(u'Diretorias')
+
+  def __str__(self):
+    return '{0.name}'.format(self)
+
+
 class Course(models.Model):
   created_at = models.DateTimeField(auto_now_add=True)
   name = models.CharField(_('Nome'), max_length=300)
   code = models.CharField(_('Código'), max_length=300)
+  directorship = models.ForeignKey(Directorship, on_delete=models.CASCADE, default=None)
 
   class Meta:
     verbose_name = _(u'Curso')

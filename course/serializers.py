@@ -4,6 +4,7 @@ from course.models import Course
 
 
 class CourseSerializer(serializers.ModelSerializer):
+  directorship_name = serializers.CharField(source='directorship.name')
   class Meta:
     model = Course
-    fields = '__all__'
+    fields = 'id', 'created_at', 'name', 'code', 'directorship', 'directorship_name', 

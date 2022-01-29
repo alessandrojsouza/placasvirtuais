@@ -176,7 +176,7 @@
       let pk = document.querySelector('[name="search_enrollment"]').value;
       const ul = document.querySelector('#search_list');
 
-      fetch("http://placas-virtuais.suapdevs.ifrn.edu.br/edu/api/dados_aluno/?matricula=" + pk, {
+      fetch("https://suap.ifrn.edu.br/edu/api/dados_aluno/?matricula=" + pk, {
         method: "GET",
         headers: {
           'Accept': 'application/json',
@@ -230,7 +230,7 @@
       let code = document.querySelector('[name="search_code"]').value;
       const ul = document.querySelector('#search_list');
 
-      fetch(`http://placas-virtuais.suapdevs.ifrn.edu.br/edu/api/dados_aluno/?ano_conclusao=${year}&codigo_curso=${code}`, {
+      fetch(`https://suap.ifrn.edu.br/edu/api/dados_aluno/?ano_conclusao=${year}&codigo_curso=${code}`, {
         method: "GET",
         headers: {
           'Accept': 'application/json',

@@ -35,7 +35,11 @@
         </tr>
         <tr>
           <td>Nome</td>
-          <td><input type="text" id="input2" name="name" value="SIAPE" disabled></td>
+          <td><input type="text" id="input2" name="name" value="NAME" disabled></td>
+        </tr>
+        <tr>
+          <td>Diretoria</td>
+          <td><input type="text" id="input3" name="name" value="DIRETORIA" disabled></td>
         </tr>
       </table>
     </div>  
@@ -70,6 +74,7 @@
     const deleteInput = document.querySelector('#cabecalho #deleteA');
     const codigo = document.querySelector('#input1');
     const nome = document.querySelector('#input2');
+    const diretoria = document.querySelector('#input3');
     let pk = parseInt(window.location.pathname.split('/')[2]);
 
     if (pk) {  
@@ -81,8 +86,10 @@
       }).then(res => {
         res.json().then(item => {
           item.forEach(element => {
+            console.log('element', element);
             codigo.value = element.code;
             nome.value = element.name;
+            diretoria.value = element.directorship_name;
           });
         })
       }).catch(err => {

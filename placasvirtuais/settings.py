@@ -28,6 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 CLIENTE_ID = config('CLIENTE_ID')
 CLIENT_SECRET = config('CLIENT_SECRET')
 TOKEN_SUAP_SECRET = config('TOKEN_SUAP_SECRET')
+HOST = config('HOST')
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
     'course',
     'campus',
     'egress',
+    'sending',
     'rest_framework',
     # more packages
     'django.contrib.humanize',
@@ -141,6 +143,15 @@ ACCOUNT_FORMS = {
 
 EMAIL_REQUIRED = True
 
+
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+
+EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

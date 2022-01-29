@@ -33,6 +33,9 @@ from board.forms import BoardForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 
+from django.contrib import auth
+from .oauth2 import OAuth2Response
+
 
 class LoginRequiredMixin(object):
   @classmethod
@@ -109,7 +112,6 @@ class UserList(BaseUserView, views.ListView):
 
   def get_queryset(self):
     queryset = super(UserList, self).get_queryset()
-    # queryset = queryset.all().order_by('id', 'username')
     queryset = queryset.filter(is_staff=False).order_by('id', 'username')
     return queryset
 
@@ -128,8 +130,6 @@ class UserCreate(BaseUserView, views.CreateView):
   
   def post(self, request):
     name = request.POST['name'].split(" ")
-    print("name -------------------", name)
-    
     user = User.objects.create_user(request.POST['username'], request.POST['email'], 'admin2@ifrn')
     # Update fields and then save again
     user.first_name = name[0]
@@ -164,7 +164,6 @@ class UserPreview(BaseUserView, views.UpdateView):
     return context
 
 
-# class PageExtern(TemplateView, views.ListView):
 class PageExtern(BaseBoardView, views.ListView):
   template_name = 'extern.html'
   paginate_by = 25
@@ -172,20 +171,20 @@ class PageExtern(BaseBoardView, views.ListView):
   def get_context_data(self, **kwargs):
     context = super(PageExtern, self).get_context_data(**kwargs)
     course = Course.objects.all().order_by('id')
+    boards = Board.objects.all().order_by('id')
+    context.update({'boards': boards})
     context.update({'courses': course})
-    year = Board.objects.all()
-    context.update({'years': year})
     context.update(name=self.request.GET.get('name', ''))
     return context
 
   def get_queryset(self):
     queryset = super(PageExtern, self).get_queryset()
-    search_name = self.request.GET.get('name', None)
-    search_year = self.request.GET.get('year', None)
-    search_period = self.request.GET.get('period', None)
-    search_course = self.request.GET.get('course', None)
+    search_name = self.request.GET.get('name', '')
+    search_course = self.request.GET.get('course', '')
+    search_year = self.request.GET.get('year', '')
+    search_period = self.request.GET.get('period', '')
 
-    if search_name is not None:
+    if search_name != '':
       egress = Egress.objects.filter(name__icontains=search_name)
       if egress:
         for item in egress:
@@ -197,17 +196,17 @@ class PageExtern(BaseBoardView, views.ListView):
           models.Q(name__icontains='@')
         )
 
-    if search_year is not None:
+    if search_year != '':
       queryset = queryset.filter(
         models.Q(year_graduation__icontains=search_year)
       )
 
-    if search_period is not None:
+    if search_period != '':
       queryset = queryset.filter(
         models.Q(period_graduation__icontains=search_period)
       )
 
-    if search_course is not None:
+    if search_course != '':
       queryset = queryset.filter(
         models.Q(course__id__icontains=search_course)
       )
@@ -217,12 +216,32 @@ class PageExtern(BaseBoardView, views.ListView):
 
 
 def suap_login(request):
-  from django.contrib import auth
-  from .oauth2 import OAuth2Response
   response = OAuth2Response(request)
   if response.data:
     user = User.objects.filter(email=response.data.get('email_secundario')).first()
     if user:
       auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
       return HttpResponseRedirect('/dashboard/')
+    else:
+      return HttpResponseRedirect('/?status=error')
   return response
+
+
+class PageExternDiretory(BaseBoardView, views.ListView):
+  template_name = 'diretory.html'
+
+  def get_context_data(self, **kwargs):
+    context = super(PageExternDiretory, self).get_context_data(**kwargs)
+    context.update(name=self.kwargs.get('diretory').upper())
+    return context
+
+  def get_queryset(self):
+    queryset = super(PageExternDiretory, self).get_queryset()
+    diretory_name = self.kwargs.get('diretory').upper()
+
+    if diretory_name != '':
+      boards = Board.objects.filter(course__directorship__name__icontains=diretory_name)
+      queryset = boards
+
+    queryset = queryset.all().order_by('id', 'name')
+    return queryset

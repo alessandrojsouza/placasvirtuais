@@ -4,7 +4,7 @@ from django.views.generic.base import RedirectView
 
 from core import views
 
-from core.views import DashboardView, UserApiView, UserList, UserCreate, UserUpdate, UserPreview, PageExtern
+from core.views import DashboardView, UserApiView, UserList, UserCreate, UserUpdate, UserPreview, PageExtern, PageExternDiretory
 
 
 app_name = 'core'
@@ -14,11 +14,11 @@ urlpatterns = [
     PageExtern.as_view(),
     name='page_extern'
   ),
-  # path(
-  #   '/',
-  #   RedirectView.as_view(url='accounts/login', permanent=False),
-  #   name='index'
-  # ),
+  path(
+    'cnat/<str:diretory>',
+    PageExternDiretory.as_view(),
+    name='page_extern_diretory'
+  ),
   path('dashboard/', DashboardView.as_view(), name='dashboard'),
   path(
     'api/',

@@ -10,8 +10,8 @@ from vanilla import model_views as views
 from django.utils.translation import ugettext as _
 
 from course.serializers import CourseSerializer
-from course.models import Course
-from course.forms import CourseForm
+from course.models import Course, Directorship
+from course.forms import CourseForm, DirectorshipForm
 
 from rest_framework.response import Response
 from django.http import HttpResponseRedirect
@@ -58,7 +58,13 @@ class CourseApiView(generics.ListAPIView, generics.RetrieveAPIView,
       if len(Course.objects.filter(code=data['code'])) > 1:
         return Response(status=400)
       else:
-        course = Course.objects.create(code=data['code'], name=data['name'])
+        directorship_obj = Directorship.objects.get(pk=request.POST['directorship'])
+
+        course = Course.objects.create(
+          code=data['code'],
+          name=data['name'],
+          directorship=directorship_obj,
+        )
         course.save()
     except Exception:
       return Response(status=400)
@@ -95,17 +101,49 @@ class CourseCreate(BaseCourseView, views.CreateView):
     )
   
   def post(self, request):
-    Course.objects.create(code=request.POST['code'], name=request.POST['name'])
+    directorship_obj = Directorship.objects.get(pk=request.POST['directorship'])
+
+    Course.objects.create(
+      code=request.POST['code'],
+      name=request.POST['name'],
+      directorship=directorship_obj,
+    )
     return redirect('/courses')
+  
+  def get_context_data(self, **kwargs):
+    context = super(CourseCreate, self).get_context_data(**kwargs)
+    context.update(directorship_food_form=DirectorshipForm())
+    directorship = Directorship.objects.all().order_by('id')
+    context.update({'directorships': directorship})
+    return context
 
 
 class CourseUpdate(BaseCourseView, views.UpdateView):
   template_name = 'course/form.html'
 
+  def post(self, request, pk):
+    print('Directorship -----', request.POST)
+    directorship_obj = Directorship.objects.get(pk=request.POST['directorship'])
+    course_obj = Course.objects.get(id=pk)
+
+    course_obj.code = request.POST['code']
+    course_obj.name = request.POST['name']
+    course_obj.directorship = directorship_obj
+    course_obj.save()
+    return redirect('/courses')
+
   def get_context_data(self, **kwargs):
     context = super(CourseUpdate, self).get_context_data(**kwargs)
     context.update(course_food_form=CourseForm())
+    context.update(name=self.request.GET.get('name', ''))
+    directorship = Directorship.objects.all().order_by('id')
+    context.update({'directorships': directorship})
     return context
+
+  def get_queryset(self):
+    queryset = super(CourseUpdate, self).get_queryset()
+    queryset = queryset.all().order_by('id', 'name')
+    return queryset
 
 
 class CoursePreview(BaseCourseView, views.UpdateView):

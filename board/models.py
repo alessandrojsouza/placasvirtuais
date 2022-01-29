@@ -50,16 +50,17 @@ class Board(models.Model):
   name = models.CharField(_('Nome'), max_length=300)
   photo = models.ImageField(_('Imagem'), upload_to='board/')
   message = models.TextField(
-    _('Mensagem'), null=True, blank=True)
+    _('Mensagem da turma'), null=True, blank=True)
   # year_graduation = models.DateField(_('Ano do período'))
-  year_graduation = models.IntegerField(_('Ano do período'))
+  # year_graduation = models.IntegerField(_('Ano do período'), default=current_year)
+  year_graduation = models.CharField(_('Ano do período'), max_length=5, default=current_year)
   period_graduation = models.PositiveIntegerField(_('Período'), default=1, validators=[MinValueValidator(1), MaxValueValidator(2)])
 
   # graduation_date = models.DateTimeField(_('Data da formatura'), auto_now_add=False)
   graduation_date = models.DateField(_('Data da formatura'))
   
   course = models.ForeignKey(Course, on_delete=models.CASCADE)
-  campus = models.ForeignKey(Campus, on_delete=models.CASCADE, null=True, blank=True)
+  campus = models.ForeignKey(Campus, on_delete=models.CASCADE)
 
   # mentioned = models.ManyToManyField(Mentioned)
   mentioned = models.ManyToManyField(
