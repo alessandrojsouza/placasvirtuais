@@ -16,12 +16,12 @@ Toda parte de documentação do projeto se encontra na pasta docs no diretório 
 
 ### Internamente
 
-- [ ] Criação e ou importação via SUAP, listagem, edição e exclusão de Usuários;
-- [ ] Criação e ou importação via SUAP, listagem, edição e exclusão de Campus (opção para extender a plataforma para outros campus);
-- [ ] Criação e ou importação via SUAP, listagem, edição e exclusão de Cursos;
-- [ ] Criação e ou importação via SUAP, listagem, edição e exclusão de Egressos;
-- [ ] Criação, listagem, edição e exclusão das Placas de Formatura;
-  - [ ] Pode-se adicionar à placa Mencionados, Mensagem da turma, Imagem e mais detalhes da placa.
+- [x] Criação e ou importação via SUAP, listagem, edição e exclusão de Usuários;
+- [x] Criação e ou importação via SUAP, listagem, edição e exclusão de Campus (opção para extender a plataforma para outros campus);
+- [x] Criação e ou importação via SUAP, listagem, edição e exclusão de Cursos;
+- [x] Criação e ou importação via SUAP, listagem, edição e exclusão de Egressos;
+- [x] Criação, listagem, edição e exclusão das Placas de Formatura;
+  - [x] Pode-se adicionar à placa Mencionados, Mensagem da turma, Imagem e mais detalhes da placa.
 
 ## Como desenvolver?
 
