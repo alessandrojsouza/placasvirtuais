@@ -2,323 +2,357 @@
 
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Placas Virtuais - IFRN, Central</title>
-    <meta name="description" content="Plataforma dedicada a placas de formatura do campus Natal Central - IFRN">
-    <link rel="shortcut icon" href="{% static 'assets/favicon.svg' %}" type="image/svg">
 
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <!-- Link Swiper's CSS -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/swiper/swiper-bundle.min.css"
-    />
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Placas Virtuais - IFRN, Central</title>
+  <meta name="description" content="Plataforma dedicada a placas de formatura do campus Natal Central - IFRN">
+  <link rel="shortcut icon" href="{% static 'assets/favicon.svg' %}" type="image/svg">
 
-    <!-- Bootstrap CSS -->
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-    <!-- Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/stylesExtern.css' %}">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <!-- Link Swiper's CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
-    <!-- Demo styles -->
-    <style>
-      body {
-        background: #eee;
-        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-        font-size: 14px;
-        color: #000;
-        margin: 0;
-        padding: 0;
-      }
+  <!-- Bootstrap CSS -->
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/stylesExtern.css' %}">
 
-      .swiper {
-        width: 80%;
-        height: 80%;
-      }
+  <!-- Demo styles -->
+  <style>
+    body {
+      background: #eee;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: #000;
+      margin: 0;
+      padding: 0;
+    }
 
-      .swiper-slide {
-        text-align: center;
-        font-size: 18px;
-        background: #fff;
+    .swiper {
+      width: 80%;
+      height: 80%;
+    }
 
-        /* Center slide text vertically */
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-      }
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
 
-      .swiper-slide img {
-        display: block;
-        width: 100%;
-        height: 40rem;
-        /* object-fit: cover; */
-      }
-    </style>
-  </head>
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+    }
 
-  <body>
-    <header class="container-fluid">
-      <div class="row m-0">
-        <div class="col-md-12">
-          <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark" style="box-shadow: 0 0px 0px rgb(0 0 0 / 20%), 0 0px 0px rgb(0 0 0 / 14%), 0 2px 10px -2px rgb(0 0 0 / 12%);">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="/" style="font-size: 1.5rem;">
-                Placas de Formatura Virtual
-              </a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarText" style="flex-grow: 0 !important;">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0"style="padding-right: 5rem;">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#graduates">Récem-formandos</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#search">Pesquisar</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#infos">Informações</a>
-                  </li>
-                </ul>
-                {% if user.is_authenticated %}
-                  <a href="{% url 'account_logout' %}" class="btn btn-danger m-3" style="width: 5rem;">Logout</a>
-                  
-                  {% if user.avatar %}
-                    <img id="loginimg" src="{{ request.user.get_avatar }}">
-                  {% else %}
-                    <a href="{% url 'core:dashboard' %}">
-                      <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
-                    </a>
-                  {% endif %}
-                {% else %}
-                  <a href="/suap_login/" class="btn btn-success m-3" style="width: 5rem;">Entrar</a>
-                {% endif %}
-              </div>
-            </div>
-          </nav>
-        </div>
-      </div>
-    </header>
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 40rem;
+      /* object-fit: cover; */
+    }
+  </style>
+</head>
 
-    <main>
-      <!-- recem-formandos -->
-      <section id="graduates" class="container middle-content">
-        {% if 'status' in request.GET %}
-          <div class="alert alert-warning alert-dismissible fade show col-md-12 m-3" role="alert">
-            <strong>Usuário não autenticado!</strong> Você precisa solicitar o cadastro ao administrador da plataforma!
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        {% endif %}
-        <div id="teste">
-          <img src="{% static 'assets/imagem-2.svg' %}" style="width: 15%;">
-          <p>Récem-formandos</p>
-        </div>
-        
-        <!-- Swiper -->
-        <div class="swiper mySwiper">
-          <div class="swiper-wrapper">
-            {% if boards %}
-              {% for board in boards|slice:":3" %}
-                <div class="swiper-slide">
-                  <img src="{{ board.photo.url }}" alt="{{ board.name }}">
-                </div>
-              {% endfor %}
-            {% endif %}
-          </div>
-          <div class="swiper-button-next"></div>
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-pagination"></div>
-        </div>
-        <div id="row">
-          <img src="{% static 'assets/scroll.svg' %}">
-        </div>
-      </section>
-
-      <section id="search" class="bg-content-search">
-        <div class="container">
-          <div class="d-flex justify-content-center flex-column align-items-center pt-5" style="padding-top: 7rem !important;">
-            <!-- <img src="{% static 'assets/imagem-3.svg' %}"> -->
-            <h1>Encontre sua turma</h1>
-            <p>Plataforma dedicada a placas de formatura do campus Natal Central - IFRN</p>
-          </div>      
-          <div class="search-and-filters row">
-            <form method="GET" action=".#search" style="display: flex; justify-content: space-between;">
-              <div class="filter">
-                <label>Nome Formando</label>
-                <input type="text" name="name" placeholder="" value="" />
-              </div>
-
-              <div class="filter">
-                <label>Curso</label>
-                <select name="course" class="select" placeholder="Selecione o curso">
-                  <option value=""></option>
-                  {% if courses %}
-                    {% for course in courses %}
-                      <option
-                        value="{{ course.id }}"
-                      >{{ course.name }}</option>
-                    {% endfor %}
-                  {% else %}
-                    <option value="0">Sem opções cadastradas</option>
-                  {% endif %}
-                </select>
-              </div>
-
-              <div class="filter">
-                <label>Ano</label>
-                <select name="year" id="setoruo_select">
-                  {% if boards %}
-                    {% for year in boards %}
-                      <option
-                        value="{{ year.get_year }}"
-                      >{{ year.get_year }}</option>
-                    {% endfor %}
-                  {% else %}
-                    <option value="0">Sem opções cadastradas</option>
-                  {% endif %}
-                </select>
-              </div>
-
-              <div class="filter">
-                <label>Período</label>  
-                  <select name="period" class="select">
-                    <option value=""></option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                  </select>
-              </div>
-               
-              <div class="mt-1">
-                <button type="submit" class="btn btn-success">
-                  <i aria-hidden="true" role="presentation" class="cursor-pointer material-icons q-icon notranslate text-white mt-2">search</i>
-                </button>
-              </div>
-            </form> 
-          </div>
-          
-          {% if object_list and 'name' in request.GET %}
-          <div class="container" class="row">
-            {% for board in object_list %}
-            <a href="{{ board.get_preview_extern_url }}" class="d-flex result-item">
-              <img src="{{ board.photo.url }}" class="result-image rounded-circle" alt="Foto do egresso">
-              <div class="d-flex flex-column justify-content-center align-items-start" style="margin-left: 4rem;">
-                <h4>{{ board.name|capfirst }}</h4>
-                <span>{{ board.course }} / {{ board.campus }} - {{ board.get_year }}.{{ board.period_graduation }}</span>
-              </div>
+<body>
+  <header class="container-fluid">
+    <div class="row m-0">
+      <div class="col-md-12">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark"
+          style="box-shadow: 0 0px 0px rgb(0 0 0 / 20%), 0 0px 0px rgb(0 0 0 / 14%), 0 2px 10px -2px rgb(0 0 0 / 12%);">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="/" style="font-size: 1.5rem;">
+              Placas de Formatura Virtual
             </a>
-            {% endfor %}
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+              aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText" style="flex-grow: 0 !important;">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="padding-right: 5rem;">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#graduates">Récem-formandos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#search">Pesquisar</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#infos">Informações</a>
+                </li>
+              </ul>
+              {% if user.is_authenticated %}
+              <a href="{% url 'account_logout' %}" class="btn btn-danger m-3" style="width: 5rem;">Logout</a>
+
+              {% if user.avatar %}
+              <img id="loginimg" src="{{ request.user.get_avatar }}">
+              {% else %}
+              <a href="{% url 'core:dashboard' %}">
+                <img src="{% static 'assets/avatar-header.png' %}" style="width: 2rem;">
+              </a>
+              {% endif %}
+              {% else %}
+              <a href="/suap_login/" class="btn btn-success m-3" style="width: 5rem;">Entrar</a>
+              {% endif %}
+            </div>
           </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- recem-formandos -->
+    <section id="graduates" class="container middle-content">
+      {% if 'status' in request.GET %}
+      <div class="alert alert-warning alert-dismissible fade show col-md-12 m-3" role="alert">
+        <strong>Usuário não autenticado!</strong> Você precisa solicitar o cadastro ao administrador da plataforma!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endif %}
+      <div id="teste">
+        <img src="{% static 'assets/imagem-2.svg' %}" style="width: 15%;">
+        <p>Récem-formandos</p>
+      </div>
+
+      <!-- Swiper -->
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          {% if boards %}
+          {% for board in boards|slice:":3" %}
+          <div class="swiper-slide">
+            <img src="{{ board.photo.url }}" alt="{{ board.name }}">
+          </div>
+          {% endfor %}
           {% endif %}
         </div>
-      </section>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+      </div>
+      <div id="row">
+        <img src="{% static 'assets/scroll.svg' %}">
+      </div>
+    </section>
 
-      <section id="infos" class="p-5">
-        <div class="container">
-          <div class="d-flex justify-content-center pt-5">
-            <img src="{% static 'assets/imagem-1.svg' %}" class="pr-4" style="width: 30%; margin-right: 3rem;">
-            <div class="info">
-              <h4>Encontre a sua diretoria</h4>
-              <ul>
-                <li><a href="/cnat/diatinf">DIATINF</a></li>
-                <li><a href="/cnat/diac">DIAC</a></li>
-                <li><a href="/cnat/diacon">DIACON</a></li>
-                <li><a href="/cnat/diaren">DIAREN</a></li>
-                <li><a href="/cnat/diacin">DIACIN</a></li>
-              </ul>
+    <section id="search" class="bg-content-search">
+      <div class="container">
+        <div class="d-flex justify-content-center flex-column align-items-center pt-5"
+          style="padding-top: 7rem !important;">
+          <!-- <img src="{% static 'assets/imagem-3.svg' %}"> -->
+          <h1>Encontre sua turma</h1>
+          <p>Plataforma dedicada a placas de formatura do campus Natal Central - IFRN</p>
+        </div>
+        <div class="search-and-filters">
+          <form method="GET" action=".#search" class="row w-100">
+            <div class="col-12 col-md-4 col-lg-3 offset-lg-1">
+              <label>Nome Formando</label>
+              <input type="text" name="name" placeholder="" value="" class="w-100" />
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+              <label>Curso</label>
+              <select name="course" class="select w-100" placeholder="Selecione">
+                <option value=""></option>
+                {% if courses %}
+                {% for course in courses %}
+                <option value="{{ course.id }}">{{ course.name }}</option>
+                {% endfor %}
+                {% else %}
+                <option value="0">Sem opções cadastradas</option>
+                {% endif %}
+              </select>
+            </div>
+
+            <div class="col-6 col-sm-3 col-md-2">
+              <label>Ano</label>
+              <select name="year" id="setoruo_select">
+                {% if boards %}
+                {% for year in boards %}
+                <option value="{{ year.get_year }}">{{ year.get_year }}</option>
+                {% endfor %}
+                {% else %}
+                <option value="0">Sem opções cadastradas</option>
+                {% endif %}
+              </select>
+            </div>
+
+            <div class="col-6 col-sm-3 col-md-2">
+              <label>Período</label>
+              <select name="period" class="select">
+                <option value=""></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+            </div>
+
+            <div class="mt-1 d-flex justify-content-center d-md-block col-md-1 mb-2 mb-md-0 text-center">
+              <button type="submit" class="btn btn-success d-md-block d-flex justify-content-center align-items-center">
+                <i aria-hidden="true" role="presentation"
+                  class="cursor-pointer material-icons q-icon notranslate text-white mt-md-2">search</i>
+                <span class="d-md-none"> Buscar</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {% if object_list and 'name' in request.GET %}
+        <div class="container" class="row">
+          {% for board in object_list %}
+          <a href="{{ board.get_preview_extern_url }}" class="d-flex result-item">
+            <img src="{{ board.photo.url }}" class="result-image rounded-circle" alt="Foto do egresso">
+            <div class="d-flex flex-column justify-content-center align-items-start" style="margin-left: 4rem;">
+              <h4>{{ board.name|capfirst }}</h4>
+              <span>{{ board.course }} / {{ board.campus }} - {{ board.get_year }}.{{ board.period_graduation }}</span>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <section id="infos" class="p-5">
+      <div class="container">
+        {% comment %} <div class="d-flex justify-content-center pt-5"> {% endcomment %}
+          <div class="row pt-5">
+            {% comment %} <img src="{% static 'assets/imagem-1.svg' %}" class="pr-4 col-6"
+              style="width: 30%; margin-right: 3rem;"> {% endcomment %}
+            <div class="diretoria col-12 mb-4">
+              <h4 class="text-center">Encontre a sua diretoria</h4>
+            </div>
+            <div class="col-sm-12 col-md-8 offset-md-2 row">
+              <img src="{% static 'assets/imagem-1.svg' %}"
+                class="col-6 offset-1 col-md-6 offset-md-1 col-lg-4 offset-lg-3">
+              <div class="info col-4 col-md-4 col-lg-4 pb-4">
+                <h4 class="d-none">Encontre a sua diretoria</h4>
+                <ul class="h-100 d-flex flex-column justify-content-center">
+                  <li><a href="/cnat/diatinf">DIATINF</a></li>
+                  <li><a href="/cnat/diac">DIAC</a></li>
+                  <li><a href="/cnat/diacon">DIACON</a></li>
+                  <li><a href="/cnat/diaren">DIAREN</a></li>
+                  <li><a href="/cnat/diacin">DIACIN</a></li>
+                </ul>
+              </div>
             </div>
           </div>
-          <div class="d-flex justify-content-center pt-5 pl-5">
+
+          <div class="row">
+            <div class="col-sm-12 col-md-8 offset-md-2 row info mt-5 pt-4">
+              <div class="col-12 text-center mb-4">
+                <h4>Conheça mais sobre nosso sistema</h4>
+              </div>
+              <div class="col-12 row">
+                <div class="col-6 col-sm-4 offset-sm-2 col-md-4 offset-md-3 d-flex flex-column justify-content-center align-items-center">
+                  <div class="mt-2 mb-2">Para isso terá que se credenciar no sistema*</div>
+                  <a href="/suap_login/" class="btn btn-success mt-3" style="width: 5rem;">Entrar</a>
+                </div>
+                <img src="{% static 'assets/imagem-3.svg' %}" class="col-6 col-sm-4 col-md-3">
+              </div>
+
+            </div>
+          </div>
+
+          <!-- <div class="d-flex justify-content-center pt-5 pl-5">
             <div class="info d-flex justify-content-center flex-column info">
               <h4>Conheça mais sobre nosso sistema</h4>
-              <span>Para isso terá que ser credenciado no sistema*</span><br>
+              <span class="mt-2 mb-2">Para isso terá que ser credenciado no sistema*</span><br>
               <a href="/suap_login/" class="btn btn-success" style="width: 5rem;">Entrar</a>
             </div>
             <img src="{% static 'assets/imagem-3.svg' %}" style="width: 20%;">
-          </div>
+          </div> -->
         </div>
-      </section>
+    </section>
 
-      <section id="footer">
-        <div class="custom-shape-footer print-hide">
-          <svg viewBox="0 0 508 29.21"><g transform="translate(133.27 -145.43)"><path d="m-133.27 174.64h508v-19.577s-24.536-9.2467-56.268-9.6266c-31.732-0.37986-59.03 15.343-105.39 18.24-59.245 3.7018-85.195-13.433-118.84-13.015-30.695 0.38115-37.826 25.86-89.397 11.495-41.761-11.632-52.309 2.0176-81.572 2.5333-29.263 0.51572-56.537-9.6266-56.537-9.6266z" fill="#4c566a" stroke-width="1.804"></path></g></svg>
+    <section id="footer">
+      <div class="custom-shape-footer print-hide">
+        <svg viewBox="0 0 508 29.21">
+          <g transform="translate(133.27 -145.43)">
+            <path
+              d="m-133.27 174.64h508v-19.577s-24.536-9.2467-56.268-9.6266c-31.732-0.37986-59.03 15.343-105.39 18.24-59.245 3.7018-85.195-13.433-118.84-13.015-30.695 0.38115-37.826 25.86-89.397 11.495-41.761-11.632-52.309 2.0176-81.572 2.5333-29.263 0.51572-56.537-9.6266-56.537-9.6266z"
+              fill="#4c566a" stroke-width="1.804"></path>
+          </g>
+        </svg>
+      </div>
+      <div class="footer-text p-5">
+        <div class="container text-center d-flex flex-column justify-content-center align-items-center">
+          © 2021 Copyright - IFRN/CNAT - Todos os direitos reservados.
+          <img class="w-25 mt-2" src="{% static 'assets/ifrn-cnat.jpeg' %}" alt="IFRN - CNAT">
         </div>
-        <div class="footer-text p-5">
-          <div class="container text-center d-flex flex-column justify-content-center align-items-center">
-            © 2021 Copyright - IFRN/CNAT - Todos os direitos reservados.
-            <img class="w-25 mt-2" src="{% static 'assets/ifrn-cnat.jpeg' %}" alt="IFRN - CNAT">
-          </div>
-        </div>
-      </section>
-    </main>
-  </body>
+      </div>
+    </section>
+  </main>
+</body>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
-  <!-- Swiper JS -->
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
+  integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css"
+  integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+<!-- Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
-  <!-- Initialize Swiper -->
-  <script>
-    var swiper = new Swiper(".mySwiper", {
-      spaceBetween: 30,
-      centeredSlides: true,
-      autoplay: {
-        delay: 2500,
-        disableOnInteraction: false,
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
+<!-- Initialize Swiper -->
+<script>
+  var swiper = new Swiper(".mySwiper", {
+    spaceBetween: 30,
+    centeredSlides: true,
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+  });
+</script>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('select').selectize({
+      sortField: 'text'
     });
-  </script>
-  <script type="text/javascript">
-    $(document).ready(function () {
-      $('select').selectize({
-        sortField: 'text'
-      });
-    });
+  });
 
-    function checkParams(field) {
-      var url = window.location.href;
-      if (url.indexOf('?' + field + '=') != -1)
-        return true;
-      else if (url.indexOf('&' + field + '=') != -1)
-        return true;
-      return false;
-    }
+  function checkParams(field) {
+    var url = window.location.href;
+    if (url.indexOf('?' + field + '=') != -1)
+      return true;
+    else if (url.indexOf('&' + field + '=') != -1)
+      return true;
+    return false;
+  }
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const name = document.querySelector('[name="name"]');
-    const year = document.querySelector('[name="year"]');
-    const period = document.querySelector('[name="period"]');
-    const course = document.querySelector('[name="course"]');
+  const urlParams = new URLSearchParams(window.location.search);
+  const name = document.querySelector('[name="name"]');
+  const year = document.querySelector('[name="year"]');
+  const period = document.querySelector('[name="period"]');
+  const course = document.querySelector('[name="course"]');
 
-    name.value = urlParams.get('name');
-    year.value = urlParams.get('year') === null ? "" : urlParams.get('year');
-    period.value = urlParams.get('period') === null ? "" : urlParams.get('period');
-    course.value = urlParams.get('course') === null ? "" : urlParams.get('course');
-  </script>
+  name.value = urlParams.get('name');
+  year.value = urlParams.get('year') === null ? "" : urlParams.get('year');
+  period.value = urlParams.get('period') === null ? "" : urlParams.get('period');
+  course.value = urlParams.get('course') === null ? "" : urlParams.get('course');
+</script>
 
-  <!-- Option 1: Bootstrap Bundle with Popper -->
-  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
 </html>

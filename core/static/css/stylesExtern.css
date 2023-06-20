@@ -160,15 +160,15 @@ main h1 {
   max-width: 210px;
   min-width: 160px;
   padding: 0;
-  width: auto;
+  /* width: auto; */
 }
 .search-and-filters form > div {
   display: inline;
   float: left;
-  width: auto;
+  /* width: auto;  */
 }
 .search-and-filters input[type="text"] {
-  width: 130%;
+  /* width: 130%; */
   padding: 4px;
   height: 34px;
   font-size: 1rem;
@@ -190,11 +190,9 @@ main h1 {
 .search-and-filters .submit-button {
   margin-top: 15px;
 }
-.selectize-input {
+/* .selectize-input {
   width: 110% !important;
-  min-width: 110px;
-  max-width: 200px;
-}
+} */
 #button_filter {
   background-color: #25a25a;
   color: #fff;
@@ -327,8 +325,13 @@ th .icon {
   font-size: 1.1rem;
 }
 
-.info {
+/* .info {
   width: 40%;
+} */
+
+.diretoria h4{
+  font-size: 2rem;
+  font-weight: 600;
 }
 
 .info h4 {
@@ -340,6 +343,9 @@ th .icon {
   padding-top: 1rem;
 }
 
+.info ul{
+  list-style-type: none;
+}
 .info ul li a {
   color: #3b8754;
 }
