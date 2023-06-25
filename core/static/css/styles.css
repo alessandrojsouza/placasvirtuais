@@ -200,15 +200,17 @@ button[type="submit"] {
   justify-content: center;
   align-items: center;
   display: flex;
-  width: 160px;
-  height: 160px;
+  /* width: 160px;
+  height: 160px;  */
+  width: 80%;
+  height: 100%;
   background-color: #f1f1f1;
-  margin: 0px 70px;
+  margin: 0px 0px;
   cursor: pointer;
   border-radius: 5px;
 }
 .botao img {
-  width: 80%;
+  /* width: 80%; */
   display: flex;
   margin: 10px 10px;
 }

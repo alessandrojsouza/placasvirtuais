@@ -149,14 +149,14 @@
 
     <section id="search" class="bg-content-search">
       <div class="container">
-        <div class="d-flex justify-content-center flex-column align-items-center pt-5"
+        <div class="d-flex justify-content-center flex-column align-items-center pt-5 search"
           style="padding-top: 7rem !important;">
           <!-- <img src="{% static 'assets/imagem-3.svg' %}"> -->
           <h1>Encontre sua turma</h1>
           <p>Plataforma dedicada a placas de formatura do campus Natal Central - IFRN</p>
         </div>
         <div class="search-and-filters">
-          <form method="GET" action=".#search" class="row w-100">
+          <form method="GET" action=".#search" class="row w-100 g-1">
             <div class="col-12 col-md-4 col-lg-3 offset-lg-1">
               <label>Nome Formando</label>
               <input type="text" name="name" placeholder="" value="" class="w-100" />
@@ -198,7 +198,7 @@
               </select>
             </div>
 
-            <div class="mt-1 d-flex justify-content-center d-md-block col-md-1 mb-2 mb-md-0 text-center">
+            <div class="mt-0 mt-md-2 d-flex justify-content-center d-md-block col-md-1 mb-2 mb-md-0 text-center">
               <button type="submit" class="btn btn-success d-md-block d-flex justify-content-center align-items-center">
                 <i aria-hidden="true" role="presentation"
                   class="cursor-pointer material-icons q-icon notranslate text-white mt-md-2">search</i>
@@ -224,9 +224,9 @@
       </div>
     </section>
 
-    <section id="infos" class="p-5">
+    <section id="infos">
       <div class="container">
-        {% comment %} <div class="d-flex justify-content-center pt-5"> {% endcomment %}
+        {% comment %} <div class="d-flex justify-content-center pt-4"> {% endcomment %}
           <div class="row pt-5">
             {% comment %} <img src="{% static 'assets/imagem-1.svg' %}" class="pr-4 col-6"
               style="width: 30%; margin-right: 3rem;"> {% endcomment %}
@@ -249,19 +249,20 @@
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-sm-12 col-md-8 offset-md-2 row info mt-5 pt-4">
+          <div class="row py-4">
+            <div class="col-12 col-md-8 offset-md-2 info">
               <div class="col-12 text-center mb-4">
                 <h4>Conheça mais sobre nosso sistema</h4>
               </div>
-              <div class="col-12 row">
-                <div class="col-6 col-sm-4 offset-sm-2 col-md-4 offset-md-3 d-flex flex-column justify-content-center align-items-center">
-                  <div class="mt-2 mb-2">Para isso terá que se credenciar no sistema*</div>
-                  <a href="/suap_login/" class="btn btn-success mt-3" style="width: 5rem;">Entrar</a>
+              <div class="row">
+                <div class="col-5 offset-2 col-sm-4 offset-sm-2 col-md-4 offset-md-2 col-lg-3 offset-lg-3 d-flex flex-column justify-content-center align-items-center">
+                  <div class="col-12 d-flex flex-column justify-content-center">
+                    <p class="mb-2 text-justify">Para isso deve se credenciar no sistema</p>
+                    <a href="/suap_login/" class="btn btn-success mt-3">Entrar</a>
+                  </div>
                 </div>
-                <img src="{% static 'assets/imagem-3.svg' %}" class="col-6 col-sm-4 col-md-3">
+                <img src="{% static 'assets/imagem-3.svg' %}" class="col-4 col-sm-4 col-md-4 col-lg-3">
               </div>
-
             </div>
           </div>
 
