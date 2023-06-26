@@ -2,11 +2,11 @@
 {% load static humanize %}
 
 {% block extra_css %}
-  <style type="text/css">
-    button[type="submit"] {
+<style type="text/css">
+  /* button[type="submit"] {
       width: 7%;
-    }
-  </style>
+    } */
+</style>
 {% endblock extra_css %}
 
 
@@ -22,26 +22,30 @@
   </div>
   <form method="POST" onsubmit="submitFormUser();" id="formUser">
     {% csrf_token %}
-    <div id="new">   
+    <div id="new d-flex flex-column">
       <div class="form">
-        <label>Código</label>
-        <input id="input1" type="number" name="code" value="">
-      </div>       
-      <div class="form">
-        <label>Nome Curso</label>
-        <input id="input2" type="text" name="name" value="">
+        <div class="row d-flex flex-sm-row flex-column g-0 col-md-10 offset-md-1 col-lg-8 offset-lg-2 align-itens-center">
+          <label class="col-md-2 mt-2">Código</label>
+          <input id="input1" type="number" name="code" value="" class="col-md-10">
+        </div>
       </div>
       <div class="form">
-        <label>Diretoria</label>
-        <select name="directorship" id="input3">
-          {% for directorship in directorships %}
-            <option
-              value="{{ directorship.id }}"
-            >{{ directorship.name }}</option>
-          {% endfor %}
-        </select>
-      </div> 
-    </div>    
+        <div class="row d-flex flex-sm-row flex-column g-0 col-md-10 offset-md-1 col-lg-8 offset-lg-2 offset-md-1">
+          <label class="col-md-2 mt-2">Nome Curso</label>
+          <input id="input2" type="text" name="name" value="" class="col-md-10">
+        </div>
+      </div>
+      <div class="form">
+        <div class="row d-flex flex-sm-row flex-column g-0 col-md-10 offset-md-1 col-lg-8 offset-lg-2 offset-md-1">
+          <label class="col-md-2 mt-2">Diretoria</label>
+          <select name="directorship" id="input3" class="col-md-10">
+            {% for directorship in directorships %}
+            <option value="{{ directorship.id }}">{{ directorship.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+    </div>
     <div id="botoes">
       <a class="botaocrud2" href="{% url 'course:list' %}">Cancelar</a>
       <button type="submit" class="botaocrud">Confirmar</button>
@@ -52,100 +56,100 @@
 
 
 {% block content %}
-  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Excluir curso</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Deseja realmente excluir o curso?</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-danger" onclick="deleteCourse(event)">Excluir</button>
-        </div>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Excluir curso</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Deseja realmente excluir o curso?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" onclick="deleteCourse(event)">Excluir</button>
       </div>
     </div>
   </div>
+</div>
 {% endblock content %}
 
 
 {% block extra_js %}
-  <script type="text/javascript">
-    const deleteInput = document.querySelector('#cabecalho #deleteA');
-    const titleText = document.querySelector('#cabecalho #title');
-    const codigo = document.querySelector('#input1');
-    const nome = document.querySelector('#input2');
-    const directorship = document.querySelector('#input3');
-    let pk = parseInt(window.location.pathname.split('/')[2]);
+<script type="text/javascript">
+  const deleteInput = document.querySelector('#cabecalho #deleteA');
+  const titleText = document.querySelector('#cabecalho #title');
+  const codigo = document.querySelector('#input1');
+  const nome = document.querySelector('#input2');
+  const directorship = document.querySelector('#input3');
+  let pk = parseInt(window.location.pathname.split('/')[2]);
 
-    if (pk) {
-      fetch("/courses/api/" + pk, {
-        method: "GET",
+  if (pk) {
+    fetch("/courses/api/" + pk, {
+      method: "GET",
+      headers: {
+        'X-CSRFToken': '{{ csrf_token }}',
+      }
+    }).then(res => {
+      res.json().then(item => {
+        item.forEach(element => {
+          codigo.value = element.code;
+          nome.value = element.name;
+          directorship.selectize.setValue(element.directorship);
+        });
+      })
+    }).catch(err => {
+      console.log("ERROR: " + err);
+    });
+
+    function deleteCourse(e) {
+      e.preventDefault();
+
+      fetch("/courses/api/" + pk + "/", {
+        method: "DELETE",
         headers: {
           'X-CSRFToken': '{{ csrf_token }}',
         }
       }).then(res => {
-        res.json().then(item => {
-          item.forEach(element => {
-            codigo.value = element.code;
-            nome.value = element.name;
-            directorship.selectize.setValue(element.directorship);
-          });
-        })
+        window.location.href = "/courses";
       }).catch(err => {
         console.log("ERROR: " + err);
       });
-
-      function deleteCourse(e) {
-        e.preventDefault();
-
-        fetch("/courses/api/" + pk + "/", {
-          method: "DELETE",
-          headers: {
-            'X-CSRFToken': '{{ csrf_token }}',
-          }
-        }).then(res => {
-          window.location.href = "/courses";
-        }).catch(err => {
-          console.log("ERROR: " + err);
-        });
-      }
-      
-      // function submitFormUser() {
-      //   let codigo = document.querySelector('#input1').value;
-      //   let nome = document.querySelector('#input2').value;
-      //   let directorship = document.querySelector('#input3').value;
-
-      //   fetch("/courses/api/" + pk + "/", {
-      //     method: "PUT",
-      //     headers: {
-      //       'X-CSRFToken': '{{ csrf_token }}',
-      //       'Accept': 'application/json, text/plain',
-      //       'Content-Type': 'application/json;charset=UTF-8',
-      //     },
-      //     body: JSON.stringify({
-      //       code: codigo,
-      //       name: nome,
-      //       directorship: directorship,
-      //     }),
-      //   }).then(res => {
-      //     res.json().then(item => {
-      //       item.forEach(element => {
-      //         codigo.value = element.code;
-      //         nome.value = element.name;
-      //         directorship.value = element.directorship_name;
-      //       });
-      //     })
-      //   }).catch(err => {
-      //     console.log("ERROR: " + err);
-      //   });
-      // }
-    } else {
-      titleText.innerHTML = "Novo Curso";
-      deleteInput.style.visibility = "hidden";
     }
-  </script>
+
+    // function submitFormUser() {
+    //   let codigo = document.querySelector('#input1').value;
+    //   let nome = document.querySelector('#input2').value;
+    //   let directorship = document.querySelector('#input3').value;
+
+    //   fetch("/courses/api/" + pk + "/", {
+    //     method: "PUT",
+    //     headers: {
+    //       'X-CSRFToken': '{{ csrf_token }}',
+    //       'Accept': 'application/json, text/plain',
+    //       'Content-Type': 'application/json;charset=UTF-8',
+    //     },
+    //     body: JSON.stringify({
+    //       code: codigo,
+    //       name: nome,
+    //       directorship: directorship,
+    //     }),
+    //   }).then(res => {
+    //     res.json().then(item => {
+    //       item.forEach(element => {
+    //         codigo.value = element.code;
+    //         nome.value = element.name;
+    //         directorship.value = element.directorship_name;
+    //       });
+    //     })
+    //   }).catch(err => {
+    //     console.log("ERROR: " + err);
+    //   });
+    // }
+  } else {
+    titleText.innerHTML = "Novo Curso";
+    deleteInput.style.visibility = "hidden";
+  }
+</script>
 {% endblock extra_js %}

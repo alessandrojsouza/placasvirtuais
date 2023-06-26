@@ -7,21 +7,46 @@
     width: 7rem;
     margin: 0.3rem;
   }
-  @media (max-width: 576px){
+
+  @media (max-width: 576px) {
+    #apresentacao img {
+      width: 3rem;
+      margin: 0.3rem;
+    }
+    .menu {
+      width: 45%;
+    }
+  }
+
+  @media (min-width: 450px) and (max-width: 576px) {
     #apresentacao img {
       width: 5rem;
       margin: 0.3rem;
     }
-    .menu{
+
+    .menu {
       width: 50%;
     }
   }
-  @media (min-width: 577px) and (max-width: 768px){
+
+  @media (min-width: 577px) and (max-width: 768px) {
     #apresentacao img {
       width: 5rem;
       margin: 0.3rem;
     }
-    .menu{
+
+    .menu {
+      width: 55%;
+    }
+  }
+
+  @media (min-width: 769px) {
+    #apresentacao img {
+      width: 5rem;
+      margin: 0.3rem;
+    }
+
+    .menu {
       width: 60%;
     }
   }
@@ -50,15 +75,15 @@
     <div class="col-12 col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 row g-0">
       <div class="col-6 col-sm-4 d-flex justify-content-center mb-5"> <a class="botao" href="{% url 'core:list' %}"><img
             src="{% static 'assets/usuario.png' %}" class="menu"></a> </div>
-      <div class="col-6 col-sm-4 d-flex justify-content-center mb-5"> <a class="botao" href="{% url 'campus:list' %}"><img
-            src="{% static 'assets/campus.png' %}" class="menu"></a> </div>
-      <div class="col-6 col-sm-4 d-flex justify-content-center mb-5"> <a class="botao" href="{% url 'course:list' %}"><img
-            src="{% static 'assets/cursos.png' %}" class="menu"></a> </div>
+      <div class="col-6 col-sm-4 d-flex justify-content-center mb-5"> <a class="botao"
+          href="{% url 'campus:list' %}"><img src="{% static 'assets/campus.png' %}" class="menu"></a> </div>
+      <div class="col-6 col-sm-4 d-flex justify-content-center mb-5"> <a class="botao"
+          href="{% url 'course:list' %}"><img src="{% static 'assets/cursos.png' %}" class="menu"></a> </div>
 
-      <div class="col-6 col-sm-4 d-flex justify-content-center mb-5"><a class="botao" href="{% url 'sending:list' %}"><img
-            src="{% static 'assets/emails2.png' %}" class="menu"></a></div>
-      <div class="col-6 col-sm-4 d-flex justify-content-center mb-5"><a class="botao" href="{% url 'egress:list' %}"><img
-            src="{% static 'assets/egresso.png' %}" class="menu"></a></div>
+      <div class="col-6 col-sm-4 d-flex justify-content-center mb-5"><a class="botao"
+          href="{% url 'sending:list' %}"><img src="{% static 'assets/emails2.png' %}" class="menu"></a></div>
+      <div class="col-6 col-sm-4 d-flex justify-content-center mb-5"><a class="botao"
+          href="{% url 'egress:list' %}"><img src="{% static 'assets/egresso.png' %}" class="menu"></a></div>
       <div class="col-6 col-sm-4 d-flex justify-content-center mb-5"><a class="botao" href="{% url 'board:list' %}"><img
             src="{% static 'assets/placas.png' %}" class="menu"></a></div>
     </div>

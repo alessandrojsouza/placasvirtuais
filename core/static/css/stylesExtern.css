@@ -94,7 +94,7 @@ a {
 }
 .bg-content-search {
   background-image: url("../assets/middle.png");
-  padding: 8rem 1rem !important;
+  padding: 10rem 1rem 0rem 1rem;
   background-repeat: no-repeat;
   background-position: center top;
   background-size: cover;
@@ -103,8 +103,24 @@ a {
   align-items: center;
   align-content: flex-start;
   flex-direction: column;
-  min-height: 80vh;
+
 }
+@media (max-width: 768px){
+  .bg-content-search {
+    padding: 2rem 1rem 0rem 1rem;
+  }
+}
+@media (min-width: 769px) and (max-width: 1280px){
+  .bg-content-search {
+    padding: 4rem 1rem 0rem 1rem;
+  }
+}
+@media  (min-width: 1281px) and (max-width: 1800px){
+  .bg-content-search {
+    padding: 10rem 1rem 0rem 1rem;
+  }
+}
+
 
 .bg-content-search p {
   font-size: 1rem;
